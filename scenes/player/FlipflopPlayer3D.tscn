@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/flipflop_player_3d.gd" id="1_script"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_flipflop"]
+friction = 0.82
+bounce = 0.12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sole"]
+albedo_color = Color(0.08, 0.95, 0.74, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_strap"]
+albedo_color = Color(0.02, 0.13, 0.12, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sole"]
+size = Vector3(0.13, 0.035, 0.34)
+
+[sub_resource type="BoxMesh" id="BoxMesh_strap"]
+size = Vector3(0.022, 0.02, 0.16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_flipflop"]
+size = Vector3(0.14, 0.045, 0.35)
+
+[node name="FlipflopPlayer3D" type="RigidBody3D"]
+mass = 0.22
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 4
+physics_material_override = SubResource("PhysicsMaterial_flipflop")
+script = ExtResource("1_script")
+
+[node name="Sole" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_sole")
+surface_material_override/0 = SubResource("StandardMaterial3D_sole")
+
+[node name="StrapLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.852525, 0, -0.522687, 0, 1, 0, 0.522687, 0, 0.852525, -0.03, 0.035, -0.04)
+mesh = SubResource("BoxMesh_strap")
+surface_material_override/0 = SubResource("StandardMaterial3D_strap")
+
+[node name="StrapRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.852525, 0, 0.522687, 0, 1, 0, -0.522687, 0, 0.852525, 0.03, 0.035, -0.04)
+mesh = SubResource("BoxMesh_strap")
+surface_material_override/0 = SubResource("StandardMaterial3D_strap")
+
+[node name="ToeButton" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0.04, -0.105)
+mesh = SubResource("BoxMesh_strap")
+surface_material_override/0 = SubResource("StandardMaterial3D_strap")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_flipflop")
+
+[node name="GroundRay" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.45, 0)
+enabled = true

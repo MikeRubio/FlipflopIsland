@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_beach_ball"]
+friction = 0.28
+bounce = 0.78
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ball"]
+albedo_color = Color(0.98, 0.9, 0.3, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stripe"]
+albedo_color = Color(0.96, 0.18, 0.18, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ball"]
+radius = 0.34
+height = 0.68
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ball"]
+radius = 0.34
+
+[node name="BeachBall3D" type="RigidBody3D"]
+mass = 0.12
+physics_material_override = SubResource("PhysicsMaterial_beach_ball")
+script = ExtResource("1_script")
+prop_name = "Beach Ball"
+prop_mass = 0.12
+bounce = 0.78
+friction = 0.28
+prop_linear_damp = 0.25
+prop_angular_damp = 0.35
+nudge_impulse = 0.8
+
+[node name="Ball" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ball")
+surface_material_override/0 = SubResource("StandardMaterial3D_ball")
+
+[node name="Stripe" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.18, 0, 0, 0, 1.04, 0, 0, 0, 1.04, 0, 0, 0)
+mesh = SubResource("SphereMesh_ball")
+surface_material_override/0 = SubResource("StandardMaterial3D_stripe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ball")

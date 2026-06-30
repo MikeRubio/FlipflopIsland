@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_driftwood"]
+friction = 0.8
+bounce = 0.18
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_driftwood"]
+albedo_color = Color(0.47, 0.29, 0.15, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_driftwood"]
+size = Vector3(1.4, 0.16, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_driftwood"]
+size = Vector3(1.4, 0.16, 0.2)
+
+[node name="Driftwood3D" type="RigidBody3D"]
+mass = 1.6
+physics_material_override = SubResource("PhysicsMaterial_driftwood")
+script = ExtResource("1_script")
+prop_name = "Driftwood"
+prop_mass = 1.6
+bounce = 0.18
+friction = 0.8
+prop_linear_damp = 0.85
+prop_angular_damp = 1.15
+nudge_impulse = 0.4
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_driftwood")
+surface_material_override/0 = SubResource("StandardMaterial3D_driftwood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_driftwood")

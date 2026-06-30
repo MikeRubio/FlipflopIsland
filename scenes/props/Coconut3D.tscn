@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_coconut"]
+friction = 0.55
+bounce = 0.45
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coconut"]
+albedo_color = Color(0.35, 0.18, 0.08, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_coconut"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_coconut"]
+radius = 0.16
+
+[node name="Coconut3D" type="RigidBody3D"]
+mass = 0.9
+physics_material_override = SubResource("PhysicsMaterial_coconut")
+script = ExtResource("1_script")
+prop_name = "Coconut"
+prop_mass = 0.9
+bounce = 0.45
+friction = 0.55
+prop_linear_damp = 0.5
+prop_angular_damp = 0.7
+nudge_impulse = 0.45
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_coconut")
+surface_material_override/0 = SubResource("StandardMaterial3D_coconut")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_coconut")
