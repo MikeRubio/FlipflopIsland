@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/island/wave_push_zone.gd" id="1_wave"]
+[ext_resource type="PackedScene" path="res://scenes/props/Coconut.tscn" id="2_coconut"]
+[ext_resource type="PackedScene" path="res://scenes/props/Driftwood.tscn" id="3_driftwood"]
+[ext_resource type="PackedScene" path="res://scenes/props/Crab.tscn" id="4_crab"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wave"]
+radius = 540.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rock"]
+radius = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rock_small"]
+radius = 16.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_palm"]
+radius = 9.0
+height = 145.0
+
+[node name="Island" type="Node2D"]
+
+[node name="OceanPatch" type="Polygon2D" parent="."]
+z_index = -20
+color = Color(0.035, 0.21, 0.29, 1)
+polygon = PackedVector2Array(-1200, -800, 1200, -800, 1200, 800, -1200, 800)
+
+[node name="WaterGlow" type="Polygon2D" parent="."]
+z_index = -19
+color = Color(0.02, 0.42, 0.45, 0.3)
+polygon = PackedVector2Array(-390, -260, -250, -340, -60, -390, 150, -350, 325, -250, 410, -70, 370, 140, 220, 290, 10, 345, -210, 300, -365, 160, -420, -35)
+
+[node name="Sand" type="Polygon2D" parent="."]
+color = Color(0.84, 0.68, 0.39, 1)
+polygon = PackedVector2Array(-310, -160, -210, -260, -60, -300, 125, -260, 255, -165, 315, -15, 275, 135, 145, 235, -25, 270, -190, 215, -295, 95, -340, -45)
+
+[node name="GrassPatch" type="Polygon2D" parent="."]
+color = Color(0.15, 0.45, 0.25, 1)
+polygon = PackedVector2Array(-120, -150, 25, -195, 145, -140, 175, -20, 105, 95, -35, 130, -145, 55, -175, -60)
+
+[node name="Shoreline" type="Line2D" parent="."]
+points = PackedVector2Array(-310, -160, -210, -260, -60, -300, 125, -260, 255, -165, 315, -15, 275, 135, 145, 235, -25, 270, -190, 215, -295, 95, -340, -45, -310, -160)
+width = 8.0
+default_color = Color(0.96, 0.86, 0.58, 0.75)
+
+[node name="WavePushZone" type="Area2D" parent="."]
+script = ExtResource("1_wave")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WavePushZone"]
+shape = SubResource("CircleShape2D_wave")
+
+[node name="PalmTrunk" type="StaticBody2D" parent="."]
+position = Vector2(80, -92)
+rotation = 0.34
+
+[node name="TrunkShape" type="CollisionShape2D" parent="PalmTrunk"]
+shape = SubResource("CapsuleShape2D_palm")
+
+[node name="TrunkSprite" type="Polygon2D" parent="PalmTrunk"]
+color = Color(0.42, 0.24, 0.12, 1)
+polygon = PackedVector2Array(-9, -72, 9, -72, 9, 72, -9, 72)
+
+[node name="PalmLeaves" type="Polygon2D" parent="."]
+position = Vector2(105, -160)
+color = Color(0.06, 0.36, 0.18, 1)
+polygon = PackedVector2Array(0, 0, -95, -18, -18, -38, -12, -110, 18, -34, 100, -55, 36, 4, 92, 45, 12, 30, -42, 88, -22, 18)
+
+[node name="RockA" type="StaticBody2D" parent="."]
+position = Vector2(-230, 120)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RockA"]
+shape = SubResource("CircleShape2D_rock")
+
+[node name="Sprite" type="Polygon2D" parent="RockA"]
+color = Color(0.38, 0.39, 0.37, 1)
+polygon = PackedVector2Array(-24, -10, -12, -24, 12, -22, 26, -6, 16, 18, -10, 22, -28, 8)
+
+[node name="RockB" type="StaticBody2D" parent="."]
+position = Vector2(210, 150)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RockB"]
+shape = SubResource("CircleShape2D_rock_small")
+
+[node name="Sprite" type="Polygon2D" parent="RockB"]
+color = Color(0.32, 0.34, 0.34, 1)
+polygon = PackedVector2Array(-17, -4, -7, -17, 12, -14, 18, 4, 8, 17, -12, 13)
+
+[node name="Coconut" parent="." instance=ExtResource("2_coconut")]
+position = Vector2(-70, -80)
+
+[node name="Driftwood" parent="." instance=ExtResource("3_driftwood")]
+position = Vector2(145, 70)
+rotation = 0.42
+
+[node name="Crab" parent="." instance=ExtResource("4_crab")]
+position = Vector2(-160, 35)

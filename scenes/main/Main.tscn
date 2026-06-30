@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/island/Island.tscn" id="1_island"]
+[ext_resource type="PackedScene" path="res://scenes/player/FlipflopPlayer.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/camera/camera_follow.gd" id="3_camera"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Island" parent="." instance=ExtResource("1_island")]
+
+[node name="FlipflopPlayer" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 80)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 80)
+enabled = true
+zoom = Vector2(0.85, 0.85)
+script = ExtResource("3_camera")
+target_path = NodePath("../FlipflopPlayer")

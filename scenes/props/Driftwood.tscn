@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/simple_prop.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_driftwood"]
+size = Vector2(94, 20)
+
+[node name="Driftwood" type="RigidBody2D"]
+mass = 0.7
+gravity_scale = 0.0
+linear_damp = 1.2
+angular_damp = 1.0
+script = ExtResource("1_script")
+prop_name = "Driftwood"
+wake_up_impulse = 55.0
+
+[node name="Sprite" type="Polygon2D" parent="."]
+color = Color(0.47, 0.29, 0.15, 1)
+polygon = PackedVector2Array(-47, -9, 42, -12, 50, -2, 43, 10, -43, 9, -52, 0)
+
+[node name="Grain" type="Line2D" parent="."]
+points = PackedVector2Array(-36, -2, -15, -5, 8, -3, 30, -6)
+width = 2.0
+default_color = Color(0.23, 0.13, 0.07, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_driftwood")

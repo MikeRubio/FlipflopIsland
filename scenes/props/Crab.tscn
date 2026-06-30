@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/simple_prop.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_crab"]
+radius = 22.0
+
+[node name="Crab" type="RigidBody2D"]
+mass = 0.35
+gravity_scale = 0.0
+linear_damp = 1.6
+angular_damp = 1.3
+script = ExtResource("1_script")
+prop_name = "Crab"
+wake_up_impulse = 45.0
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.86, 0.22, 0.14, 1)
+polygon = PackedVector2Array(-24, -6, -15, -18, 16, -18, 25, -4, 18, 14, -18, 14)
+
+[node name="Legs" type="Line2D" parent="."]
+points = PackedVector2Array(-20, 0, -36, -10, -20, 5, -38, 6, 20, 0, 36, -10, 20, 5, 38, 6)
+width = 4.0
+default_color = Color(0.7, 0.12, 0.08, 1)
+
+[node name="Eyes" type="Line2D" parent="."]
+points = PackedVector2Array(-8, -14, -10, -26, 8, -14, 10, -26)
+width = 3.0
+default_color = Color(0.98, 0.88, 0.74, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_crab")
