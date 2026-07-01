@@ -178,7 +178,7 @@ func _build_help_overlay() -> Control:
 		"Shift: boost",
 		"Mouse: rotate camera",
 		"Scroll: zoom",
-		"Space: hop / air flop",
+		"Space: hop / flap",
 		"Q / E: twist",
 		"R: reset flipflop",
 		"T: reset physics props",

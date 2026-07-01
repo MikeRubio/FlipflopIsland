@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3]
+[gd_scene load_steps=74 format=3]
 
 [ext_resource type="Script" path="res://scripts/island/island_scale_notes_3d.gd" id="1_notes"]
 [ext_resource type="Script" path="res://scripts/island/wave_push_zone_3d.gd" id="2_wave"]
@@ -236,9 +236,11 @@ radial_segments = 12
 [sub_resource type="BoxMesh" id="BoxMesh_bird"]
 size = Vector3(0.35, 0.035, 0.08)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_wave"]
-height = 3.0
-radius = 67.0
+[sub_resource type="BoxShape3D" id="BoxShape3D_ocean_zone_horizontal"]
+size = Vector3(150, 3, 26)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ocean_zone_vertical"]
+size = Vector3(26, 3, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
 size = Vector3(150, 7, 0.8)
@@ -328,15 +330,75 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.42, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanFloor"]
 shape = SubResource("BoxShape3D_ocean_floor")
+disabled = true
 
-[node name="WavePushZone" type="Area3D" parent="Water"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+[node name="OceanNorthZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -62)
 script = ExtResource("2_wave")
-push_strength = 0.35
-drift_direction = Vector3(0.65, 0, 0.25)
+water_surface_y = -0.08
+water_safe_exit_position = Vector3(0, 0.35, -43)
+water_drag_multiplier = 2.5
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.5
+water_push_to_shore_force = 0.28
+water_max_time_before_soft_reset = 3.4
+water_spin_damping = 0.84
+prop_push_strength = 0.18
+drift_direction = Vector3(0.2, 0, 0.8)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/WavePushZone"]
-shape = SubResource("CylinderShape3D_wave")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanNorthZone"]
+shape = SubResource("BoxShape3D_ocean_zone_horizontal")
+
+[node name="OceanSouthZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 62)
+script = ExtResource("2_wave")
+water_surface_y = -0.08
+water_safe_exit_position = Vector3(0, 0.35, 43)
+water_drag_multiplier = 2.5
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.5
+water_push_to_shore_force = 0.28
+water_max_time_before_soft_reset = 3.4
+water_spin_damping = 0.84
+prop_push_strength = 0.18
+drift_direction = Vector3(-0.15, 0, -0.8)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanSouthZone"]
+shape = SubResource("BoxShape3D_ocean_zone_horizontal")
+
+[node name="OceanEastZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62, 0.45, 0)
+script = ExtResource("2_wave")
+water_surface_y = -0.08
+water_safe_exit_position = Vector3(43, 0.35, 0)
+water_drag_multiplier = 2.5
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.5
+water_push_to_shore_force = 0.28
+water_max_time_before_soft_reset = 3.4
+water_spin_damping = 0.84
+prop_push_strength = 0.18
+drift_direction = Vector3(-0.8, 0, 0.15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanEastZone"]
+shape = SubResource("BoxShape3D_ocean_zone_vertical")
+
+[node name="OceanWestZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62, 0.45, 0)
+script = ExtResource("2_wave")
+water_surface_y = -0.08
+water_safe_exit_position = Vector3(-43, 0.35, 0)
+water_drag_multiplier = 2.5
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.5
+water_push_to_shore_force = 0.28
+water_max_time_before_soft_reset = 3.4
+water_spin_damping = 0.84
+prop_push_strength = 0.18
+drift_direction = Vector3(0.8, 0, -0.15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanWestZone"]
+shape = SubResource("BoxShape3D_ocean_zone_vertical")
 
 [node name="WindAmbience" type="Node3D" parent="."]
 script = ExtResource("11_wind_ambience")

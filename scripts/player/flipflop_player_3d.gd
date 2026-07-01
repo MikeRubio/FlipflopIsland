@@ -13,24 +13,19 @@ extends RigidBody3D
 # This helps a small RigidBody3D overcome static friction without big launches.
 @export var move_impulse: float = 0.0045
 
-# Space hop impulse while touching the sand. Keep this modest: the flipflop
-# should hop, not launch like a platformer character.
-@export var grounded_jump_impulse: float = 0.32
+# Space hop/flap tuning. Ground hops are stronger. Air flaps are repeatable,
+# Flappy Bird-style, but limited by max_air_flaps and max_upward_velocity.
+@export var max_air_flaps: int = 4
+@export var ground_hop_impulse: float = 0.56
+@export var air_flap_impulse: float = 0.36
+@export var flap_cooldown: float = 0.2
+@export var max_upward_velocity: float = 4.3
 
-# Small camera-relative shove added to a normal hop when WASD is held.
-@export var jump_forward_assist: float = 0.085
+# Small camera-relative shove added to a hop/flap when WASD is held.
+@export var jump_forward_assist: float = 0.16
 
-# Backward-compatible mirror for older scenes/debug text that still look for
-# "hop_impulse". Presets keep it synced with grounded_jump_impulse.
-@export var hop_impulse: float = 0.32
-
-# Air flop tuning. The default gives one awkward second jump while airborne.
-# It uses impulse and torque, so it still feels like a loose physical object.
-@export var max_air_flops: int = 1
-@export var air_flop_impulse: float = 0.22
-@export var air_flop_forward_assist: float = 0.1
-@export var air_flop_torque: float = 0.045
-@export var air_flop_cooldown: float = 0.58
+# Tiny random torque applied on air flaps for floppy personality.
+@export var air_flap_torque: float = 0.045
 
 # Shared torque strength for flopping, rolling, and twisting.
 # Lower values make controls calmer. Higher values create more tumbling.
@@ -51,16 +46,17 @@ extends RigidBody3D
 @export var boost_slap_multiplier: float = 1.18
 @export var boost_camera_bump_strength: float = 0.1
 
-# Left click slap/lunge. This is a sudden sandal flop, not a combat attack.
-# The player gets a central impulse in the camera-facing direction and touched
-# physics props get an extra shove during the short active window.
-@export var slap_impulse: float = 0.36
-@export var slap_upward_impulse: float = 0.065
-@export var slap_torque: float = 0.045
-@export var slap_cooldown: float = 0.62
-@export var slap_active_duration: float = 0.2
-@export var slap_prop_force_multiplier: float = 2.4
-@export var slap_shift_multiplier: float = 1.32
+# Left click slap/lunge. This is a quick forward sandal slap, not a jump and
+# not a combat attack. Most of the impulse goes along camera-forward on X/Z.
+@export var slap_forward_impulse: float = 0.72
+@export var slap_upward_impulse: float = 0.022
+@export var slap_torque: float = 0.028
+@export var slap_cooldown: float = 0.56
+@export var slap_active_duration: float = 0.22
+@export var slap_prop_force_multiplier: float = 2.7
+@export var shift_slap_multiplier: float = 1.35
+@export var slap_max_speed: float = 5.0
+@export var slap_ground_clearance_boost: float = 0.022
 @export var slap_camera_bump: float = 0.065
 @export var slap_particle_enabled: bool = true
 
@@ -80,14 +76,23 @@ extends RigidBody3D
 @export var max_linear_speed: float = 3.9
 @export var max_angular_speed: float = 4.5
 
+# Camera-facing alignment. This gently turns the RigidBody3D around world Y so
+# the flipflop points where the camera points, while pitch/roll can still wobble.
+@export_group("Face Camera Alignment")
+@export var face_camera_enabled: bool = true
+@export var yaw_align_strength: float = 0.16
+@export var yaw_align_damping: float = 0.09
+@export var max_yaw_angular_velocity: float = 2.3
+@export var face_camera_smoothing: float = 8.0
+@export var preserve_pitch_roll: bool = true
+@export var alignment_deadzone_degrees: float = 3.0
+@export_group("")
+
 # Ground detection uses a world-down raycast, so it still works when the
 # flipflop lands sideways or upside down.
 @export var ground_check_distance: float = 0.44
 @export var grounded_grace_time: float = 0.12
 @export var hop_input_buffer_time: float = 0.14
-
-# Prevents repeated Space presses from stacking hop impulses.
-@export var hop_cooldown_time: float = 0.45
 
 # Holding Space while grounded gives a small recovery torque if the flipflop is
 # upside down or badly tilted. It is not automatic, so funny physics remain.
@@ -109,6 +114,24 @@ extends RigidBody3D
 @export var stuck_recovery_cooldown: float = 0.3
 @export var recovery_velocity_scale: float = 0.25
 
+# Water is handled as a soft Area3D state, not as a solid collision surface.
+# These values keep the flipflop from jittering, spinning, or getting trapped
+# when it touches ocean/pool water.
+@export_group("Water Interaction")
+@export var water_drag_multiplier: float = 2.4
+@export var water_angular_drag_multiplier: float = 2.1
+@export var water_buoyancy_force: float = 0.55
+@export var water_push_to_shore_force: float = 0.24
+@export var water_max_time_before_soft_reset: float = 3.5
+@export var water_surface_y: float = 0.0
+@export var water_safe_exit_position: Vector3 = Vector3(0.0, 0.35, 0.0)
+@export_range(0.0, 1.0, 0.01) var water_spin_damping: float = 0.86
+@export var splash_enabled: bool = true
+@export var water_max_linear_speed: float = 2.2
+@export var water_max_angular_speed: float = 2.4
+@export var water_soft_reset_depth: float = 0.75
+@export_group("")
+
 # Temporary movement debug. Leave off during normal play.
 @export var debug_movement: bool = false
 @export var debug_print_interval: float = 0.35
@@ -120,13 +143,13 @@ const MOVEMENT_PRESETS := {
 	"Gentle": {
 		"move_force": 1.65,
 		"move_impulse": 0.0025,
-		"grounded_jump_impulse": 0.26,
-		"jump_forward_assist": 0.05,
-		"max_air_flops": 1,
-		"air_flop_impulse": 0.16,
-		"air_flop_forward_assist": 0.06,
-		"air_flop_torque": 0.018,
-		"air_flop_cooldown": 0.7,
+		"ground_hop_impulse": 0.46,
+		"jump_forward_assist": 0.12,
+		"max_air_flaps": 3,
+		"air_flap_impulse": 0.28,
+		"air_flap_torque": 0.025,
+		"flap_cooldown": 0.24,
+		"max_upward_velocity": 3.4,
 		"torque_strength": 0.01,
 		"movement_wobble_torque": 0.0015,
 		"boost_enabled": true,
@@ -137,32 +160,41 @@ const MOVEMENT_PRESETS := {
 		"boost_max_angular_speed": 3.8,
 		"boost_slap_multiplier": 1.05,
 		"boost_camera_bump_strength": 0.06,
-		"slap_impulse": 0.22,
-		"slap_upward_impulse": 0.04,
-		"slap_torque": 0.018,
-		"slap_cooldown": 0.78,
-		"slap_active_duration": 0.16,
-		"slap_prop_force_multiplier": 1.6,
-		"slap_shift_multiplier": 1.15,
+		"slap_forward_impulse": 0.48,
+		"slap_upward_impulse": 0.018,
+		"slap_torque": 0.014,
+		"slap_cooldown": 0.72,
+		"slap_active_duration": 0.18,
+		"slap_prop_force_multiplier": 1.8,
+		"shift_slap_multiplier": 1.2,
+		"slap_max_speed": 4.0,
+		"slap_ground_clearance_boost": 0.016,
 		"slap_camera_bump": 0.04,
 		"slap_particle_enabled": true,
 		"linear_damping": 0.9,
 		"angular_damping": 4.4,
 		"max_linear_speed": 3.0,
 		"max_angular_speed": 3.4,
+		"face_camera_enabled": true,
+		"yaw_align_strength": 0.22,
+		"yaw_align_damping": 0.13,
+		"max_yaw_angular_velocity": 1.9,
+		"face_camera_smoothing": 10.0,
+		"preserve_pitch_roll": true,
+		"alignment_deadzone_degrees": 2.0,
 		"air_control_multiplier": 0.13,
 		"ground_control_multiplier": 0.95,
 	},
 	"Playable Physics": {
 		"move_force": 2.25,
 		"move_impulse": 0.0045,
-		"grounded_jump_impulse": 0.32,
-		"jump_forward_assist": 0.085,
-		"max_air_flops": 1,
-		"air_flop_impulse": 0.22,
-		"air_flop_forward_assist": 0.1,
-		"air_flop_torque": 0.045,
-		"air_flop_cooldown": 0.58,
+		"ground_hop_impulse": 0.56,
+		"jump_forward_assist": 0.16,
+		"max_air_flaps": 4,
+		"air_flap_impulse": 0.36,
+		"air_flap_torque": 0.045,
+		"flap_cooldown": 0.2,
+		"max_upward_velocity": 4.3,
 		"torque_strength": 0.016,
 		"movement_wobble_torque": 0.0035,
 		"boost_enabled": true,
@@ -173,32 +205,41 @@ const MOVEMENT_PRESETS := {
 		"boost_max_angular_speed": 5.2,
 		"boost_slap_multiplier": 1.18,
 		"boost_camera_bump_strength": 0.1,
-		"slap_impulse": 0.36,
-		"slap_upward_impulse": 0.065,
-		"slap_torque": 0.045,
-		"slap_cooldown": 0.62,
-		"slap_active_duration": 0.2,
-		"slap_prop_force_multiplier": 2.4,
-		"slap_shift_multiplier": 1.32,
+		"slap_forward_impulse": 0.72,
+		"slap_upward_impulse": 0.022,
+		"slap_torque": 0.028,
+		"slap_cooldown": 0.56,
+		"slap_active_duration": 0.22,
+		"slap_prop_force_multiplier": 2.7,
+		"shift_slap_multiplier": 1.35,
+		"slap_max_speed": 5.0,
+		"slap_ground_clearance_boost": 0.022,
 		"slap_camera_bump": 0.065,
 		"slap_particle_enabled": true,
 		"linear_damping": 0.62,
 		"angular_damping": 3.5,
 		"max_linear_speed": 3.9,
 		"max_angular_speed": 4.5,
+		"face_camera_enabled": true,
+		"yaw_align_strength": 0.16,
+		"yaw_align_damping": 0.09,
+		"max_yaw_angular_velocity": 2.3,
+		"face_camera_smoothing": 8.0,
+		"preserve_pitch_roll": true,
+		"alignment_deadzone_degrees": 3.0,
 		"air_control_multiplier": 0.11,
 		"ground_control_multiplier": 1.0,
 	},
 	"Chaotic": {
 		"move_force": 3.35,
 		"move_impulse": 0.009,
-		"grounded_jump_impulse": 0.4,
-		"jump_forward_assist": 0.13,
-		"max_air_flops": 1,
-		"air_flop_impulse": 0.3,
-		"air_flop_forward_assist": 0.16,
-		"air_flop_torque": 0.09,
-		"air_flop_cooldown": 0.48,
+		"ground_hop_impulse": 0.65,
+		"jump_forward_assist": 0.22,
+		"max_air_flaps": 5,
+		"air_flap_impulse": 0.46,
+		"air_flap_torque": 0.08,
+		"flap_cooldown": 0.16,
+		"max_upward_velocity": 5.2,
 		"torque_strength": 0.03,
 		"movement_wobble_torque": 0.009,
 		"boost_enabled": true,
@@ -209,19 +250,28 @@ const MOVEMENT_PRESETS := {
 		"boost_max_angular_speed": 7.0,
 		"boost_slap_multiplier": 1.35,
 		"boost_camera_bump_strength": 0.15,
-		"slap_impulse": 0.52,
-		"slap_upward_impulse": 0.09,
-		"slap_torque": 0.095,
-		"slap_cooldown": 0.46,
-		"slap_active_duration": 0.24,
-		"slap_prop_force_multiplier": 3.3,
-		"slap_shift_multiplier": 1.55,
+		"slap_forward_impulse": 0.95,
+		"slap_upward_impulse": 0.035,
+		"slap_torque": 0.06,
+		"slap_cooldown": 0.38,
+		"slap_active_duration": 0.26,
+		"slap_prop_force_multiplier": 3.6,
+		"shift_slap_multiplier": 1.6,
+		"slap_max_speed": 6.4,
+		"slap_ground_clearance_boost": 0.032,
 		"slap_camera_bump": 0.1,
 		"slap_particle_enabled": true,
 		"linear_damping": 0.45,
 		"angular_damping": 2.3,
 		"max_linear_speed": 5.4,
 		"max_angular_speed": 6.3,
+		"face_camera_enabled": true,
+		"yaw_align_strength": 0.08,
+		"yaw_align_damping": 0.045,
+		"max_yaw_angular_velocity": 3.0,
+		"face_camera_smoothing": 5.0,
+		"preserve_pitch_roll": true,
+		"alignment_deadzone_degrees": 5.0,
 		"air_control_multiplier": 0.18,
 		"ground_control_multiplier": 1.08,
 	},
@@ -261,7 +311,7 @@ var _space_was_pressed: bool = false
 var _reset_was_pressed: bool = false
 var _color_cycle_was_pressed: bool = false
 var _hop_buffer_timer: float = 0.0
-var _hop_cooldown_timer: float = 0.0
+var _flap_cooldown_timer: float = 0.0
 var _speed_clamped: bool = false
 var _angular_speed_clamped: bool = false
 var _debug_timer: float = 0.0
@@ -270,10 +320,17 @@ var _last_input_direction: Vector3 = Vector3.ZERO
 var _last_camera_forward: Vector3 = Vector3.FORWARD
 var _last_camera_right: Vector3 = Vector3.RIGHT
 var _last_move_force_applied: Vector3 = Vector3.ZERO
+var _target_yaw_degrees: float = 0.0
+var _current_yaw_degrees: float = 0.0
+var _yaw_difference_degrees: float = 0.0
+var _yaw_alignment_active: bool = false
+var _yaw_align_torque_applied: float = 0.0
+var _smoothed_target_yaw: float = 0.0
+var _has_smoothed_target_yaw: bool = false
 var _recovery_cooldown_timer: float = 0.0
 var _stuck_recovery_triggered: bool = false
 var _flipflop_color_index: int = 0
-var _air_flops_remaining: int = 1
+var _air_flaps_remaining: int = 4
 var _last_jump_type: String = "none"
 var _boost_active: bool = false
 var _current_move_multiplier: float = 1.0
@@ -285,6 +342,7 @@ var _slap_active_timer: float = 0.0
 var _last_slap_direction: Vector3 = Vector3.FORWARD
 var _last_slapped_object_name: String = "none"
 var _current_slap_strength: float = 0.0
+var _shift_slap_active: bool = false
 var _slapped_body_ids: Dictionary = {}
 var _sole_material: StandardMaterial3D
 var _default_surface_settings: Dictionary = {
@@ -309,6 +367,22 @@ var _surface_jump_multiplier: float = 1.0
 var _surface_landing_impact_multiplier: float = 1.0
 var _surface_landing_sound_type: String = "sand"
 var _surface_particle_type: String = "sand"
+var _active_water_zones: Dictionary = {}
+var _water_zone_order: Array[int] = []
+var _is_in_water: bool = false
+var _water_timer: float = 0.0
+var _water_drag_active: bool = false
+var _water_buoyancy_active: bool = false
+var _water_soft_reset_triggered: bool = false
+var _current_water_surface_y: float = 0.0
+var _current_water_safe_exit_position: Vector3 = Vector3(0.0, 0.35, 0.0)
+var _current_water_drag_multiplier: float = 2.4
+var _current_water_angular_drag_multiplier: float = 2.1
+var _current_water_buoyancy_force: float = 0.55
+var _current_water_push_to_shore_force: float = 0.24
+var _current_water_max_time_before_soft_reset: float = 3.5
+var _current_water_spin_damping: float = 0.86
+var _current_water_splash_enabled: bool = true
 
 
 func _input(event: InputEvent) -> void:
@@ -336,22 +410,30 @@ func _ready() -> void:
 	_update_ground_ray_position()
 	_was_grounded = _is_close_to_ground()
 	_touching_ground = _was_grounded
-	_air_flops_remaining = max_air_flops
+	_air_flaps_remaining = max_air_flaps
 
 
 func _physics_process(delta: float) -> void:
 	linear_damp = linear_damping * _surface_linear_damping_multiplier
 	angular_damp = angular_damping * _surface_angular_damping_multiplier
+	if _is_in_water:
+		linear_damp *= _current_water_drag_multiplier
+		angular_damp *= _current_water_angular_drag_multiplier
+
 	_update_ground_ray_position()
-	_hop_cooldown_timer = maxf(_hop_cooldown_timer - delta, 0.0)
+	_flap_cooldown_timer = maxf(_flap_cooldown_timer - delta, 0.0)
 	_slap_cooldown_timer = maxf(_slap_cooldown_timer - delta, 0.0)
 	_slap_active_timer = maxf(_slap_active_timer - delta, 0.0)
+	if _slap_active_timer <= 0.0:
+		_shift_slap_active = false
+
 	_recovery_cooldown_timer = maxf(_recovery_cooldown_timer - delta, 0.0)
 	_stuck_recovery_triggered = false
+	_water_soft_reset_triggered = false
 
 	var grounded := _update_grounded_state(delta)
 	if _touching_ground:
-		_air_flops_remaining = max_air_flops
+		_air_flaps_remaining = max_air_flaps
 
 	_boost_active = _is_boost_pressed()
 	_current_move_multiplier = _get_current_move_multiplier()
@@ -375,23 +457,25 @@ func _physics_process(delta: float) -> void:
 		control_multiplier,
 		delta
 	)
+	_apply_face_camera_alignment(forward_axis, delta)
 	_apply_twist_controls(control_multiplier)
 	_process_slap_request(forward_axis)
+	_apply_water_interaction(delta)
 
 	if _was_just_pressed(KEY_SPACE, _space_was_pressed):
 		_hop_buffer_timer = hop_input_buffer_time
 	else:
 		_hop_buffer_timer = maxf(_hop_buffer_timer - delta, 0.0)
 
-	if _hop_buffer_timer > 0.0 and _hop_cooldown_timer <= 0.0:
+	if _hop_buffer_timer > 0.0 and _flap_cooldown_timer <= 0.0:
 		if grounded:
-			_grounded_hop(move_input, forward_axis, right_axis)
+			_ground_hop(move_input, forward_axis, right_axis)
 			_hop_buffer_timer = 0.0
-			_hop_cooldown_timer = hop_cooldown_time
-		elif _air_flops_remaining > 0:
-			_air_flop(move_input, forward_axis, right_axis)
+			_flap_cooldown_timer = flap_cooldown
+		elif _air_flaps_remaining > 0:
+			_air_flap(move_input, forward_axis, right_axis)
 			_hop_buffer_timer = 0.0
-			_hop_cooldown_timer = air_flop_cooldown
+			_flap_cooldown_timer = flap_cooldown
 
 	if Input.is_key_pressed(KEY_SPACE) and grounded:
 		_apply_upside_down_help(delta)
@@ -410,6 +494,9 @@ func _physics_process(delta: float) -> void:
 
 	recover_if_stuck_under_ground()
 	_apply_slap_prop_impulses()
+	_clamp_upward_velocity()
+	_clamp_water_velocity()
+	_clamp_yaw_angular_velocity()
 	_clamp_velocity()
 	_print_debug_if_enabled(delta, grounded)
 
@@ -528,6 +615,83 @@ func _get_camera_relative_move_direction(
 	return move_direction.normalized()
 
 
+func _apply_face_camera_alignment(target_forward: Vector3, delta: float) -> void:
+	_yaw_alignment_active = false
+	_yaw_align_torque_applied = 0.0
+
+	if not face_camera_enabled:
+		return
+
+	target_forward.y = 0.0
+	if target_forward.length() < 0.001:
+		return
+
+	target_forward = target_forward.normalized()
+	var target_yaw := _get_yaw_from_direction(target_forward)
+
+	if not _has_smoothed_target_yaw:
+		_smoothed_target_yaw = target_yaw
+		_has_smoothed_target_yaw = true
+	elif face_camera_smoothing > 0.0:
+		var smoothing_alpha := 1.0 - exp(-face_camera_smoothing * delta)
+		_smoothed_target_yaw = lerp_angle(_smoothed_target_yaw, target_yaw, smoothing_alpha)
+	else:
+		_smoothed_target_yaw = target_yaw
+
+	var current_forward := -global_transform.basis.z
+	current_forward.y = 0.0
+	if current_forward.length() < 0.001:
+		return
+
+	current_forward = current_forward.normalized()
+	var current_yaw := _get_yaw_from_direction(current_forward)
+	var yaw_difference := wrapf(_smoothed_target_yaw - current_yaw, -PI, PI)
+
+	_target_yaw_degrees = rad_to_deg(_smoothed_target_yaw)
+	_current_yaw_degrees = rad_to_deg(current_yaw)
+	_yaw_difference_degrees = rad_to_deg(yaw_difference)
+
+	if absf(_yaw_difference_degrees) <= alignment_deadzone_degrees:
+		return
+
+	var torque_amount := (
+		yaw_difference
+		* yaw_align_strength
+		- angular_velocity.y
+		* yaw_align_damping
+	)
+
+	if max_yaw_angular_velocity > 0.0:
+		if angular_velocity.y >= max_yaw_angular_velocity and torque_amount > 0.0:
+			torque_amount = 0.0
+		elif angular_velocity.y <= -max_yaw_angular_velocity and torque_amount < 0.0:
+			torque_amount = 0.0
+
+	if absf(torque_amount) < 0.0001:
+		return
+
+	# Default behavior is pure world-Y torque, which preserves the funny
+	# pitch/roll wobble from physics while correcting readable facing direction.
+	var torque_axis := Vector3.UP
+	if not preserve_pitch_roll:
+		torque_axis = global_transform.basis.y.normalized()
+
+	apply_torque(torque_axis * torque_amount)
+	_yaw_alignment_active = true
+	_yaw_align_torque_applied = torque_amount
+
+
+func _get_yaw_from_direction(direction: Vector3) -> float:
+	var flat_direction := direction
+	flat_direction.y = 0.0
+
+	if flat_direction.length() < 0.001:
+		return 0.0
+
+	flat_direction = flat_direction.normalized()
+	return atan2(flat_direction.x, flat_direction.z)
+
+
 func _apply_twist_controls(control_multiplier: float) -> void:
 	var input := 0.0
 
@@ -565,21 +729,30 @@ func _perform_slap(forward_axis: Vector3) -> void:
 		slap_direction = slap_direction.normalized()
 
 	var slap_multiplier := _get_current_slap_attack_multiplier()
-	_current_slap_strength = slap_impulse * slap_multiplier
+	_current_slap_strength = slap_forward_impulse * slap_multiplier
 	_last_slap_direction = slap_direction
 	_last_slapped_object_name = "none"
 	_slapped_body_ids.clear()
 	sleeping = false
 
-	# Central impulse gives a readable lunge without using offset forces that
-	# would make the flipflop wheel-spin uncontrollably.
+	# The attack is a forward central impulse, separate from Space hop/flap.
+	# Keeping it at center of mass makes the sandal lunge across the ground
+	# instead of popping upward or rolling like a wheel.
 	apply_central_impulse(slap_direction * _current_slap_strength)
-	apply_central_impulse(Vector3.UP * slap_upward_impulse * slap_multiplier)
+
+	var upward_clearance := slap_upward_impulse
+	if _touching_ground or _grounded_timer > 0.0:
+		upward_clearance += slap_ground_clearance_boost
+
+	apply_central_impulse(Vector3.UP * upward_clearance * slap_multiplier)
 	apply_torque_impulse(Vector3(
 		randf_range(-slap_torque, slap_torque),
 		randf_range(-slap_torque * 0.5, slap_torque * 0.5),
 		randf_range(-slap_torque, slap_torque)
 	) * slap_multiplier)
+
+	if linear_velocity.length() > slap_max_speed:
+		linear_velocity = linear_velocity.normalized() * slap_max_speed
 
 	_slap_active_timer = slap_active_duration
 	_slap_cooldown_timer = slap_cooldown
@@ -591,7 +764,7 @@ func _perform_slap(forward_axis: Vector3) -> void:
 	trigger_camera_bump(slap_camera_bump * slap_multiplier)
 
 
-func _grounded_hop(move_input: Vector2, forward_axis: Vector3, right_axis: Vector3) -> void:
+func _ground_hop(move_input: Vector2, forward_axis: Vector3, right_axis: Vector3) -> void:
 	# Trim downward speed before hopping so Space feels responsive near the sand
 	# without letting the flipflop stack huge upward launches.
 	if linear_velocity.y < 0.0:
@@ -600,7 +773,7 @@ func _grounded_hop(move_input: Vector2, forward_axis: Vector3, right_axis: Vecto
 		linear_velocity = velocity
 
 	sleeping = false
-	apply_central_impulse(Vector3.UP * grounded_jump_impulse * _surface_jump_multiplier)
+	apply_central_impulse(Vector3.UP * ground_hop_impulse * _surface_jump_multiplier)
 
 	var move_direction := _get_camera_relative_move_direction(move_input, forward_axis, right_axis)
 	if move_direction != Vector3.ZERO and jump_forward_assist > 0.0:
@@ -618,42 +791,44 @@ func _grounded_hop(move_input: Vector2, forward_axis: Vector3, right_axis: Vecto
 		randf_range(-torque_strength, torque_strength)
 	) * 1.4)
 	_grounded_timer = 0.0
-	_last_jump_type = "grounded_hop"
+	_last_jump_type = "ground_hop"
+	_clamp_upward_velocity()
 
 
-func _air_flop(move_input: Vector2, forward_axis: Vector3, right_axis: Vector3) -> void:
-	if _air_flops_remaining <= 0:
+func _air_flap(move_input: Vector2, forward_axis: Vector3, right_axis: Vector3) -> void:
+	if _air_flaps_remaining <= 0:
 		return
 
-	_air_flops_remaining -= 1
+	_air_flaps_remaining -= 1
 	sleeping = false
 
-	# Soften falling speed before the air flop. This gives the second jump a
-	# readable lift without allowing Space spam to build huge upward velocity.
+	# Soften falling speed before the air flap. This makes repeated Space taps
+	# useful for recovery and climbing without building infinite vertical speed.
 	if linear_velocity.y < 0.0:
 		var velocity := linear_velocity
-		velocity.y *= 0.35
+		velocity.y *= 0.25
 		linear_velocity = velocity
 
-	apply_central_impulse(Vector3.UP * air_flop_impulse * _surface_jump_multiplier)
+	apply_central_impulse(Vector3.UP * air_flap_impulse * _surface_jump_multiplier)
 
 	var move_direction := _get_camera_relative_move_direction(move_input, forward_axis, right_axis)
-	if move_direction != Vector3.ZERO and air_flop_forward_assist > 0.0:
+	if move_direction != Vector3.ZERO and jump_forward_assist > 0.0:
 		apply_central_impulse(
 			move_direction
-			* air_flop_forward_assist
+			* jump_forward_assist
 			* _get_current_hop_assist_multiplier()
 			* _surface_move_multiplier
 		)
 
-	# The air flop is intentionally messy: a small random torque sells the
+	# The air flap is intentionally messy: a small random torque sells the
 	# "loose sandal flailing in the air" feeling without driving movement.
 	apply_torque_impulse(Vector3(
-		randf_range(-air_flop_torque, air_flop_torque),
-		randf_range(-air_flop_torque * 0.75, air_flop_torque * 0.75),
-		randf_range(-air_flop_torque, air_flop_torque)
+		randf_range(-air_flap_torque, air_flap_torque),
+		randf_range(-air_flap_torque * 0.75, air_flap_torque * 0.75),
+		randf_range(-air_flap_torque, air_flap_torque)
 	))
-	_last_jump_type = "air_flop"
+	_last_jump_type = "air_flap"
+	_clamp_upward_velocity()
 
 
 func _apply_upside_down_help(_delta: float) -> void:
@@ -745,17 +920,24 @@ func _get_current_slap_multiplier() -> float:
 
 
 func _get_current_slap_attack_multiplier() -> float:
-	if _boost_active:
-		return slap_shift_multiplier
+	_shift_slap_active = Input.is_key_pressed(KEY_SHIFT)
+
+	if _shift_slap_active:
+		return shift_slap_multiplier
 
 	return 1.0
 
 
 func _get_current_max_linear_speed() -> float:
-	if _boost_active:
-		return boost_max_linear_speed
+	var speed_limit := max_linear_speed
 
-	return max_linear_speed
+	if _boost_active:
+		speed_limit = boost_max_linear_speed
+
+	if _slap_active_timer > 0.0:
+		speed_limit = maxf(speed_limit, slap_max_speed)
+
+	return speed_limit
 
 
 func _get_current_max_angular_speed() -> float:
@@ -763,6 +945,17 @@ func _get_current_max_angular_speed() -> float:
 		return boost_max_angular_speed
 
 	return max_angular_speed
+
+
+func _clamp_upward_velocity() -> void:
+	# Repeated Space taps should help the flipflop climb and recover, but this
+	# cap prevents Flappy Bird-style flaps from stacking into endless flight.
+	if linear_velocity.y <= max_upward_velocity:
+		return
+
+	var velocity := linear_velocity
+	velocity.y = max_upward_velocity
+	linear_velocity = velocity
 
 
 func _clamp_velocity() -> void:
@@ -779,6 +972,279 @@ func _clamp_velocity() -> void:
 	if angular_velocity.length() > _current_max_angular_speed:
 		angular_velocity = angular_velocity.normalized() * _current_max_angular_speed
 		_angular_speed_clamped = true
+
+
+func _clamp_water_velocity() -> void:
+	if not _is_in_water:
+		return
+
+	if linear_velocity.length() > water_max_linear_speed:
+		linear_velocity = linear_velocity.normalized() * water_max_linear_speed
+
+	if angular_velocity.length() > water_max_angular_speed:
+		angular_velocity = angular_velocity.normalized() * water_max_angular_speed
+
+
+func _clamp_yaw_angular_velocity() -> void:
+	if max_yaw_angular_velocity <= 0.0:
+		return
+
+	if absf(angular_velocity.y) <= max_yaw_angular_velocity:
+		return
+
+	var velocity := angular_velocity
+	if velocity.y > 0.0:
+		velocity.y = max_yaw_angular_velocity
+	else:
+		velocity.y = -max_yaw_angular_velocity
+
+	angular_velocity = velocity
+
+
+func _apply_water_interaction(delta: float) -> void:
+	_water_drag_active = false
+	_water_buoyancy_active = false
+
+	if not _is_in_water:
+		_water_timer = 0.0
+		return
+
+	_water_timer += delta
+	sleeping = false
+
+	var horizontal_velocity := Vector3(linear_velocity.x, 0.0, linear_velocity.z)
+	if horizontal_velocity.length() > 0.001:
+		# Drag is a smooth opposing force. It slows sliding without creating a
+		# hard collision response or repeated impulse spikes.
+		apply_central_force(
+			-horizontal_velocity
+			* _current_water_drag_multiplier
+			* mass
+		)
+		_water_drag_active = true
+
+	var spin_damping := clampf(_current_water_spin_damping, 0.0, 1.0)
+	angular_velocity *= pow(spin_damping, delta * 60.0)
+
+	if angular_velocity.length() > 0.001:
+		apply_torque(
+			-angular_velocity
+			* _current_water_angular_drag_multiplier
+			* mass
+		)
+
+	var depth := maxf(0.0, _current_water_surface_y - global_position.y)
+	if global_position.y < _current_water_surface_y + 0.18:
+		var buoyancy_scale := 1.0 + minf(depth, 1.2)
+		apply_central_force(
+			Vector3.UP
+			* _current_water_buoyancy_force
+			* buoyancy_scale
+			* mass
+		)
+		_water_buoyancy_active = true
+
+	var shore_direction := _current_water_safe_exit_position - global_position
+	shore_direction.y = 0.0
+	if shore_direction.length() > 0.1 and _current_water_push_to_shore_force > 0.0:
+		apply_central_force(
+			shore_direction.normalized()
+			* _current_water_push_to_shore_force
+			* mass
+		)
+
+	if (
+		_water_timer >= _current_water_max_time_before_soft_reset
+		or global_position.y < _current_water_surface_y - water_soft_reset_depth
+	):
+		_soft_reset_from_water()
+
+
+func enter_water_zone(
+	zone_water_surface_y: float = 0.0,
+	zone_water_safe_exit_position: Vector3 = Vector3.ZERO,
+	zone_water_drag_multiplier: float = 0.0,
+	zone_water_angular_drag_multiplier: float = 0.0,
+	zone_water_buoyancy_force: float = 0.0,
+	zone_water_push_to_shore_force: float = 0.0,
+	zone_water_max_time_before_soft_reset: float = 0.0,
+	zone_water_spin_damping: float = -1.0,
+	zone_splash_enabled: bool = true,
+	source_id: int = 0
+) -> void:
+	var zone_id := source_id
+	if zone_id == 0:
+		zone_id = get_instance_id()
+
+	_active_water_zones[zone_id] = _make_water_settings(
+		zone_water_surface_y,
+		zone_water_safe_exit_position,
+		zone_water_drag_multiplier,
+		zone_water_angular_drag_multiplier,
+		zone_water_buoyancy_force,
+		zone_water_push_to_shore_force,
+		zone_water_max_time_before_soft_reset,
+		zone_water_spin_damping,
+		zone_splash_enabled
+	)
+	_water_zone_order.erase(zone_id)
+	_water_zone_order.append(zone_id)
+	_select_current_water_zone()
+
+	if _current_water_splash_enabled:
+		play_surface_landing_sound("water", 1.0)
+		spawn_water_splash_particles(1.0)
+
+
+func exit_water_zone(source_id: int = 0) -> void:
+	if source_id != 0:
+		_active_water_zones.erase(source_id)
+		_water_zone_order.erase(source_id)
+	else:
+		_active_water_zones.clear()
+		_water_zone_order.clear()
+
+	_select_current_water_zone()
+
+
+func _make_water_settings(
+	zone_water_surface_y: float,
+	zone_water_safe_exit_position: Vector3,
+	zone_water_drag_multiplier: float,
+	zone_water_angular_drag_multiplier: float,
+	zone_water_buoyancy_force: float,
+	zone_water_push_to_shore_force: float,
+	zone_water_max_time_before_soft_reset: float,
+	zone_water_spin_damping: float,
+	zone_splash_enabled: bool
+) -> Dictionary:
+	var resolved_safe_exit := zone_water_safe_exit_position
+	if resolved_safe_exit == Vector3.ZERO:
+		resolved_safe_exit = water_safe_exit_position
+
+	return {
+		"water_surface_y": zone_water_surface_y,
+		"water_safe_exit_position": resolved_safe_exit,
+		"water_drag_multiplier": (
+			zone_water_drag_multiplier
+			if zone_water_drag_multiplier > 0.0
+			else water_drag_multiplier
+		),
+		"water_angular_drag_multiplier": (
+			zone_water_angular_drag_multiplier
+			if zone_water_angular_drag_multiplier > 0.0
+			else water_angular_drag_multiplier
+		),
+		"water_buoyancy_force": (
+			zone_water_buoyancy_force
+			if zone_water_buoyancy_force > 0.0
+			else water_buoyancy_force
+		),
+		"water_push_to_shore_force": (
+			zone_water_push_to_shore_force
+			if zone_water_push_to_shore_force > 0.0
+			else water_push_to_shore_force
+		),
+		"water_max_time_before_soft_reset": (
+			zone_water_max_time_before_soft_reset
+			if zone_water_max_time_before_soft_reset > 0.0
+			else water_max_time_before_soft_reset
+		),
+		"water_spin_damping": (
+			zone_water_spin_damping
+			if zone_water_spin_damping >= 0.0
+			else water_spin_damping
+		),
+		"splash_enabled": zone_splash_enabled and splash_enabled,
+	}
+
+
+func _select_current_water_zone() -> void:
+	while not _water_zone_order.is_empty():
+		var zone_id: int = _water_zone_order[_water_zone_order.size() - 1]
+		if _active_water_zones.has(zone_id):
+			var settings: Dictionary = _active_water_zones[zone_id]
+			_apply_water_settings(settings)
+			return
+
+		_water_zone_order.pop_back()
+
+	_clear_water_state()
+
+
+func _apply_water_settings(settings: Dictionary) -> void:
+	_is_in_water = true
+	_current_water_surface_y = float(settings.get("water_surface_y", water_surface_y))
+	var safe_exit_value: Variant = settings.get("water_safe_exit_position", water_safe_exit_position)
+	if safe_exit_value is Vector3:
+		_current_water_safe_exit_position = safe_exit_value
+	else:
+		_current_water_safe_exit_position = water_safe_exit_position
+	_current_water_drag_multiplier = float(
+		settings.get("water_drag_multiplier", water_drag_multiplier)
+	)
+	_current_water_angular_drag_multiplier = float(
+		settings.get("water_angular_drag_multiplier", water_angular_drag_multiplier)
+	)
+	_current_water_buoyancy_force = float(
+		settings.get("water_buoyancy_force", water_buoyancy_force)
+	)
+	_current_water_push_to_shore_force = float(
+		settings.get("water_push_to_shore_force", water_push_to_shore_force)
+	)
+	_current_water_max_time_before_soft_reset = float(
+		settings.get(
+			"water_max_time_before_soft_reset",
+			water_max_time_before_soft_reset
+		)
+	)
+	_current_water_spin_damping = float(settings.get("water_spin_damping", water_spin_damping))
+	_current_water_splash_enabled = bool(settings.get("splash_enabled", splash_enabled))
+
+
+func _clear_water_state() -> void:
+	_active_water_zones.clear()
+	_water_zone_order.clear()
+	_is_in_water = false
+	_water_timer = 0.0
+	_water_drag_active = false
+	_water_buoyancy_active = false
+	_current_water_surface_y = water_surface_y
+	_current_water_safe_exit_position = water_safe_exit_position
+	_current_water_drag_multiplier = water_drag_multiplier
+	_current_water_angular_drag_multiplier = water_angular_drag_multiplier
+	_current_water_buoyancy_force = water_buoyancy_force
+	_current_water_push_to_shore_force = water_push_to_shore_force
+	_current_water_max_time_before_soft_reset = water_max_time_before_soft_reset
+	_current_water_spin_damping = water_spin_damping
+	_current_water_splash_enabled = splash_enabled
+
+
+func _soft_reset_from_water() -> void:
+	var safe_position := _current_water_safe_exit_position
+	safe_position.y = maxf(
+		maxf(safe_position.y, safe_ground_y + safe_ground_clearance),
+		_current_water_surface_y + safe_ground_clearance
+	)
+	global_position = safe_position
+	global_rotation_degrees = reset_rotation_degrees
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	_hop_buffer_timer = 0.0
+	_flap_cooldown_timer = 0.0
+	_air_flaps_remaining = max_air_flaps
+	_last_jump_type = "none"
+	_slap_requested = false
+	_slap_active_timer = 0.0
+	_shift_slap_active = false
+	_slapped_body_ids.clear()
+	_clear_water_state()
+	_clear_surface_zone()
+	_water_soft_reset_triggered = true
+	sleeping = false
+
+	if debug_movement:
+		print("Flipflop softly reset from water to ", safe_position)
 
 
 func _apply_slap_prop_impulses() -> void:
@@ -852,9 +1318,11 @@ func recover_if_stuck_under_ground() -> void:
 	angular_velocity *= recovery_velocity_scale
 	_grounded_timer = 0.0
 	_hop_buffer_timer = 0.0
-	_air_flops_remaining = max_air_flops
+	_flap_cooldown_timer = 0.0
+	_air_flaps_remaining = max_air_flaps
 	_slap_requested = false
 	_slap_active_timer = 0.0
+	_shift_slap_active = false
 	_recovery_cooldown_timer = stuck_recovery_cooldown
 	_stuck_recovery_triggered = true
 	sleeping = false
@@ -888,8 +1356,8 @@ func _print_debug_if_enabled(delta: float, grounded: bool) -> void:
 		safe_ground_y,
 		" recovered=",
 		_stuck_recovery_triggered,
-		" hop_cooldown=",
-		snappedf(_hop_cooldown_timer, 0.01),
+		" flap_cooldown=",
+		snappedf(_flap_cooldown_timer, 0.01),
 		" boost=",
 		_boost_active,
 		" move_multiplier=",
@@ -904,8 +1372,12 @@ func _print_debug_if_enabled(delta: float, grounded: bool) -> void:
 		snappedf(_current_slap_strength, 0.01),
 		" slapped=",
 		_last_slapped_object_name,
-		" air_flops=",
-		_air_flops_remaining,
+		" vertical_velocity=",
+		snappedf(linear_velocity.y, 0.01),
+		" max_upward_velocity=",
+		snappedf(max_upward_velocity, 0.01),
+		" air_flaps=",
+		_air_flaps_remaining,
 		" last_jump=",
 		_last_jump_type,
 		" input_dir=",
@@ -919,7 +1391,17 @@ func _print_debug_if_enabled(delta: float, grounded: bool) -> void:
 		" speed_clamped=",
 		_speed_clamped,
 		" angular_clamped=",
-		_angular_speed_clamped
+		_angular_speed_clamped,
+		" in_water=",
+		_is_in_water,
+		" water_timer=",
+		snappedf(_water_timer, 0.01),
+		" water_drag=",
+		_water_drag_active,
+		" water_buoyancy=",
+		_water_buoyancy_active,
+		" water_reset=",
+		_water_soft_reset_triggered
 	)
 
 
@@ -934,14 +1416,13 @@ func apply_movement_preset(preset_name: String) -> void:
 	current_preset_name = preset_name
 	move_force = float(preset["move_force"])
 	move_impulse = float(preset["move_impulse"])
-	grounded_jump_impulse = float(preset["grounded_jump_impulse"])
+	ground_hop_impulse = float(preset["ground_hop_impulse"])
 	jump_forward_assist = float(preset["jump_forward_assist"])
-	hop_impulse = grounded_jump_impulse
-	max_air_flops = int(preset["max_air_flops"])
-	air_flop_impulse = float(preset["air_flop_impulse"])
-	air_flop_forward_assist = float(preset["air_flop_forward_assist"])
-	air_flop_torque = float(preset["air_flop_torque"])
-	air_flop_cooldown = float(preset["air_flop_cooldown"])
+	max_air_flaps = int(preset["max_air_flaps"])
+	air_flap_impulse = float(preset["air_flap_impulse"])
+	air_flap_torque = float(preset["air_flap_torque"])
+	flap_cooldown = float(preset["flap_cooldown"])
+	max_upward_velocity = float(preset["max_upward_velocity"])
 	torque_strength = float(preset["torque_strength"])
 	movement_wobble_torque = float(preset["movement_wobble_torque"])
 	boost_enabled = bool(preset["boost_enabled"])
@@ -952,26 +1433,35 @@ func apply_movement_preset(preset_name: String) -> void:
 	boost_max_angular_speed = float(preset["boost_max_angular_speed"])
 	boost_slap_multiplier = float(preset["boost_slap_multiplier"])
 	boost_camera_bump_strength = float(preset["boost_camera_bump_strength"])
-	slap_impulse = float(preset["slap_impulse"])
+	slap_forward_impulse = float(preset["slap_forward_impulse"])
 	slap_upward_impulse = float(preset["slap_upward_impulse"])
 	slap_torque = float(preset["slap_torque"])
 	slap_cooldown = float(preset["slap_cooldown"])
 	slap_active_duration = float(preset["slap_active_duration"])
 	slap_prop_force_multiplier = float(preset["slap_prop_force_multiplier"])
-	slap_shift_multiplier = float(preset["slap_shift_multiplier"])
+	shift_slap_multiplier = float(preset["shift_slap_multiplier"])
+	slap_max_speed = float(preset["slap_max_speed"])
+	slap_ground_clearance_boost = float(preset["slap_ground_clearance_boost"])
 	slap_camera_bump = float(preset["slap_camera_bump"])
 	slap_particle_enabled = bool(preset["slap_particle_enabled"])
 	linear_damping = float(preset["linear_damping"])
 	angular_damping = float(preset["angular_damping"])
 	max_linear_speed = float(preset["max_linear_speed"])
 	max_angular_speed = float(preset["max_angular_speed"])
+	face_camera_enabled = bool(preset["face_camera_enabled"])
+	yaw_align_strength = float(preset["yaw_align_strength"])
+	yaw_align_damping = float(preset["yaw_align_damping"])
+	max_yaw_angular_velocity = float(preset["max_yaw_angular_velocity"])
+	face_camera_smoothing = float(preset["face_camera_smoothing"])
+	preserve_pitch_roll = bool(preset["preserve_pitch_roll"])
+	alignment_deadzone_degrees = float(preset["alignment_deadzone_degrees"])
 	air_control_multiplier = float(preset["air_control_multiplier"])
 	ground_control_multiplier = float(preset["ground_control_multiplier"])
 
 	if _touching_ground or _grounded_timer > 0.0:
-		_air_flops_remaining = max_air_flops
+		_air_flaps_remaining = max_air_flaps
 	else:
-		_air_flops_remaining = mini(_air_flops_remaining, max_air_flops)
+		_air_flaps_remaining = mini(_air_flaps_remaining, max_air_flaps)
 
 
 func cycle_movement_preset() -> void:
@@ -996,10 +1486,11 @@ func get_movement_debug_state() -> Dictionary:
 		"safe_ground_y": safe_ground_y,
 		"stuck_recovery_triggered": _stuck_recovery_triggered,
 		"collision_contacts": get_contact_count(),
-		"hop_cooldown": _hop_cooldown_timer,
-		"jump_cooldown": _hop_cooldown_timer,
-		"air_flops_remaining": _air_flops_remaining,
-		"max_air_flops": max_air_flops,
+		"flap_cooldown": _flap_cooldown_timer,
+		"jump_cooldown": _flap_cooldown_timer,
+		"vertical_velocity": linear_velocity.y,
+		"air_flaps_remaining": _air_flaps_remaining,
+		"max_air_flaps": max_air_flaps,
 		"last_jump_type": _last_jump_type,
 		"raw_move_input": _raw_move_input,
 		"input_direction": _last_input_direction,
@@ -1016,17 +1507,18 @@ func get_movement_debug_state() -> Dictionary:
 		"current_max_angular_speed": _current_max_angular_speed,
 		"slap_cooldown": _slap_cooldown_timer,
 		"slap_active": _slap_active_timer > 0.0,
+		"shift_slap_active": _shift_slap_active,
+		"current_slap_direction": _last_slap_direction,
 		"last_slapped_object_name": _last_slapped_object_name,
 		"current_slap_strength": _current_slap_strength,
 		"move_impulse": move_impulse,
 		"move_force": move_force,
-		"hop_impulse": hop_impulse,
-		"grounded_jump_impulse": grounded_jump_impulse,
+		"ground_hop_impulse": ground_hop_impulse,
 		"jump_forward_assist": jump_forward_assist,
-		"air_flop_impulse": air_flop_impulse,
-		"air_flop_forward_assist": air_flop_forward_assist,
-		"air_flop_torque": air_flop_torque,
-		"air_flop_cooldown": air_flop_cooldown,
+		"air_flap_impulse": air_flap_impulse,
+		"air_flap_torque": air_flap_torque,
+		"flap_cooldown_time": flap_cooldown,
+		"max_upward_velocity": max_upward_velocity,
 		"torque_strength": torque_strength,
 		"movement_wobble_torque": movement_wobble_torque,
 		"boost_enabled": boost_enabled,
@@ -1037,19 +1529,33 @@ func get_movement_debug_state() -> Dictionary:
 		"boost_max_angular_speed": boost_max_angular_speed,
 		"boost_slap_multiplier": boost_slap_multiplier,
 		"boost_camera_bump_strength": boost_camera_bump_strength,
-		"slap_impulse": slap_impulse,
+		"slap_forward_impulse": slap_forward_impulse,
 		"slap_upward_impulse": slap_upward_impulse,
 		"slap_torque": slap_torque,
 		"slap_cooldown_time": slap_cooldown,
 		"slap_active_duration": slap_active_duration,
 		"slap_prop_force_multiplier": slap_prop_force_multiplier,
-		"slap_shift_multiplier": slap_shift_multiplier,
+		"shift_slap_multiplier": shift_slap_multiplier,
+		"slap_max_speed": slap_max_speed,
+		"slap_ground_clearance_boost": slap_ground_clearance_boost,
 		"slap_camera_bump": slap_camera_bump,
 		"slap_particle_enabled": slap_particle_enabled,
 		"linear_damping": linear_damping,
 		"angular_damping": angular_damping,
 		"max_linear_speed": max_linear_speed,
 		"max_angular_speed": max_angular_speed,
+		"face_camera_enabled": face_camera_enabled,
+		"target_yaw": _target_yaw_degrees,
+		"current_yaw": _current_yaw_degrees,
+		"yaw_difference": _yaw_difference_degrees,
+		"yaw_align_strength": yaw_align_strength,
+		"yaw_align_damping": yaw_align_damping,
+		"max_yaw_angular_velocity": max_yaw_angular_velocity,
+		"face_camera_smoothing": face_camera_smoothing,
+		"preserve_pitch_roll": preserve_pitch_roll,
+		"alignment_deadzone_degrees": alignment_deadzone_degrees,
+		"yaw_alignment_active": _yaw_alignment_active,
+		"yaw_align_torque_applied": _yaw_align_torque_applied,
 		"surface_type": _current_surface_type,
 		"surface_name": _current_surface_name,
 		"surface_move_multiplier": _surface_move_multiplier,
@@ -1061,6 +1567,24 @@ func get_movement_debug_state() -> Dictionary:
 		"surface_landing_impact_multiplier": _surface_landing_impact_multiplier,
 		"surface_landing_sound_type": _surface_landing_sound_type,
 		"surface_particle_type": _surface_particle_type,
+		"in_water": _is_in_water,
+		"water_timer": _water_timer,
+		"water_drag_active": _water_drag_active,
+		"water_buoyancy_active": _water_buoyancy_active,
+		"water_reset_timer": maxf(
+			_current_water_max_time_before_soft_reset - _water_timer,
+			0.0
+		),
+		"water_surface_y": _current_water_surface_y,
+		"water_safe_exit_position": _current_water_safe_exit_position,
+		"water_soft_reset_triggered": _water_soft_reset_triggered,
+		"water_drag_multiplier": _current_water_drag_multiplier,
+		"water_angular_drag_multiplier": _current_water_angular_drag_multiplier,
+		"water_buoyancy_force": _current_water_buoyancy_force,
+		"water_push_to_shore_force": _current_water_push_to_shore_force,
+		"water_spin_damping": _current_water_spin_damping,
+		"water_max_time_before_soft_reset": _current_water_max_time_before_soft_reset,
+		"angular_velocity": angular_velocity,
 	}
 
 
@@ -1207,6 +1731,8 @@ func set_scenery_spawn(
 	safe_ground_y = scenery_safe_ground_y
 	safe_ground_clearance = scenery_safe_ground_clearance
 	fall_reset_height = scenery_fall_reset_height
+	water_safe_exit_position = reset_position
+	_clear_water_state()
 	_clear_surface_zone()
 
 
@@ -1398,17 +1924,21 @@ func reset_flipflop() -> void:
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
 	_hop_buffer_timer = 0.0
-	_hop_cooldown_timer = 0.0
-	_air_flops_remaining = max_air_flops
+	_flap_cooldown_timer = 0.0
+	_air_flaps_remaining = max_air_flaps
 	_last_jump_type = "none"
 	_slap_requested = false
 	_slap_cooldown_timer = 0.0
 	_slap_active_timer = 0.0
 	_last_slapped_object_name = "none"
 	_current_slap_strength = 0.0
+	_shift_slap_active = false
 	_slapped_body_ids.clear()
 	_recovery_cooldown_timer = 0.0
 	_stuck_recovery_triggered = false
+	_water_soft_reset_triggered = false
+	_clear_water_state()
+	_clear_surface_zone()
 	_grounded_timer = 0.0
 	_was_grounded = false
 	_update_ground_ray_position()
