@@ -28,9 +28,19 @@ extends Node
 @export_range(0.0, 1.0, 0.001) var time_of_day: float = 0.42
 @export var cycle_speed: float = 0.006
 
-# Surface hints are placeholders for later per-scenery movement tuning.
-@export var surface_name: String = "sand"
+# Default surface for the scenery. Specific Area3D SurfaceZone nodes can
+# override this while the flipflop is inside them.
+@export_enum("sand", "wet_tile", "dry_tile", "wood", "water", "shallow_water", "custom")
+var surface_type: String = "sand"
+@export var surface_name: String = "Sand"
 @export var surface_friction_hint: float = 0.55
+@export var surface_move_multiplier: float = 0.88
+@export var surface_linear_damping_multiplier: float = 1.18
+@export var surface_angular_damping_multiplier: float = 1.08
+@export var surface_jump_multiplier: float = 0.94
+@export var surface_landing_impact_multiplier: float = 0.75
+@export var surface_landing_sound_type: String = "sand"
+@export var surface_particle_type: String = "sand"
 
 
 func get_player_spawn() -> Marker3D:
@@ -66,3 +76,22 @@ func apply_to_ambience(ambience: Node) -> void:
 	ambience.set("day_night_cycle_enabled", day_night_cycle_enabled)
 	ambience.set("time_of_day", time_of_day)
 	ambience.set("cycle_speed", cycle_speed)
+	ambience.set("ambience_zone", ambience_zone)
+
+
+func apply_to_player_surface(player: Node) -> void:
+	if player == null or not player.has_method("set_default_surface"):
+		return
+
+	player.call(
+		"set_default_surface",
+		surface_type,
+		surface_name,
+		surface_move_multiplier,
+		surface_linear_damping_multiplier,
+		surface_angular_damping_multiplier,
+		surface_jump_multiplier,
+		surface_landing_impact_multiplier,
+		surface_landing_sound_type,
+		surface_particle_type
+	)

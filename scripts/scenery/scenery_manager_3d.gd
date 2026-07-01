@@ -12,7 +12,7 @@ const RESORT_POOL_ID := "resort_pool"
 const BOARDWALK_ID := "boardwalk"
 
 const SCENERY_SCENE_PATHS := {
-	"deserted_island": "res://scenes/island/Island3D.tscn",
+	"deserted_island": "res://scenes/scenery/IslandScenery3D.tscn",
 	"resort_pool": "res://scenes/scenery/ResortPoolScenery3D.tscn",
 }
 
@@ -32,6 +32,7 @@ var _current_scenery_id: String = ""
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("scenery_manager")
 	_scenery_root = get_node_or_null(scenery_root_path)
 	_player = get_node_or_null(player_path)
@@ -144,6 +145,7 @@ func _find_scenery_settings(scenery: Node) -> ScenerySettings3D:
 func _apply_current_scenery_settings() -> void:
 	if _current_settings != null:
 		_current_settings.apply_to_ambience(_ambience)
+		_current_settings.apply_to_player_surface(_player)
 
 	var spawn: Marker3D = _get_current_spawn()
 	if spawn == null:

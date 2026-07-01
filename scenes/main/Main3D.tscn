@@ -38,6 +38,9 @@ slap_sound_path = NodePath("Audio/SlapSound")
 coconut_bump_path = NodePath("Audio/CoconutBump")
 shell_scatter_path = NodePath("Audio/ShellScatter")
 crab_skitter_path = NodePath("Audio/CrabSkitter")
+pool_splash_path = NodePath("Audio/PoolSplash")
+resort_loop_path = NodePath("Audio/ResortLoop")
+seagull_call_path = NodePath("Audio/SeagullCall")
 
 [node name="Audio" type="Node" parent="AmbienceController"]
 
@@ -58,6 +61,15 @@ volume_db = -10.0
 
 [node name="CrabSkitter" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
 volume_db = -14.0
+
+[node name="PoolSplash" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -8.0
+
+[node name="ResortLoop" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -18.0
+
+[node name="SeagullCall" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -16.0
 
 [node name="SceneryRoot" type="Node3D" parent="."]
 

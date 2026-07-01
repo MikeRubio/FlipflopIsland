@@ -287,6 +287,28 @@ var _last_slapped_object_name: String = "none"
 var _current_slap_strength: float = 0.0
 var _slapped_body_ids: Dictionary = {}
 var _sole_material: StandardMaterial3D
+var _default_surface_settings: Dictionary = {
+	"surface_type": "sand",
+	"surface_name": "Sand",
+	"move_multiplier": 0.88,
+	"linear_damping_multiplier": 1.18,
+	"angular_damping_multiplier": 1.08,
+	"jump_multiplier": 0.94,
+	"landing_impact_multiplier": 0.75,
+	"landing_sound_type": "sand",
+	"particle_type": "sand",
+}
+var _active_surface_zones: Dictionary = {}
+var _surface_zone_order: Array[int] = []
+var _current_surface_type: String = "sand"
+var _current_surface_name: String = "Sand"
+var _surface_move_multiplier: float = 0.88
+var _surface_linear_damping_multiplier: float = 1.0
+var _surface_angular_damping_multiplier: float = 1.0
+var _surface_jump_multiplier: float = 1.0
+var _surface_landing_impact_multiplier: float = 1.0
+var _surface_landing_sound_type: String = "sand"
+var _surface_particle_type: String = "sand"
 
 
 func _input(event: InputEvent) -> void:
@@ -303,6 +325,7 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	apply_movement_preset(current_preset_name)
+	_apply_surface_settings(_default_surface_settings)
 	_prepare_color_material()
 	_apply_flipflop_color(_flipflop_color_index)
 	linear_damp = linear_damping
@@ -317,8 +340,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	linear_damp = linear_damping
-	angular_damp = angular_damping
+	linear_damp = linear_damping * _surface_linear_damping_multiplier
+	angular_damp = angular_damping * _surface_angular_damping_multiplier
 	_update_ground_ray_position()
 	_hop_cooldown_timer = maxf(_hop_cooldown_timer - delta, 0.0)
 	_slap_cooldown_timer = maxf(_slap_cooldown_timer - delta, 0.0)
@@ -336,6 +359,7 @@ func _physics_process(delta: float) -> void:
 	_current_max_angular_speed = _get_current_max_angular_speed()
 
 	var control_multiplier := ground_control_multiplier if grounded else air_control_multiplier
+	control_multiplier *= _surface_move_multiplier
 	var camera_axes := _get_camera_axes()
 	var forward_axis: Vector3 = camera_axes["forward"]
 	var right_axis: Vector3 = camera_axes["right"]
@@ -576,7 +600,7 @@ func _grounded_hop(move_input: Vector2, forward_axis: Vector3, right_axis: Vecto
 		linear_velocity = velocity
 
 	sleeping = false
-	apply_central_impulse(Vector3.UP * grounded_jump_impulse)
+	apply_central_impulse(Vector3.UP * grounded_jump_impulse * _surface_jump_multiplier)
 
 	var move_direction := _get_camera_relative_move_direction(move_input, forward_axis, right_axis)
 	if move_direction != Vector3.ZERO and jump_forward_assist > 0.0:
@@ -584,6 +608,7 @@ func _grounded_hop(move_input: Vector2, forward_axis: Vector3, right_axis: Vecto
 			move_direction
 			* jump_forward_assist
 			* _get_current_hop_assist_multiplier()
+			* _surface_move_multiplier
 		)
 
 	# Add a tiny random tumble so hops land differently without becoming wild.
@@ -610,7 +635,7 @@ func _air_flop(move_input: Vector2, forward_axis: Vector3, right_axis: Vector3) 
 		velocity.y *= 0.35
 		linear_velocity = velocity
 
-	apply_central_impulse(Vector3.UP * air_flop_impulse)
+	apply_central_impulse(Vector3.UP * air_flop_impulse * _surface_jump_multiplier)
 
 	var move_direction := _get_camera_relative_move_direction(move_input, forward_axis, right_axis)
 	if move_direction != Vector3.ZERO and air_flop_forward_assist > 0.0:
@@ -618,6 +643,7 @@ func _air_flop(move_input: Vector2, forward_axis: Vector3, right_axis: Vector3) 
 			move_direction
 			* air_flop_forward_assist
 			* _get_current_hop_assist_multiplier()
+			* _surface_move_multiplier
 		)
 
 	# The air flop is intentionally messy: a small random torque sells the
@@ -1024,6 +1050,17 @@ func get_movement_debug_state() -> Dictionary:
 		"angular_damping": angular_damping,
 		"max_linear_speed": max_linear_speed,
 		"max_angular_speed": max_angular_speed,
+		"surface_type": _current_surface_type,
+		"surface_name": _current_surface_name,
+		"surface_move_multiplier": _surface_move_multiplier,
+		"surface_control_multiplier": _surface_move_multiplier,
+		"surface_linear_damping_multiplier": _surface_linear_damping_multiplier,
+		"surface_angular_damping_multiplier": _surface_angular_damping_multiplier,
+		"surface_damping_multiplier": _surface_linear_damping_multiplier,
+		"surface_jump_multiplier": _surface_jump_multiplier,
+		"surface_landing_impact_multiplier": _surface_landing_impact_multiplier,
+		"surface_landing_sound_type": _surface_landing_sound_type,
+		"surface_particle_type": _surface_particle_type,
 	}
 
 
@@ -1058,13 +1095,14 @@ func _apply_flipflop_color(color_index: int) -> void:
 
 
 func _on_landed(impact_speed: float) -> void:
-	if impact_speed < landing_slap_threshold:
+	var surface_adjusted_impact := impact_speed * _surface_landing_impact_multiplier
+	if surface_adjusted_impact < landing_slap_threshold:
 		return
 
 	# Hard landing hook. These functions are placeholders for real feedback.
 	var slap_multiplier := _get_current_slap_multiplier()
-	play_slap_sound(slap_multiplier)
-	spawn_sand_particles(slap_multiplier)
+	play_surface_landing_sound(_surface_landing_sound_type, slap_multiplier)
+	spawn_surface_landing_particles(_surface_particle_type, slap_multiplier)
 
 	if _boost_active:
 		trigger_camera_bump(boost_camera_bump_strength)
@@ -1083,8 +1121,48 @@ func play_slap_sound(_slap_multiplier: float = 1.0) -> void:
 		audio.call("play_slap_sound")
 
 
+func play_surface_landing_sound(sound_type: String, slap_multiplier: float = 1.0) -> void:
+	# Placeholder routing for surface-specific landing sounds.
+	# Real audio can later split these into sand thuds, tile slaps, wood clacks,
+	# and water splashes without changing the movement code.
+	var audio := get_tree().get_first_node_in_group("ambience_audio")
+
+	match sound_type:
+		"water", "wet_tile":
+			if audio != null and audio.has_method("play_pool_splash"):
+				audio.call("play_pool_splash")
+			else:
+				play_slap_sound(slap_multiplier)
+		"wood", "dry_tile", "sand", "default":
+			play_slap_sound(slap_multiplier)
+		_:
+			play_slap_sound(slap_multiplier)
+
+
 func spawn_sand_particles(_slap_multiplier: float = 1.0) -> void:
 	# TODO: Spawn a small sand puff GPUParticles3D effect.
+	pass
+
+
+func spawn_surface_landing_particles(particle_type: String, slap_multiplier: float = 1.0) -> void:
+	match particle_type:
+		"sand":
+			spawn_sand_particles(slap_multiplier)
+		"splash":
+			spawn_water_splash_particles(slap_multiplier)
+		"dust":
+			spawn_dust_particles(slap_multiplier)
+		_:
+			pass
+
+
+func spawn_water_splash_particles(_slap_multiplier: float = 1.0) -> void:
+	# TODO: Spawn a small tile/water splash particle puff.
+	pass
+
+
+func spawn_dust_particles(_slap_multiplier: float = 1.0) -> void:
+	# TODO: Spawn a tiny dry tile or wood dust fleck effect.
 	pass
 
 
@@ -1129,6 +1207,187 @@ func set_scenery_spawn(
 	safe_ground_y = scenery_safe_ground_y
 	safe_ground_clearance = scenery_safe_ground_clearance
 	fall_reset_height = scenery_fall_reset_height
+	_clear_surface_zone()
+
+
+func set_default_surface(
+	surface_type: String,
+	surface_name: String,
+	move_multiplier: float,
+	linear_damping_multiplier: float,
+	angular_damping_multiplier: float,
+	jump_multiplier: float,
+	landing_impact_multiplier: float,
+	landing_sound_type: String,
+	particle_type: String
+) -> void:
+	_default_surface_settings = _make_surface_settings(
+		surface_type,
+		surface_name,
+		move_multiplier,
+		linear_damping_multiplier,
+		angular_damping_multiplier,
+		jump_multiplier,
+		landing_impact_multiplier,
+		landing_sound_type,
+		particle_type
+	)
+
+	if _surface_zone_order.is_empty():
+		_apply_surface_settings(_default_surface_settings)
+
+
+func enter_surface_zone(
+	surface_type: String,
+	surface_name: String,
+	move_multiplier: float,
+	linear_damping_multiplier: float,
+	angular_damping_multiplier: float,
+	jump_multiplier: float = 1.0,
+	landing_impact_multiplier: float = 1.0,
+	landing_sound_type: String = "",
+	particle_type: String = "",
+	source_id: int = 0
+) -> void:
+	var zone_id := source_id
+	if zone_id == 0:
+		zone_id = surface_name.hash()
+
+	_active_surface_zones[zone_id] = _make_surface_settings(
+		surface_type,
+		surface_name,
+		move_multiplier,
+		linear_damping_multiplier,
+		angular_damping_multiplier,
+		jump_multiplier,
+		landing_impact_multiplier,
+		landing_sound_type,
+		particle_type
+	)
+	_surface_zone_order.erase(zone_id)
+	_surface_zone_order.append(zone_id)
+	_select_current_surface()
+
+
+func exit_surface_zone(surface_name: String, source_id: int = 0) -> void:
+	if source_id != 0:
+		_active_surface_zones.erase(source_id)
+		_surface_zone_order.erase(source_id)
+	else:
+		for zone_id in _surface_zone_order.duplicate():
+			var settings: Dictionary = _active_surface_zones[zone_id]
+			if String(settings.get("surface_name", "")) == surface_name:
+				_active_surface_zones.erase(zone_id)
+				_surface_zone_order.erase(zone_id)
+
+	_select_current_surface()
+
+
+func _clear_surface_zone() -> void:
+	_active_surface_zones.clear()
+	_surface_zone_order.clear()
+	_apply_surface_settings(_default_surface_settings)
+
+
+func _select_current_surface() -> void:
+	while not _surface_zone_order.is_empty():
+		var zone_id: int = _surface_zone_order[_surface_zone_order.size() - 1]
+		if _active_surface_zones.has(zone_id):
+			var settings: Dictionary = _active_surface_zones[zone_id]
+			_apply_surface_settings(settings)
+			return
+
+		_surface_zone_order.pop_back()
+
+	_apply_surface_settings(_default_surface_settings)
+
+
+func _make_surface_settings(
+	surface_type: String,
+	surface_name: String,
+	move_multiplier: float,
+	linear_damping_multiplier: float,
+	angular_damping_multiplier: float,
+	jump_multiplier: float,
+	landing_impact_multiplier: float,
+	landing_sound_type: String,
+	particle_type: String
+) -> Dictionary:
+	var resolved_type := surface_type
+	if resolved_type == "":
+		resolved_type = "custom"
+
+	var resolved_name := surface_name
+	if resolved_name == "":
+		resolved_name = resolved_type.capitalize()
+
+	var resolved_landing_sound := landing_sound_type
+	if resolved_landing_sound == "":
+		resolved_landing_sound = _get_default_surface_sound_type(resolved_type)
+
+	var resolved_particle := particle_type
+	if resolved_particle == "":
+		resolved_particle = _get_default_surface_particle_type(resolved_type)
+
+	return {
+		"surface_type": resolved_type,
+		"surface_name": resolved_name,
+		"move_multiplier": move_multiplier,
+		"linear_damping_multiplier": linear_damping_multiplier,
+		"angular_damping_multiplier": angular_damping_multiplier,
+		"jump_multiplier": jump_multiplier,
+		"landing_impact_multiplier": landing_impact_multiplier,
+		"landing_sound_type": resolved_landing_sound,
+		"particle_type": resolved_particle,
+	}
+
+
+func _apply_surface_settings(settings: Dictionary) -> void:
+	_current_surface_type = String(settings.get("surface_type", "custom"))
+	_current_surface_name = String(settings.get("surface_name", _current_surface_type))
+	_surface_move_multiplier = float(settings.get("move_multiplier", 1.0))
+	_surface_linear_damping_multiplier = float(settings.get("linear_damping_multiplier", 1.0))
+	_surface_angular_damping_multiplier = float(settings.get("angular_damping_multiplier", 1.0))
+	_surface_jump_multiplier = float(settings.get("jump_multiplier", 1.0))
+	_surface_landing_impact_multiplier = float(settings.get("landing_impact_multiplier", 1.0))
+	_surface_landing_sound_type = String(
+		settings.get(
+			"landing_sound_type",
+			_get_default_surface_sound_type(_current_surface_type)
+		)
+	)
+	_surface_particle_type = String(
+		settings.get(
+			"particle_type",
+			_get_default_surface_particle_type(_current_surface_type)
+		)
+	)
+
+
+func _get_default_surface_sound_type(surface_type: String) -> String:
+	match surface_type:
+		"sand":
+			return "sand"
+		"wet_tile":
+			return "wet_tile"
+		"dry_tile":
+			return "dry_tile"
+		"wood":
+			return "wood"
+		"water", "shallow_water":
+			return "water"
+
+	return "default"
+
+
+func _get_default_surface_particle_type(surface_type: String) -> String:
+	match surface_type:
+		"sand":
+			return "sand"
+		"wet_tile", "water", "shallow_water":
+			return "splash"
+
+	return "none"
 
 
 func reset_flipflop() -> void:

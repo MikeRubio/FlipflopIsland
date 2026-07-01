@@ -5,6 +5,7 @@ extends Node
 # not add goals or gameplay rules; it only changes mood.
 
 @export var day_night_cycle_enabled: bool = true
+@export var ambience_zone: String = "open island"
 
 # How much of a full day passes per second. Lower values are slower.
 # Example: 0.01 means a full loop takes about 100 seconds.
@@ -23,6 +24,9 @@ extends Node
 @export var coconut_bump_path: NodePath
 @export var shell_scatter_path: NodePath
 @export var crab_skitter_path: NodePath
+@export var pool_splash_path: NodePath
+@export var resort_loop_path: NodePath
+@export var seagull_call_path: NodePath
 @export var auto_start_loops: bool = true
 
 var _light: DirectionalLight3D
@@ -35,6 +39,9 @@ var _slap_sound: AudioStreamPlayer
 var _coconut_bump: AudioStreamPlayer
 var _shell_scatter: AudioStreamPlayer
 var _crab_skitter: AudioStreamPlayer
+var _pool_splash: AudioStreamPlayer
+var _resort_loop: AudioStreamPlayer
+var _seagull_call: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -50,6 +57,9 @@ func _ready() -> void:
 	_coconut_bump = get_node_or_null(coconut_bump_path) as AudioStreamPlayer
 	_shell_scatter = get_node_or_null(shell_scatter_path) as AudioStreamPlayer
 	_crab_skitter = get_node_or_null(crab_skitter_path) as AudioStreamPlayer
+	_pool_splash = get_node_or_null(pool_splash_path) as AudioStreamPlayer
+	_resort_loop = get_node_or_null(resort_loop_path) as AudioStreamPlayer
+	_seagull_call = get_node_or_null(seagull_call_path) as AudioStreamPlayer
 	_assign_audio_buses()
 
 	if _world_environment != null:
@@ -60,6 +70,7 @@ func _ready() -> void:
 	if auto_start_loops:
 		play_ocean_loop()
 		play_wind_loop()
+		play_resort_loop()
 
 	_apply_lighting()
 
@@ -124,6 +135,18 @@ func play_crab_skitter() -> void:
 	_play_if_stream_exists(_crab_skitter)
 
 
+func play_pool_splash() -> void:
+	_play_if_stream_exists(_pool_splash)
+
+
+func play_resort_loop() -> void:
+	_play_if_stream_exists(_resort_loop)
+
+
+func play_seagull_call() -> void:
+	_play_if_stream_exists(_seagull_call)
+
+
 func set_day_night_cycle_enabled(enabled: bool) -> void:
 	day_night_cycle_enabled = enabled
 
@@ -149,6 +172,12 @@ func _assign_audio_buses() -> void:
 		_shell_scatter.bus = "SFX"
 	if _crab_skitter != null:
 		_crab_skitter.bus = "SFX"
+	if _pool_splash != null:
+		_pool_splash.bus = "SFX"
+	if _resort_loop != null:
+		_resort_loop.bus = "Ambience"
+	if _seagull_call != null:
+		_seagull_call.bus = "Ambience"
 
 
 func _play_if_stream_exists(player: AudioStreamPlayer) -> void:
@@ -164,5 +193,5 @@ func get_ambience_debug_state() -> Dictionary:
 		"time_of_day": time_of_day,
 		"day_night_cycle_enabled": day_night_cycle_enabled,
 		"cycle_speed": cycle_speed,
-		"ambience_zone": "open island",
+		"ambience_zone": ambience_zone,
 	}
