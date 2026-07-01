@@ -231,4 +231,6 @@ func _has_active_gameplay_input() -> bool:
 		or Input.is_key_pressed(KEY_E)
 		or Input.is_key_pressed(KEY_R)
 		or Input.is_key_pressed(KEY_C)
+		or Input.is_key_pressed(KEY_SHIFT)
+		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	)

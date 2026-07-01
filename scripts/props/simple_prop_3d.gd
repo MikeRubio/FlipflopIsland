@@ -33,6 +33,10 @@ extends RigidBody3D
 
 @export var nudge_impulse: float = 2.5
 
+# Left click is reserved for the player slap/lunge. Keep direct prop clicking
+# disabled by default so it does not mask whether slap collisions are working.
+@export var click_nudge_enabled: bool = false
+
 # Sound placeholder trigger. If a prop hits something above this speed, it asks
 # the ambience audio node to play the matching sound if one is assigned.
 @export var collision_sound_speed: float = 0.45
@@ -118,6 +122,9 @@ func _input_event(
 	_normal: Vector3,
 	_shape_idx: int
 ) -> void:
+	if not click_nudge_enabled:
+		return
+
 	var mouse_event := event as InputEventMouseButton
 
 	if mouse_event == null or not mouse_event.pressed:

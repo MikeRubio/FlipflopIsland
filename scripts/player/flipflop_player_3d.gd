@@ -508,6 +508,25 @@ func _get_camera_axes() -> Dictionary:
 	var camera := get_viewport().get_camera_3d()
 
 	if camera != null:
+		if camera.has_method("get_camera_yaw_axes"):
+			var axes_value: Variant = camera.call("get_camera_yaw_axes")
+			if axes_value is Dictionary:
+				var axes: Dictionary = axes_value
+				var forward_value: Variant = axes.get("forward", Vector3.ZERO)
+				var right_value: Variant = axes.get("right", Vector3.ZERO)
+
+				if forward_value is Vector3 and right_value is Vector3:
+					var yaw_forward: Vector3 = forward_value
+					var yaw_right: Vector3 = right_value
+					yaw_forward.y = 0.0
+					yaw_right.y = 0.0
+
+					if yaw_forward.length() > 0.001 and yaw_right.length() > 0.001:
+						return {
+							"forward": yaw_forward.normalized(),
+							"right": yaw_right.normalized(),
+						}
+
 		# Read the active Camera3D every physics frame. This keeps WASD tied to
 		# the current camera view instead of the tumbling flipflop rotation.
 		var camera_forward := -camera.global_transform.basis.z
@@ -1295,6 +1314,12 @@ func _get_slapped_object_name(prop_body: Node) -> String:
 
 func recover_if_stuck_under_ground() -> void:
 	if _recovery_cooldown_timer > 0.0:
+		return
+
+	# Water zones handle their own drag, buoyancy, shore push, and soft reset.
+	# Running the sand unstuck helper while in water can cause jitter because
+	# the flipflop is allowed to sit slightly below the normal sand height.
+	if _is_in_water:
 		return
 
 	var minimum_safe_y := safe_ground_y - stuck_recovery_depth
