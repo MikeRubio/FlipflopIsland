@@ -21,6 +21,7 @@ mass = 0.04
 physics_material_override = SubResource("PhysicsMaterial_shell")
 script = ExtResource("1_script")
 prop_name = "Shell"
+prop_preset = "Light"
 prop_mass = 0.04
 bounce = 0.12
 friction = 0.62

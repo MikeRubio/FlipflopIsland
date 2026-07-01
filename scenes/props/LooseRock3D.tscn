@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_loose_rock"]
+friction = 0.82
+bounce = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_loose_rock"]
+albedo_color = Color(0.29, 0.3, 0.29, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_loose_rock"]
+radius = 0.16
+height = 0.22
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_loose_rock"]
+radius = 0.16
+
+[node name="LooseRock3D" type="RigidBody3D"]
+mass = 0.42
+physics_material_override = SubResource("PhysicsMaterial_loose_rock")
+script = ExtResource("1_script")
+prop_name = "Loose Rock"
+prop_preset = "Medium"
+prop_mass = 0.42
+bounce = 0.1
+friction = 0.82
+prop_linear_damp = 0.95
+prop_angular_damp = 1.25
+nudge_impulse = 0.22
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.15, 0, 0, 0, 0.65, 0, 0, 0, 0.9, 0, 0, 0)
+mesh = SubResource("SphereMesh_loose_rock")
+surface_material_override/0 = SubResource("StandardMaterial3D_loose_rock")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.15, 0, 0, 0, 0.65, 0, 0, 0, 0.9, 0, 0, 0)
+shape = SubResource("SphereShape3D_loose_rock")

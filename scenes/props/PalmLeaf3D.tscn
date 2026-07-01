@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_palm_leaf"]
+friction = 0.64
+bounce = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_palm_leaf"]
+albedo_color = Color(0.38, 0.44, 0.16, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_palm_leaf"]
+size = Vector3(0.22, 0.035, 1.55)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_palm_leaf"]
+size = Vector3(0.22, 0.04, 1.55)
+
+[node name="PalmLeaf3D" type="RigidBody3D"]
+mass = 0.14
+physics_material_override = SubResource("PhysicsMaterial_palm_leaf")
+script = ExtResource("1_script")
+prop_name = "Palm Leaf"
+prop_preset = "Light"
+prop_mass = 0.14
+bounce = 0.08
+friction = 0.64
+prop_linear_damp = 0.7
+prop_angular_damp = 0.95
+nudge_impulse = 0.34
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_palm_leaf")
+surface_material_override/0 = SubResource("StandardMaterial3D_palm_leaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_palm_leaf")

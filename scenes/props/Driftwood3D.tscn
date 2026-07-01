@@ -20,6 +20,7 @@ mass = 1.6
 physics_material_override = SubResource("PhysicsMaterial_driftwood")
 script = ExtResource("1_script")
 prop_name = "Driftwood"
+prop_preset = "Heavy"
 prop_mass = 1.6
 bounce = 0.18
 friction = 0.8

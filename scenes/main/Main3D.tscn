@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/island/Island3D.tscn" id="1_island"]
 [ext_resource type="PackedScene" path="res://scenes/player/FlipflopPlayer3D.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scripts/camera/camera_follow_3d.gd" id="3_camera"]
 [ext_resource type="Script" path="res://scripts/debug/flipflop_debug_panel.gd" id="4_debug"]
+[ext_resource type="Script" path="res://scripts/ambience/ambience_controller_3d.gd" id="5_ambience"]
+[ext_resource type="Script" path="res://scripts/simulator/existence_simulator_3d.gd" id="6_existence"]
+[ext_resource type="Script" path="res://scripts/ui/prototype_menu_3d.gd" id="7_menu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.23, 0.48, 0.78, 1)
@@ -25,6 +28,37 @@ ambient_light_energy = 0.75
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_main")
 
+[node name="AmbienceController" type="Node" parent="."]
+script = ExtResource("5_ambience")
+directional_light_path = NodePath("../DirectionalLight3D")
+world_environment_path = NodePath("../WorldEnvironment")
+ocean_loop_path = NodePath("Audio/OceanLoop")
+wind_loop_path = NodePath("Audio/WindLoop")
+slap_sound_path = NodePath("Audio/SlapSound")
+coconut_bump_path = NodePath("Audio/CoconutBump")
+shell_scatter_path = NodePath("Audio/ShellScatter")
+crab_skitter_path = NodePath("Audio/CrabSkitter")
+
+[node name="Audio" type="Node" parent="AmbienceController"]
+
+[node name="OceanLoop" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -12.0
+
+[node name="WindLoop" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -16.0
+
+[node name="SlapSound" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -6.0
+
+[node name="CoconutBump" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -8.0
+
+[node name="ShellScatter" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -10.0
+
+[node name="CrabSkitter" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
+volume_db = -14.0
+
 [node name="Island3D" parent="." instance=ExtResource("1_island")]
 
 [node name="FlipflopPlayer3D" parent="." instance=ExtResource("2_player")]
@@ -35,10 +69,14 @@ transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4.5, 7.
 current = true
 script = ExtResource("3_camera")
 target_path = NodePath("../FlipflopPlayer3D")
-camera_distance = 3.4
+default_zoom_distance = 3.4
+min_zoom_distance = 1.0
+max_zoom_distance = 7.0
 camera_height = 0.55
+look_at_height = 0.2
 min_pitch = -8.0
 max_pitch = 24.0
+ground_clearance = 0.2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 5, 0)
@@ -48,3 +86,12 @@ shadow_enabled = true
 [node name="FlipflopDebugPanel" type="CanvasLayer" parent="."]
 script = ExtResource("4_debug")
 player_path = NodePath("../FlipflopPlayer3D")
+
+[node name="ExistenceSimulator" type="CanvasLayer" parent="."]
+script = ExtResource("6_existence")
+
+[node name="PrototypeMenu" type="CanvasLayer" parent="."]
+script = ExtResource("7_menu")
+player_path = NodePath("../FlipflopPlayer3D")
+camera_path = NodePath("../Camera3D")
+ambience_path = NodePath("../AmbienceController")

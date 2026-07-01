@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=72 format=3]
 
 [ext_resource type="Script" path="res://scripts/island/island_scale_notes_3d.gd" id="1_notes"]
 [ext_resource type="Script" path="res://scripts/island/wave_push_zone_3d.gd" id="2_wave"]
@@ -8,6 +8,13 @@
 [ext_resource type="PackedScene" path="res://scenes/props/Shell3D.tscn" id="6_shell"]
 [ext_resource type="PackedScene" path="res://scenes/props/BeachBall3D.tscn" id="7_beach_ball"]
 [ext_resource type="PackedScene" path="res://scenes/props/Rock3D.tscn" id="8_rock"]
+[ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="9_simple_prop"]
+[ext_resource type="Script" path="res://scripts/ambience/water_ambience_3d.gd" id="10_water_ambience"]
+[ext_resource type="Script" path="res://scripts/ambience/wind_ambience_3d.gd" id="11_wind_ambience"]
+[ext_resource type="Script" path="res://scripts/ambience/wildlife_ambience_3d.gd" id="12_wildlife_ambience"]
+[ext_resource type="PackedScene" path="res://scenes/props/PalmLeaf3D.tscn" id="13_palm_leaf"]
+[ext_resource type="PackedScene" path="res://scenes/props/LooseRock3D.tscn" id="14_loose_rock"]
+[ext_resource type="PackedScene" path="res://scenes/props/SandCastleChunk3D.tscn" id="15_sand_chunk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sand"]
 albedo_color = Color(0.84, 0.68, 0.39, 1)
@@ -34,6 +41,37 @@ albedo_color = Color(0.34, 0.35, 0.34, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shell"]
 albedo_color = Color(0.9, 0.78, 0.58, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dry_leaf"]
+albedo_color = Color(0.46, 0.4, 0.18, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_seaweed"]
+albedo_color = Color(0.08, 0.22, 0.11, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tide_pool"]
+transparency = 1
+albedo_color = Color(0.08, 0.42, 0.5, 0.62)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dark_sand"]
+albedo_color = Color(0.22, 0.16, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bottle"]
+transparency = 1
+albedo_color = Color(0.35, 0.78, 0.67, 0.62)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bucket"]
+albedo_color = Color(0.88, 0.18, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_foam"]
+transparency = 1
+albedo_color = Color(0.86, 0.95, 0.9, 0.42)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_splash"]
+transparency = 1
+albedo_color = Color(0.72, 0.92, 1, 0.65)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bird"]
+albedo_color = Color(0.04, 0.05, 0.06, 1)
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_island"]
 top_radius = 45.0
 bottom_radius = 46.5
@@ -48,6 +86,12 @@ radius = 45.0
 top_radius = 49.0
 bottom_radius = 50.0
 height = 0.08
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_foam"]
+top_radius = 51.0
+bottom_radius = 51.2
+height = 0.025
 radial_segments = 64
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_water"]
@@ -99,6 +143,97 @@ height = 0.08
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_shell"]
 radius = 0.12
+
+[sub_resource type="BoxMesh" id="BoxMesh_palm_leaf"]
+size = Vector3(0.18, 0.035, 2.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_palm_leaf"]
+size = Vector3(0.18, 0.04, 2.1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_seaweed_patch"]
+top_radius = 0.8
+bottom_radius = 0.85
+height = 0.035
+radial_segments = 10
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tide_pool"]
+top_radius = 2.6
+bottom_radius = 2.8
+height = 0.035
+radial_segments = 32
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sand_mound"]
+top_radius = 0.65
+bottom_radius = 1.05
+height = 0.28
+radial_segments = 16
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_sand_mound"]
+height = 0.28
+radius = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_sign_post"]
+size = Vector3(0.16, 1.25, 0.16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sign_post"]
+size = Vector3(0.16, 1.25, 0.16)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sign_board"]
+size = Vector3(1.15, 0.36, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sign_board"]
+size = Vector3(1.15, 0.36, 0.12)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bottle"]
+top_radius = 0.09
+bottom_radius = 0.14
+height = 0.7
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bottle"]
+height = 0.7
+radius = 0.14
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bucket"]
+top_radius = 0.28
+bottom_radius = 0.2
+height = 0.38
+radial_segments = 16
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bucket"]
+height = 0.38
+radius = 0.28
+
+[sub_resource type="BoxMesh" id="BoxMesh_shovel"]
+size = Vector3(0.12, 0.08, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_shovel"]
+size = Vector3(0.12, 0.08, 0.9)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sandcastle"]
+top_radius = 0.32
+bottom_radius = 0.45
+height = 0.45
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_sandcastle"]
+height = 0.45
+radius = 0.45
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_burrow"]
+top_radius = 0.22
+bottom_radius = 0.25
+height = 0.025
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fish_splash"]
+top_radius = 0.12
+bottom_radius = 0.28
+height = 0.035
+radial_segments = 12
+
+[sub_resource type="BoxMesh" id="BoxMesh_bird"]
+size = Vector3(0.35, 0.035, 0.08)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wave"]
 height = 3.0
@@ -178,6 +313,14 @@ surface_material_override/0 = SubResource("StandardMaterial3D_grass")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
 mesh = SubResource("PlaneMesh_water")
 surface_material_override/0 = SubResource("StandardMaterial3D_water")
+script = ExtResource("10_water_ambience")
+wave_speed = 0.42
+bob_amplitude = 0.025
+
+[node name="ShoreFoamPlaceholder" type="MeshInstance3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.72, 0, -0.085, 0)
+mesh = SubResource("CylinderMesh_foam")
+surface_material_override/0 = SubResource("StandardMaterial3D_foam")
 
 [node name="OceanFloor" type="StaticBody3D" parent="Water"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.42, 0)
@@ -194,156 +337,547 @@ drift_direction = Vector3(0.65, 0, 0.25)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Water/WavePushZone"]
 shape = SubResource("CylinderShape3D_wave")
 
-[node name="StaticProps" type="Node3D" parent="."]
+[node name="WindAmbience" type="Node3D" parent="."]
+script = ExtResource("11_wind_ambience")
+wind_speed = 0.62
+leaf_sway_degrees = 1.6
+grass_sway_degrees = 0.9
 
-[node name="PalmNorthWest" type="Node3D" parent="StaticProps"]
+[node name="Trees" type="Node3D" parent="."]
+
+[node name="PalmNorthWest" type="Node3D" parent="Trees"]
 transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, -34, 0, -16)
 
-[node name="Trunk" type="StaticBody3D" parent="StaticProps/PalmNorthWest"]
+[node name="Trunk" type="StaticBody3D" parent="Trees/PalmNorthWest"]
 transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 4.45, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="StaticProps/PalmNorthWest/Trunk"]
+[node name="Mesh" type="MeshInstance3D" parent="Trees/PalmNorthWest/Trunk"]
 mesh = SubResource("CylinderMesh_trunk")
 surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/PalmNorthWest/Trunk"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PalmNorthWest/Trunk"]
 shape = SubResource("CylinderShape3D_trunk")
 
-[node name="Leaves" type="MeshInstance3D" parent="StaticProps/PalmNorthWest"]
+[node name="Leaves" type="MeshInstance3D" parent="Trees/PalmNorthWest"]
 transform = Transform3D(1.45, 0, 0, 0, 0.5, 0, 0, 0, 1.05, 0.5, 9.1, -0.8)
 mesh = SubResource("SphereMesh_leaves")
 surface_material_override/0 = SubResource("StandardMaterial3D_leaves")
 
-[node name="PalmEast" type="Node3D" parent="StaticProps"]
+[node name="PalmEast" type="Node3D" parent="Trees"]
 transform = Transform3D(0.819648, 0, -0.572867, 0, 1, 0, 0.572867, 0, 0.819648, 33, 0, 3)
 
-[node name="Trunk" type="StaticBody3D" parent="StaticProps/PalmEast"]
+[node name="Trunk" type="StaticBody3D" parent="Trees/PalmEast"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 4.35, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="StaticProps/PalmEast/Trunk"]
+[node name="Mesh" type="MeshInstance3D" parent="Trees/PalmEast/Trunk"]
 mesh = SubResource("CylinderMesh_trunk")
 surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/PalmEast/Trunk"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PalmEast/Trunk"]
 shape = SubResource("CylinderShape3D_trunk")
 
-[node name="Leaves" type="MeshInstance3D" parent="StaticProps/PalmEast"]
+[node name="Leaves" type="MeshInstance3D" parent="Trees/PalmEast"]
 transform = Transform3D(1.3, 0, 0, 0, 0.48, 0, 0, 0, 1.0, -0.4, 8.9, 0.5)
 mesh = SubResource("SphereMesh_leaves")
 surface_material_override/0 = SubResource("StandardMaterial3D_leaves")
 
-[node name="PalmSouth" type="Node3D" parent="StaticProps"]
+[node name="PalmSouth" type="Node3D" parent="Trees"]
 transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, -11, 0, 24)
 
-[node name="Trunk" type="StaticBody3D" parent="StaticProps/PalmSouth"]
+[node name="Trunk" type="StaticBody3D" parent="Trees/PalmSouth"]
 transform = Transform3D(0.82, 0, 0, 0, 0.86, 0, 0, 0, 0.82, 0, 3.7, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="StaticProps/PalmSouth/Trunk"]
+[node name="Mesh" type="MeshInstance3D" parent="Trees/PalmSouth/Trunk"]
 mesh = SubResource("CylinderMesh_trunk")
 surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/PalmSouth/Trunk"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PalmSouth/Trunk"]
 shape = SubResource("CylinderShape3D_trunk")
 
-[node name="Leaves" type="MeshInstance3D" parent="StaticProps/PalmSouth"]
+[node name="Leaves" type="MeshInstance3D" parent="Trees/PalmSouth"]
 transform = Transform3D(1.15, 0, 0, 0, 0.42, 0, 0, 0, 0.9, 0, 7.6, 0)
 mesh = SubResource("SphereMesh_leaves")
 surface_material_override/0 = SubResource("StandardMaterial3D_leaves")
 
-[node name="BoulderNorth" type="StaticBody3D" parent="StaticProps"]
+[node name="PalmNorthShore" type="Node3D" parent="Trees"]
+transform = Transform3D(0.573576, 0, -0.819152, 0, 1, 0, 0.819152, 0, 0.573576, 12, 0, -27)
+
+[node name="Trunk" type="StaticBody3D" parent="Trees/PalmNorthShore"]
+transform = Transform3D(0.95, 0, 0, 0, 1.08, -0.190809, 0, 0.190809, 1.08, 0, 4.9, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Trees/PalmNorthShore/Trunk"]
+mesh = SubResource("CylinderMesh_trunk")
+surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PalmNorthShore/Trunk"]
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Leaves" type="MeshInstance3D" parent="Trees/PalmNorthShore"]
+transform = Transform3D(1.5, 0, 0, 0, 0.55, 0, 0, 0, 1.12, -0.6, 9.9, 0.4)
+mesh = SubResource("SphereMesh_leaves")
+surface_material_override/0 = SubResource("StandardMaterial3D_leaves")
+
+[node name="PalmSouthEastTall" type="Node3D" parent="Trees"]
+transform = Transform3D(0.422618, 0, 0.906308, 0, 1, 0, -0.906308, 0, 0.422618, 26, 0, 24)
+
+[node name="Trunk" type="StaticBody3D" parent="Trees/PalmSouthEastTall"]
+transform = Transform3D(1.05, 0, 0, 0, 1.18, 0.121878, 0, -0.121878, 1.18, 0, 5.3, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Trees/PalmSouthEastTall/Trunk"]
+mesh = SubResource("CylinderMesh_trunk")
+surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PalmSouthEastTall/Trunk"]
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Leaves" type="MeshInstance3D" parent="Trees/PalmSouthEastTall"]
+transform = Transform3D(1.65, 0, 0, 0, 0.58, 0, 0, 0, 1.18, 0.2, 10.8, -0.4)
+mesh = SubResource("SphereMesh_leaves")
+surface_material_override/0 = SubResource("StandardMaterial3D_leaves")
+
+[node name="PalmSproutClusterA" type="Node3D" parent="Trees"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -36, 0, -7)
+
+[node name="SproutTrunk" type="StaticBody3D" parent="Trees/PalmSproutClusterA"]
+transform = Transform3D(0.24, 0, 0, 0, 0.22, 0, 0, 0, 0.24, 0, 0.9, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Trees/PalmSproutClusterA/SproutTrunk"]
+mesh = SubResource("CylinderMesh_trunk")
+surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PalmSproutClusterA/SproutTrunk"]
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="SproutLeaves" type="MeshInstance3D" parent="Trees/PalmSproutClusterA"]
+transform = Transform3D(0.45, 0, 0, 0, 0.18, 0, 0, 0, 0.36, 0, 1.9, 0)
+mesh = SubResource("SphereMesh_leaves")
+surface_material_override/0 = SubResource("StandardMaterial3D_leaves")
+
+[node name="PalmSproutClusterB" type="Node3D" parent="Trees"]
+transform = Transform3D(0.342898, 0, 0.939373, 0, 1, 0, -0.939373, 0, 0.342898, 30, 0, -16)
+
+[node name="SproutTrunk" type="StaticBody3D" parent="Trees/PalmSproutClusterB"]
+transform = Transform3D(0.2, 0, 0, 0, 0.18, 0, 0, 0, 0.2, 0, 0.72, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Trees/PalmSproutClusterB/SproutTrunk"]
+mesh = SubResource("CylinderMesh_trunk")
+surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PalmSproutClusterB/SproutTrunk"]
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="SproutLeaves" type="MeshInstance3D" parent="Trees/PalmSproutClusterB"]
+transform = Transform3D(0.38, 0, 0, 0, 0.16, 0, 0, 0, 0.32, 0, 1.55, 0)
+mesh = SubResource("SphereMesh_leaves")
+surface_material_override/0 = SubResource("StandardMaterial3D_leaves")
+
+[node name="StaticBeachProps" type="Node3D" parent="."]
+
+[node name="BoulderNorth" type="StaticBody3D" parent="StaticBeachProps"]
 transform = Transform3D(2.2, 0, 0, 0, 1.2, 0, 0, 0, 1.45, -18, 0.62, -22)
 
-[node name="Mesh" type="MeshInstance3D" parent="StaticProps/BoulderNorth"]
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/BoulderNorth"]
 mesh = SubResource("SphereMesh_rock")
 surface_material_override/0 = SubResource("StandardMaterial3D_rock")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/BoulderNorth"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/BoulderNorth"]
 shape = SubResource("SphereShape3D_rock")
 
-[node name="BoulderEast" type="StaticBody3D" parent="StaticProps"]
+[node name="BoulderEast" type="StaticBody3D" parent="StaticBeachProps"]
 transform = Transform3D(1.8, 0, 0, 0, 1.0, 0, 0, 0, 1.25, 24, 0.52, 15)
 
-[node name="Mesh" type="MeshInstance3D" parent="StaticProps/BoulderEast"]
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/BoulderEast"]
 mesh = SubResource("SphereMesh_rock")
 surface_material_override/0 = SubResource("StandardMaterial3D_rock")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/BoulderEast"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/BoulderEast"]
 shape = SubResource("SphereShape3D_rock")
 
-[node name="SmallRockWestA" parent="StaticProps" instance=ExtResource("8_rock")]
+[node name="SmallRockWestA" parent="StaticBeachProps" instance=ExtResource("8_rock")]
 transform = Transform3D(0.8, 0, 0, 0, 0.55, 0, 0, 0, 0.65, -29, 0.25, 6)
 
-[node name="SmallRockWestB" parent="StaticProps" instance=ExtResource("8_rock")]
+[node name="SmallRockWestB" parent="StaticBeachProps" instance=ExtResource("8_rock")]
 transform = Transform3D(0.55, 0, 0, 0, 0.36, 0, 0, 0, 0.46, -25, 0.18, 10)
 
-[node name="SmallRockSouthA" parent="StaticProps" instance=ExtResource("8_rock")]
+[node name="SmallRockSouthA" parent="StaticBeachProps" instance=ExtResource("8_rock")]
 transform = Transform3D(0.72, 0, 0, 0, 0.48, 0, 0, 0, 0.54, 9, 0.22, 24)
 
-[node name="SmallRockEastA" parent="StaticProps" instance=ExtResource("8_rock")]
+[node name="SmallRockEastA" parent="StaticBeachProps" instance=ExtResource("8_rock")]
 transform = Transform3D(0.65, 0, 0, 0, 0.42, 0, 0, 0, 0.58, 31, 0.2, -9)
 
-[node name="ShellMarkerA" type="StaticBody3D" parent="StaticProps"]
+[node name="ShellMarkerA" type="StaticBody3D" parent="StaticBeachProps"]
 transform = Transform3D(1.0, 0, 0, 0, 0.22, 0, 0, 0, 0.7, 17, 0.06, -21)
 
-[node name="Mesh" type="MeshInstance3D" parent="StaticProps/ShellMarkerA"]
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/ShellMarkerA"]
 mesh = SubResource("SphereMesh_shell")
 surface_material_override/0 = SubResource("StandardMaterial3D_shell")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/ShellMarkerA"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/ShellMarkerA"]
 shape = SubResource("SphereShape3D_shell")
 
-[node name="PhysicsProps" type="Node3D" parent="."]
+[node name="RockClusterNorthA" parent="StaticBeachProps" instance=ExtResource("8_rock")]
+transform = Transform3D(1.05, 0, 0, 0, 0.72, 0, 0, 0, 0.9, 5, 0.28, -29)
 
-[node name="CoconutPalmNW_A" parent="PhysicsProps" instance=ExtResource("3_coconut")]
+[node name="RockClusterNorthB" parent="StaticBeachProps" instance=ExtResource("8_rock")]
+transform = Transform3D(0.62, 0, 0, 0, 0.42, 0, 0, 0, 0.55, 8, 0.2, -30.5)
+
+[node name="RockClusterEastA" parent="StaticBeachProps" instance=ExtResource("8_rock")]
+transform = Transform3D(1.25, 0, 0, 0, 0.82, 0, 0, 0, 0.95, 35, 0.34, 12)
+
+[node name="RockClusterSouthB" parent="StaticBeachProps" instance=ExtResource("8_rock")]
+transform = Transform3D(0.9, 0, 0, 0, 0.58, 0, 0, 0, 0.78, -4, 0.24, 29)
+
+[node name="FallenPalmLeafNW" type="StaticBody3D" parent="StaticBeachProps"]
+transform = Transform3D(0.422618, 0, 0.906308, 0, 1, 0, -0.906308, 0, 0.422618, -35.5, 0.08, -10.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/FallenPalmLeafNW"]
+mesh = SubResource("BoxMesh_palm_leaf")
+surface_material_override/0 = SubResource("StandardMaterial3D_dry_leaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/FallenPalmLeafNW"]
+shape = SubResource("BoxShape3D_palm_leaf")
+
+[node name="FallenPalmLeafEast" type="StaticBody3D" parent="StaticBeachProps"]
+transform = Transform3D(0.766044, 0, -0.642788, 0, 1, 0, 0.642788, 0, 0.766044, 29.5, 0.08, -12.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/FallenPalmLeafEast"]
+mesh = SubResource("BoxMesh_palm_leaf")
+surface_material_override/0 = SubResource("StandardMaterial3D_dry_leaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/FallenPalmLeafEast"]
+shape = SubResource("BoxShape3D_palm_leaf")
+
+[node name="FallenPalmLeafSouth" type="StaticBody3D" parent="StaticBeachProps"]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 20, 0.08, 22.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/FallenPalmLeafSouth"]
+mesh = SubResource("BoxMesh_palm_leaf")
+surface_material_override/0 = SubResource("StandardMaterial3D_dry_leaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/FallenPalmLeafSouth"]
+shape = SubResource("BoxShape3D_palm_leaf")
+
+[node name="BeachGrassPatchWest" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(0.52, 0, 0, 0, 1, 0, 0, 0, 0.34, -32, 0.31, 4)
+mesh = SubResource("CylinderMesh_grass")
+surface_material_override/0 = SubResource("StandardMaterial3D_grass")
+
+[node name="BeachGrassPatchSouthEast" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(0.42, 0, 0, 0, 1, 0, 0, 0, 0.28, 22, 0.31, 24)
+mesh = SubResource("CylinderMesh_grass")
+surface_material_override/0 = SubResource("StandardMaterial3D_grass")
+
+[node name="SeaweedPatchNorth" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 0.65, 20, 0.04, -27.5)
+mesh = SubResource("CylinderMesh_seaweed_patch")
+surface_material_override/0 = SubResource("StandardMaterial3D_seaweed")
+
+[node name="SeaweedPatchSouth" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(1.2, 0, 0, 0, 1, 0, 0, 0, 0.5, -23, 0.04, 25)
+mesh = SubResource("CylinderMesh_seaweed_patch")
+surface_material_override/0 = SubResource("StandardMaterial3D_seaweed")
+
+[node name="SeaweedPatchEast" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 1.3, 37, 0.04, -1)
+mesh = SubResource("CylinderMesh_seaweed_patch")
+surface_material_override/0 = SubResource("StandardMaterial3D_seaweed")
+
+[node name="TidePoolNorth" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(1.35, 0, 0, 0, 1, 0, 0, 0, 0.55, 18, 0.035, -25)
+mesh = SubResource("CylinderMesh_tide_pool")
+surface_material_override/0 = SubResource("StandardMaterial3D_tide_pool")
+
+[node name="TidePoolSouthWest" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 0.48, -25, 0.035, 22)
+mesh = SubResource("CylinderMesh_tide_pool")
+surface_material_override/0 = SubResource("StandardMaterial3D_tide_pool")
+
+[node name="SmallSandMoundWest" type="StaticBody3D" parent="StaticBeachProps"]
+transform = Transform3D(1.2, 0, 0, 0, 0.9, 0, 0, 0, 0.8, -18, 0.14, -13)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/SmallSandMoundWest"]
+mesh = SubResource("CylinderMesh_sand_mound")
+surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/SmallSandMoundWest"]
+shape = SubResource("CylinderShape3D_sand_mound")
+
+[node name="SmallSandMoundEast" type="StaticBody3D" parent="StaticBeachProps"]
+transform = Transform3D(0.9, 0, 0, 0, 0.75, 0, 0, 0, 0.65, 32, 0.12, 18)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticBeachProps/SmallSandMoundEast"]
+mesh = SubResource("CylinderMesh_sand_mound")
+surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBeachProps/SmallSandMoundEast"]
+shape = SubResource("CylinderShape3D_sand_mound")
+
+[node name="BrokenWoodenSign" type="StaticBody3D" parent="StaticBeachProps"]
+transform = Transform3D(0.866025, 0.0868241, 0.492404, 0, 0.984808, -0.173648, -0.5, 0.150384, 0.852869, -12, 0.55, -25)
+
+[node name="PostMesh" type="MeshInstance3D" parent="StaticBeachProps/BrokenWoodenSign"]
+mesh = SubResource("BoxMesh_sign_post")
+surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
+
+[node name="PostCollision" type="CollisionShape3D" parent="StaticBeachProps/BrokenWoodenSign"]
+shape = SubResource("BoxShape3D_sign_post")
+
+[node name="BoardMesh" type="MeshInstance3D" parent="StaticBeachProps/BrokenWoodenSign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.55, 0)
+mesh = SubResource("BoxMesh_sign_board")
+surface_material_override/0 = SubResource("StandardMaterial3D_trunk")
+
+[node name="BoardCollision" type="CollisionShape3D" parent="StaticBeachProps/BrokenWoodenSign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.55, 0)
+shape = SubResource("BoxShape3D_sign_board")
+
+[node name="RuinedTinySandCastle" type="Node3D" parent="StaticBeachProps"]
+transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 7.5, 0.22, 26)
+
+[node name="MainTower" type="MeshInstance3D" parent="StaticBeachProps/RuinedTinySandCastle"]
+mesh = SubResource("CylinderMesh_sandcastle")
+surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+
+[node name="CollapsedTowerA" type="MeshInstance3D" parent="StaticBeachProps/RuinedTinySandCastle"]
+transform = Transform3D(0.65, 0, 0, 0, 0.5, 0, 0, 0, 0.65, -0.52, -0.08, 0.25)
+mesh = SubResource("CylinderMesh_sandcastle")
+surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+
+[node name="CollapsedTowerB" type="MeshInstance3D" parent="StaticBeachProps/RuinedTinySandCastle"]
+transform = Transform3D(0.55, 0, 0, 0, 0.45, 0, 0, 0, 0.55, 0.5, -0.1, -0.18)
+mesh = SubResource("CylinderMesh_sandcastle")
+surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+
+[node name="CrabBurrowNorth" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(1.6, 0, 0, 0, 1, 0, 0, 0, 0.8, -29, 0.035, 15.5)
+mesh = SubResource("CylinderMesh_burrow")
+surface_material_override/0 = SubResource("StandardMaterial3D_dark_sand")
+
+[node name="CrabBurrowEast" type="MeshInstance3D" parent="StaticBeachProps"]
+transform = Transform3D(1.1, 0, 0, 0, 1, 0, 0, 0, 0.65, 29, 0.035, 20)
+mesh = SubResource("CylinderMesh_burrow")
+surface_material_override/0 = SubResource("StandardMaterial3D_dark_sand")
+
+[node name="PhysicsBeachProps" type="Node3D" parent="."]
+
+[node name="CoconutPalmNW_A" parent="PhysicsBeachProps" instance=ExtResource("3_coconut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 0.22, -14)
 
-[node name="CoconutPalmNW_B" parent="PhysicsProps" instance=ExtResource("3_coconut")]
+[node name="CoconutPalmNW_B" parent="PhysicsBeachProps" instance=ExtResource("3_coconut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0.22, -12)
 
-[node name="CoconutEastA" parent="PhysicsProps" instance=ExtResource("3_coconut")]
+[node name="CoconutEastA" parent="PhysicsBeachProps" instance=ExtResource("3_coconut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.22, 6)
 
-[node name="CoconutSouthA" parent="PhysicsProps" instance=ExtResource("3_coconut")]
+[node name="CoconutSouthA" parent="PhysicsBeachProps" instance=ExtResource("3_coconut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.22, 22)
 
-[node name="DriftwoodWest" parent="PhysicsProps" instance=ExtResource("4_driftwood")]
+[node name="DriftwoodWest" parent="PhysicsBeachProps" instance=ExtResource("4_driftwood")]
 transform = Transform3D(0.819648, 0, 0.572867, 0, 1, 0, -0.572867, 0, 0.819648, -22, 0.19, 3)
 
-[node name="DriftwoodNorth" parent="PhysicsProps" instance=ExtResource("4_driftwood")]
+[node name="DriftwoodNorth" parent="PhysicsBeachProps" instance=ExtResource("4_driftwood")]
 transform = Transform3D(0.173648, 0, -0.984808, 0, 1, 0, 0.984808, 0, 0.173648, 9, 0.19, -24)
 
-[node name="LightStickSouth" parent="PhysicsProps" instance=ExtResource("4_driftwood")]
+[node name="LightStickSouth" parent="PhysicsBeachProps" instance=ExtResource("4_driftwood")]
 transform = Transform3D(0.38, 0, 0.22, 0, 0.58, 0, -0.22, 0, 0.38, 15, 0.16, 17)
 prop_mass = 0.65
 prop_linear_damp = 0.95
 prop_angular_damp = 1.35
 nudge_impulse = 0.2
 
-[node name="ShellScatterNorthA" parent="PhysicsProps" instance=ExtResource("6_shell")]
+[node name="ShellScatterNorthA" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 16, 0.08, -20)
 
-[node name="ShellScatterNorthB" parent="PhysicsProps" instance=ExtResource("6_shell")]
+[node name="ShellScatterNorthB" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 16.7, 0.08, -19.2)
 
-[node name="ShellScatterNorthC" parent="PhysicsProps" instance=ExtResource("6_shell")]
+[node name="ShellScatterNorthC" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
 transform = Transform3D(0.342898, 0, -0.939373, 0, 1, 0, 0.939373, 0, 0.342898, 15.3, 0.08, -18.8)
 
-[node name="ShellScatterSouthA" parent="PhysicsProps" instance=ExtResource("6_shell")]
+[node name="ShellScatterSouthA" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -16, 0.08, 18)
 
-[node name="ShellScatterSouthB" parent="PhysicsProps" instance=ExtResource("6_shell")]
+[node name="ShellScatterSouthB" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
 transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -15.1, 0.08, 18.7)
 
-[node name="BeachBallWest" parent="PhysicsProps" instance=ExtResource("7_beach_ball")]
+[node name="BeachBallWest" parent="PhysicsBeachProps" instance=ExtResource("7_beach_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.42, -3)
 
-[node name="BeachBallEast" parent="PhysicsProps" instance=ExtResource("7_beach_ball")]
+[node name="BeachBallEast" parent="PhysicsBeachProps" instance=ExtResource("7_beach_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0.42, -8)
 
-[node name="CrabShoreA" parent="PhysicsProps" instance=ExtResource("5_crab")]
+[node name="CoconutNorthShoreA" parent="PhysicsBeachProps" instance=ExtResource("3_coconut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8, 0.22, -24.6)
+
+[node name="CoconutNorthShoreB" parent="PhysicsBeachProps" instance=ExtResource("3_coconut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7, 0.22, -25.9)
+
+[node name="CoconutSouthEastA" parent="PhysicsBeachProps" instance=ExtResource("3_coconut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2, 0.22, 22.3)
+
+[node name="DriftwoodTidePoolA" parent="PhysicsBeachProps" instance=ExtResource("4_driftwood")]
+transform = Transform3D(0.422618, 0, -0.906308, 0, 1, 0, 0.906308, 0, 0.422618, 21, 0.19, -21.5)
+prop_mass = 1.8
+prop_linear_damp = 0.9
+prop_angular_damp = 1.2
+nudge_impulse = 0.55
+
+[node name="LightStickTidePoolB" parent="PhysicsBeachProps" instance=ExtResource("4_driftwood")]
+transform = Transform3D(0.28, 0, -0.46, 0, 0.52, 0, 0.46, 0, 0.28, -20.5, 0.16, 21)
+prop_mass = 0.55
+prop_linear_damp = 1.0
+prop_angular_damp = 1.4
+nudge_impulse = 0.22
+
+[node name="ShellScatterTideA" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
+transform = Transform3D(0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, 20.5, 0.08, -23.2)
+
+[node name="ShellScatterTideB" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
+transform = Transform3D(0.342898, 0, -0.939373, 0, 1, 0, 0.939373, 0, 0.342898, 22.2, 0.08, -22.1)
+
+[node name="ShellScatterTideC" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
+transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, 18.8, 0.08, -21.4)
+
+[node name="ShellScatterWestA" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
+transform = Transform3D(0.766044, 0, -0.642788, 0, 1, 0, 0.642788, 0, 0.766044, -28, 0.08, 17.2)
+
+[node name="ShellScatterWestB" parent="PhysicsBeachProps" instance=ExtResource("6_shell")]
+transform = Transform3D(0.173648, 0, 0.984808, 0, 1, 0, -0.984808, 0, 0.173648, -26.6, 0.08, 18.5)
+
+[node name="StrandedBottle" type="RigidBody3D" parent="PhysicsBeachProps"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -30, 0.18, 22)
+script = ExtResource("9_simple_prop")
+prop_name = "Stranded Bottle"
+prop_preset = "Light"
+prop_mass = 0.45
+bounce = 0.18
+friction = 0.45
+prop_linear_damp = 0.75
+prop_angular_damp = 1.0
+nudge_impulse = 0.3
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsBeachProps/StrandedBottle"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsBeachProps/StrandedBottle"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="BucketPlaceholder" type="RigidBody3D" parent="PhysicsBeachProps"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 6, 0.22, 24.2)
+script = ExtResource("9_simple_prop")
+prop_name = "Beach Bucket"
+prop_preset = "Medium"
+prop_mass = 0.7
+bounce = 0.12
+friction = 0.75
+prop_linear_damp = 0.9
+prop_angular_damp = 1.15
+nudge_impulse = 0.35
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsBeachProps/BucketPlaceholder"]
+mesh = SubResource("CylinderMesh_bucket")
+surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsBeachProps/BucketPlaceholder"]
+shape = SubResource("CylinderShape3D_bucket")
+
+[node name="ShovelPlaceholder" type="RigidBody3D" parent="PhysicsBeachProps"]
+transform = Transform3D(0.342898, 0, -0.939373, 0, 1, 0, 0.939373, 0, 0.342898, 7, 0.12, 24.9)
+script = ExtResource("9_simple_prop")
+prop_name = "Toy Shovel"
+prop_preset = "Light"
+prop_mass = 0.35
+bounce = 0.08
+friction = 0.65
+prop_linear_damp = 0.9
+prop_angular_damp = 1.25
+nudge_impulse = 0.25
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsBeachProps/ShovelPlaceholder"]
+mesh = SubResource("BoxMesh_shovel")
+surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsBeachProps/ShovelPlaceholder"]
+shape = SubResource("BoxShape3D_shovel")
+
+[node name="LoosePalmLeafNW_A" parent="PhysicsBeachProps" instance=ExtResource("13_palm_leaf")]
+transform = Transform3D(0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, -32, 0.08, -10.2)
+
+[node name="LoosePalmLeafNW_B" parent="PhysicsBeachProps" instance=ExtResource("13_palm_leaf")]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -35, 0.08, -13)
+
+[node name="LoosePalmLeafEast_A" parent="PhysicsBeachProps" instance=ExtResource("13_palm_leaf")]
+transform = Transform3D(0.766044, 0, -0.642788, 0, 1, 0, 0.642788, 0, 0.766044, 30.5, 0.08, -11)
+
+[node name="LoosePalmLeafSouth_A" parent="PhysicsBeachProps" instance=ExtResource("13_palm_leaf")]
+transform = Transform3D(0.342898, 0, 0.939373, 0, 1, 0, -0.939373, 0, 0.342898, 17.5, 0.08, 22.2)
+
+[node name="LooseRockNorthA" parent="PhysicsBeachProps" instance=ExtResource("14_loose_rock")]
+transform = Transform3D(0.9, 0, 0, 0, 0.7, 0, 0, 0, 0.8, 7.8, 0.16, -27.4)
+
+[node name="LooseRockNorthB" parent="PhysicsBeachProps" instance=ExtResource("14_loose_rock")]
+transform = Transform3D(0.65, 0, 0, 0, 0.55, 0, 0, 0, 0.75, 10.2, 0.14, -28.2)
+
+[node name="LooseRockEastA" parent="PhysicsBeachProps" instance=ExtResource("14_loose_rock")]
+transform = Transform3D(1.0, 0, 0, 0, 0.7, 0, 0, 0, 0.85, 33.8, 0.17, 13.8)
+
+[node name="LooseRockSouthA" parent="PhysicsBeachProps" instance=ExtResource("14_loose_rock")]
+transform = Transform3D(0.82, 0, 0, 0, 0.62, 0, 0, 0, 0.78, -2.2, 0.15, 27.5)
+
+[node name="SandCastleChunkMain" parent="PhysicsBeachProps" instance=ExtResource("15_sand_chunk")]
+transform = Transform3D(1.2, 0, 0, 0, 1.15, 0, 0, 0, 1.2, 7.4, 0.28, 26.1)
+
+[node name="SandCastleChunkLeft" parent="PhysicsBeachProps" instance=ExtResource("15_sand_chunk")]
+transform = Transform3D(0.8, 0, 0.2, 0, 0.75, 0, -0.2, 0, 0.8, 6.9, 0.18, 26.45)
+
+[node name="SandCastleChunkRight" parent="PhysicsBeachProps" instance=ExtResource("15_sand_chunk")]
+transform = Transform3D(0.72, 0, -0.22, 0, 0.65, 0, 0.22, 0, 0.72, 8.0, 0.16, 25.8)
+
+[node name="SandCastleChunkBack" parent="PhysicsBeachProps" instance=ExtResource("15_sand_chunk")]
+transform = Transform3D(0.62, 0, 0.12, 0, 0.58, 0, -0.12, 0, 0.62, 7.55, 0.14, 25.45)
+
+[node name="Wildlife" type="Node3D" parent="."]
+script = ExtResource("12_wildlife_ambience")
+crab_wander_force = 0.018
+crab_turn_interval = 4.5
+bird_flight_speed = 0.42
+fish_splash_interval = 8.5
+
+[node name="DistantBirdA" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -46, 12, -42)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_bird")
+
+[node name="DistantBirdB" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -55, 14, 35)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_bird")
+
+[node name="DistantBirdC" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -38, 10.5, 48)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_bird")
+
+[node name="FishSplashNorth" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, -0.06, -35)
+mesh = SubResource("CylinderMesh_fish_splash")
+surface_material_override/0 = SubResource("StandardMaterial3D_splash")
+
+[node name="FishSplashEast" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, -0.06, 10)
+mesh = SubResource("CylinderMesh_fish_splash")
+surface_material_override/0 = SubResource("StandardMaterial3D_splash")
+
+[node name="FishSplashSouth" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, -0.06, 39)
+mesh = SubResource("CylinderMesh_fish_splash")
+surface_material_override/0 = SubResource("StandardMaterial3D_splash")
+
+[node name="CrabShoreA" parent="Wildlife" instance=ExtResource("5_crab")]
 transform = Transform3D(0.906308, 0, -0.422618, 0, 1, 0, 0.422618, 0, 0.906308, -30, 0.12, 14)
 
-[node name="CrabShoreB" parent="PhysicsProps" instance=ExtResource("5_crab")]
+[node name="CrabShoreB" parent="Wildlife" instance=ExtResource("5_crab")]
 transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 27, 0.12, 22)
 
 [node name="Boundaries" type="StaticBody3D" parent="."]
