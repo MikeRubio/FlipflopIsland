@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/island/Island3D.tscn" id="1_island"]
+[ext_resource type="Script" path="res://scripts/scenery/scenery_manager_3d.gd" id="1_scenery_manager"]
 [ext_resource type="PackedScene" path="res://scenes/player/FlipflopPlayer3D.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scripts/camera/camera_follow_3d.gd" id="3_camera"]
 [ext_resource type="Script" path="res://scripts/debug/flipflop_debug_panel.gd" id="4_debug"]
@@ -59,7 +59,7 @@ volume_db = -10.0
 [node name="CrabSkitter" type="AudioStreamPlayer" parent="AmbienceController/Audio"]
 volume_db = -14.0
 
-[node name="Island3D" parent="." instance=ExtResource("1_island")]
+[node name="SceneryRoot" type="Node3D" parent="."]
 
 [node name="FlipflopPlayer3D" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
@@ -82,6 +82,12 @@ ground_clearance = 0.2
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 5, 0)
 light_energy = 2.0
 shadow_enabled = true
+
+[node name="SceneryManager" type="Node" parent="."]
+script = ExtResource("1_scenery_manager")
+scenery_root_path = NodePath("../SceneryRoot")
+player_path = NodePath("../FlipflopPlayer3D")
+ambience_path = NodePath("../AmbienceController")
 
 [node name="FlipflopDebugPanel" type="CanvasLayer" parent="."]
 script = ExtResource("4_debug")

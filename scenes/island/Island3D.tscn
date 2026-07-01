@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3]
+[gd_scene load_steps=73 format=3]
 
 [ext_resource type="Script" path="res://scripts/island/island_scale_notes_3d.gd" id="1_notes"]
 [ext_resource type="Script" path="res://scripts/island/wave_push_zone_3d.gd" id="2_wave"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" path="res://scenes/props/PalmLeaf3D.tscn" id="13_palm_leaf"]
 [ext_resource type="PackedScene" path="res://scenes/props/LooseRock3D.tscn" id="14_loose_rock"]
 [ext_resource type="PackedScene" path="res://scenes/props/SandCastleChunk3D.tscn" id="15_sand_chunk"]
+[ext_resource type="Script" path="res://scripts/scenery/scenery_settings_3d.gd" id="16_scenery_settings"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sand"]
 albedo_color = Color(0.84, 0.68, 0.39, 1)
@@ -242,7 +243,7 @@ radius = 67.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
 size = Vector3(150, 7, 0.8)
 
-[node name="Island3D" type="Node3D"]
+[node name="IslandScenery3D" type="Node3D"]
 script = ExtResource("1_notes")
 island_radius = 45.0
 beach_size = Vector2(90, 65)
@@ -911,3 +912,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.1, 5)
 
 [node name="EastObstacleZone" type="Marker3D" parent="SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.1, 8)
+
+[node name="ScenerySettings" type="Node" parent="."]
+script = ExtResource("16_scenery_settings")
+scenery_id = "deserted_island"
+display_name = "Deserted Island"
+player_spawn_path = NodePath("../SpawnPoints/PlayerStart")
+prop_reset_root_path = NodePath("../PhysicsBeachProps")
+safe_ground_y = 0.0
+safe_ground_clearance = 0.18
+fall_reset_height = -8.0
+ambience_zone = "open island"
+time_of_day = 0.42
+cycle_speed = 0.006
+surface_name = "sand"
+surface_friction_hint = 0.55

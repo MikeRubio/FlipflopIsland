@@ -98,6 +98,7 @@ extends RigidBody3D
 
 # Reset tuning.
 @export var reset_position: Vector3 = Vector3(0.0, 0.35, 0.0)
+@export var reset_rotation_degrees: Vector3 = Vector3.ZERO
 @export var fall_reset_height: float = -8.0
 
 # The main sand surface is near Y=0. If the flipflop body gets below this by
@@ -1109,11 +1110,32 @@ func trigger_camera_bump(amount: float = 0.08) -> void:
 		camera.call("bump", amount)
 
 
+func set_scenery_spawn(
+	spawn_transform: Transform3D,
+	scenery_safe_ground_y: float,
+	scenery_safe_ground_clearance: float,
+	scenery_fall_reset_height: float
+) -> void:
+	# Called by SceneryManager when a new playable area loads. The player keeps
+	# its movement tuning, but R reset now returns to the current scenery spawn.
+	reset_position = spawn_transform.origin
+
+	var spawn_euler: Vector3 = spawn_transform.basis.get_euler()
+	reset_rotation_degrees = Vector3(
+		rad_to_deg(spawn_euler.x),
+		rad_to_deg(spawn_euler.y),
+		rad_to_deg(spawn_euler.z)
+	)
+	safe_ground_y = scenery_safe_ground_y
+	safe_ground_clearance = scenery_safe_ground_clearance
+	fall_reset_height = scenery_fall_reset_height
+
+
 func reset_flipflop() -> void:
 	var safe_reset_position := reset_position
 	safe_reset_position.y = maxf(safe_reset_position.y, safe_ground_y + safe_ground_clearance)
 	global_position = safe_reset_position
-	global_rotation = Vector3.ZERO
+	global_rotation_degrees = reset_rotation_degrees
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
 	_hop_buffer_timer = 0.0

@@ -185,6 +185,9 @@ func _build_help_overlay() -> Control:
 		"Escape: pause",
 		"F1: debug panel",
 		"F2: movement preset",
+		"1: deserted island scenery",
+		"2: resort pool scenery",
+		"3: boardwalk reserved",
 		"H: toggle this help",
 		"P: photo mode",
 		"C: flipflop color",
@@ -317,11 +320,21 @@ func _on_quit_pressed() -> void:
 
 
 func reset_flipflop() -> void:
+	var scenery_manager: Node = get_tree().get_first_node_in_group("scenery_manager")
+	if scenery_manager != null and scenery_manager.has_method("reset_player_to_current_spawn"):
+		scenery_manager.call("reset_player_to_current_spawn")
+		return
+
 	if _player != null and _player.has_method("reset_flipflop"):
 		_player.call("reset_flipflop")
 
 
 func reset_all_props() -> void:
+	var scenery_manager: Node = get_tree().get_first_node_in_group("scenery_manager")
+	if scenery_manager != null and scenery_manager.has_method("reset_current_scenery_props"):
+		scenery_manager.call("reset_current_scenery_props")
+		return
+
 	for prop in get_tree().get_nodes_in_group("resettable_prop"):
 		if prop.has_method("reset_prop"):
 			prop.call("reset_prop")
