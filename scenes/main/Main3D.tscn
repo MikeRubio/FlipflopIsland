@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/scenery/scenery_manager_3d.gd" id="1_scenery_manager"]
 [ext_resource type="PackedScene" path="res://scenes/player/FlipflopPlayer3D.tscn" id="2_player"]
@@ -6,7 +6,8 @@
 [ext_resource type="Script" path="res://scripts/debug/flipflop_debug_panel.gd" id="4_debug"]
 [ext_resource type="Script" path="res://scripts/ambience/ambience_controller_3d.gd" id="5_ambience"]
 [ext_resource type="Script" path="res://scripts/simulator/existence_simulator_3d.gd" id="6_existence"]
-[ext_resource type="Script" path="res://scripts/ui/prototype_menu_3d.gd" id="7_menu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="7_pause_menu"]
+[ext_resource type="Script" path="res://scripts/ui/controls_help_overlay.gd" id="8_help_overlay"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.18, 0.36, 0.62, 1)
@@ -112,8 +113,9 @@ player_path = NodePath("../FlipflopPlayer3D")
 [node name="ExistenceSimulator" type="CanvasLayer" parent="."]
 script = ExtResource("6_existence")
 
-[node name="PrototypeMenu" type="CanvasLayer" parent="."]
-script = ExtResource("7_menu")
-player_path = NodePath("../FlipflopPlayer3D")
+[node name="PauseMenu" parent="." instance=ExtResource("7_pause_menu")]
 camera_path = NodePath("../Camera3D")
 ambience_path = NodePath("../AmbienceController")
+
+[node name="ControlsHelpOverlay" type="CanvasLayer" parent="."]
+script = ExtResource("8_help_overlay")

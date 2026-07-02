@@ -1,0 +1,371 @@
+[gd_scene load_steps=33 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Material" path="res://assets/materials/pbr/sand.tres" id="2_sand"]
+[ext_resource type="Material" path="res://assets/materials/pbr/ocean_water.tres" id="3_water"]
+[ext_resource type="Material" path="res://assets/materials/pbr/old_wood.tres" id="4_old_wood"]
+[ext_resource type="Material" path="res://assets/materials/pbr/glass.tres" id="5_glass"]
+[ext_resource type="Material" path="res://assets/materials/pbr/rock.tres" id="6_rock"]
+[ext_resource type="Material" path="res://assets/materials/pbr/palm_bark.tres" id="7_palm_bark"]
+[ext_resource type="Material" path="res://assets/materials/palm_leaf_material.tres" id="8_palm_leaf"]
+[ext_resource type="Material" path="res://assets/materials/pbr/plastic.tres" id="9_plastic"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_menu"]
+sky_top_color = Color(0.16, 0.38, 0.68, 1)
+sky_horizon_color = Color(0.78, 0.9, 0.96, 1)
+ground_bottom_color = Color(0.04, 0.16, 0.18, 1)
+ground_horizon_color = Color(0.2, 0.48, 0.52, 1)
+
+[sub_resource type="Sky" id="Sky_menu"]
+sky_material = SubResource("ProceduralSkyMaterial_menu")
+
+[sub_resource type="Environment" id="Environment_menu"]
+background_mode = 2
+sky = SubResource("Sky_menu")
+ambient_light_source = 2
+ambient_light_color = Color(0.88, 0.92, 0.9, 1)
+ambient_light_energy = 0.62
+ambient_light_sky_contribution = 0.7
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.18
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_flipflop_sole"]
+albedo_color = Color(0.12, 0.74, 0.66, 1)
+roughness = 0.54
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_flipflop_strap"]
+albedo_color = Color(0.035, 0.13, 0.12, 1)
+roughness = 0.58
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shell"]
+albedo_color = Color(0.92, 0.8, 0.64, 1)
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crab"]
+albedo_color = Color(0.62, 0.18, 0.12, 1)
+roughness = 0.72
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sand"]
+size = Vector2(18, 12)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+size = Vector2(28, 12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sole"]
+size = Vector3(0.46, 0.055, 1.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_strap"]
+size = Vector3(0.07, 0.055, 0.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_driftwood"]
+top_radius = 0.12
+bottom_radius = 0.16
+height = 1.4
+radial_segments = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_shell"]
+radius = 0.18
+height = 0.16
+radial_segments = 16
+rings = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bottle_body"]
+top_radius = 0.12
+bottom_radius = 0.14
+height = 0.72
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bottle_cap"]
+top_radius = 0.08
+bottom_radius = 0.08
+height = 0.18
+radial_segments = 12
+
+[sub_resource type="SphereMesh" id="SphereMesh_crab_body"]
+radius = 0.16
+height = 0.16
+radial_segments = 16
+rings = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_crab_leg"]
+top_radius = 0.018
+bottom_radius = 0.018
+height = 0.22
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_palm_trunk"]
+top_radius = 0.16
+bottom_radius = 0.22
+height = 3.4
+radial_segments = 10
+
+[sub_resource type="BoxMesh" id="BoxMesh_palm_leaf"]
+size = Vector3(0.18, 0.04, 1.5)
+
+[sub_resource type="SphereMesh" id="SphereMesh_rock"]
+radius = 0.36
+height = 0.34
+radial_segments = 16
+rings = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_sign_plank"]
+size = Vector3(1.6, 0.08, 0.12)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.02, 0.035, 0.035, 0.54)
+border_color = Color(0.88, 0.76, 0.54, 0.35)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.28, 0.19, 0.105, 0.86)
+border_color = Color(0.92, 0.78, 0.5, 0.36)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="MainMenu" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_menu")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.725857, -0.387686, 0.568163, 0, 0.826197, 0.563381, -0.687845, -0.408957, 0.599697, -2.6, 5.4, 2.0)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 1.9
+light_indirect_energy = 0.7
+shadow_enabled = true
+
+[node name="MenuBeach" type="Node3D" parent="."]
+
+[node name="Terrain" type="Node3D" parent="MenuBeach"]
+
+[node name="SandPlane" type="MeshInstance3D" parent="MenuBeach/Terrain"]
+mesh = SubResource("PlaneMesh_sand")
+surface_material_override/0 = ExtResource("2_sand")
+
+[node name="Water" type="Node3D" parent="MenuBeach"]
+
+[node name="OceanPlane" type="MeshInstance3D" parent="MenuBeach/Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.018, -5.1)
+mesh = SubResource("PlaneMesh_water")
+surface_material_override/0 = ExtResource("3_water")
+
+[node name="DecorativeFlipflop" type="Node3D" parent="MenuBeach"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.15, 0.075, 0.45)
+
+[node name="Sole" type="MeshInstance3D" parent="MenuBeach/DecorativeFlipflop"]
+mesh = SubResource("BoxMesh_sole")
+surface_material_override/0 = SubResource("StandardMaterial3D_flipflop_sole")
+
+[node name="StrapLeft" type="MeshInstance3D" parent="MenuBeach/DecorativeFlipflop"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.105, 0.065, -0.12)
+mesh = SubResource("BoxMesh_strap")
+surface_material_override/0 = SubResource("StandardMaterial3D_flipflop_strap")
+
+[node name="StrapRight" type="MeshInstance3D" parent="MenuBeach/DecorativeFlipflop"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.105, 0.065, -0.12)
+mesh = SubResource("BoxMesh_strap")
+surface_material_override/0 = SubResource("StandardMaterial3D_flipflop_strap")
+
+[node name="ToeButton" type="MeshInstance3D" parent="MenuBeach/DecorativeFlipflop"]
+transform = Transform3D(0.55, 0, 0, 0, 0.75, 0, 0, 0, 0.55, 0, 0.09, -0.36)
+mesh = SubResource("BoxMesh_strap")
+surface_material_override/0 = SubResource("StandardMaterial3D_flipflop_strap")
+
+[node name="Props" type="Node3D" parent="MenuBeach"]
+
+[node name="Driftwood" type="MeshInstance3D" parent="MenuBeach/Props"]
+transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, 1.55, 0.17, 0.08)
+mesh = SubResource("CylinderMesh_driftwood")
+surface_material_override/0 = ExtResource("4_old_wood")
+
+[node name="Shell" type="MeshInstance3D" parent="MenuBeach/Props"]
+transform = Transform3D(1.3, 0, 0, 0, 0.35, 0, 0, 0, 0.82, -1.1, 0.08, 0.06)
+mesh = SubResource("SphereMesh_shell")
+surface_material_override/0 = SubResource("StandardMaterial3D_shell")
+
+[node name="BottleBody" type="MeshInstance3D" parent="MenuBeach/Props"]
+transform = Transform3D(0.34202, 0, 0.939693, 0, 1, 0, -0.939693, 0, 0.34202, -1.78, 0.17, -0.78)
+mesh = SubResource("CylinderMesh_bottle_body")
+surface_material_override/0 = ExtResource("5_glass")
+
+[node name="BottleCap" type="MeshInstance3D" parent="MenuBeach/Props"]
+transform = Transform3D(0.34202, 0, 0.939693, 0, 1, 0, -0.939693, 0, 0.34202, -2.12, 0.18, -0.9)
+mesh = SubResource("CylinderMesh_bottle_cap")
+surface_material_override/0 = ExtResource("9_plastic")
+
+[node name="Rock" type="MeshInstance3D" parent="MenuBeach/Props"]
+transform = Transform3D(1.25, 0, 0, 0, 0.42, 0, 0, 0, 0.78, 2.25, 0.16, -1.0)
+mesh = SubResource("SphereMesh_rock")
+surface_material_override/0 = ExtResource("6_rock")
+
+[node name="SmallCrab" type="Node3D" parent="MenuBeach/Props"]
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 0.72, 0.12, 1.0)
+
+[node name="Body" type="MeshInstance3D" parent="MenuBeach/Props/SmallCrab"]
+transform = Transform3D(1.45, 0, 0, 0, 0.45, 0, 0, 0, 0.9, 0, 0, 0)
+mesh = SubResource("SphereMesh_crab_body")
+surface_material_override/0 = SubResource("StandardMaterial3D_crab")
+
+[node name="LegA" type="MeshInstance3D" parent="MenuBeach/Props/SmallCrab"]
+transform = Transform3D(0.173648, 0, 0.984808, 0, 1, 0, -0.984808, 0, 0.173648, -0.18, -0.03, 0.04)
+mesh = SubResource("CylinderMesh_crab_leg")
+surface_material_override/0 = SubResource("StandardMaterial3D_crab")
+
+[node name="LegB" type="MeshInstance3D" parent="MenuBeach/Props/SmallCrab"]
+transform = Transform3D(0.173648, 0, -0.984808, 0, 1, 0, 0.984808, 0, 0.173648, 0.18, -0.03, 0.04)
+mesh = SubResource("CylinderMesh_crab_leg")
+surface_material_override/0 = SubResource("StandardMaterial3D_crab")
+
+[node name="LegC" type="MeshInstance3D" parent="MenuBeach/Props/SmallCrab"]
+transform = Transform3D(0.422618, 0, 0.906308, 0, 1, 0, -0.906308, 0, 0.422618, -0.17, -0.03, -0.08)
+mesh = SubResource("CylinderMesh_crab_leg")
+surface_material_override/0 = SubResource("StandardMaterial3D_crab")
+
+[node name="LegD" type="MeshInstance3D" parent="MenuBeach/Props/SmallCrab"]
+transform = Transform3D(0.422618, 0, -0.906308, 0, 1, 0, 0.906308, 0, 0.422618, 0.17, -0.03, -0.08)
+mesh = SubResource("CylinderMesh_crab_leg")
+surface_material_override/0 = SubResource("StandardMaterial3D_crab")
+
+[node name="BackgroundPalm" type="Node3D" parent="MenuBeach"]
+transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, -3.9, 1.55, -2.2)
+
+[node name="Trunk" type="MeshInstance3D" parent="MenuBeach/BackgroundPalm"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_palm_trunk")
+surface_material_override/0 = ExtResource("7_palm_bark")
+
+[node name="LeafA" type="MeshInstance3D" parent="MenuBeach/BackgroundPalm"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.56, 1.75, 0)
+mesh = SubResource("BoxMesh_palm_leaf")
+surface_material_override/0 = ExtResource("8_palm_leaf")
+
+[node name="LeafB" type="MeshInstance3D" parent="MenuBeach/BackgroundPalm"]
+transform = Transform3D(-0.173648, 0, 0.984808, 0, 1, 0, -0.984808, 0, -0.173648, -0.18, 1.82, 0.34)
+mesh = SubResource("BoxMesh_palm_leaf")
+surface_material_override/0 = ExtResource("8_palm_leaf")
+
+[node name="LeafC" type="MeshInstance3D" parent="MenuBeach/BackgroundPalm"]
+transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -0.44, 1.8, -0.24)
+mesh = SubResource("BoxMesh_palm_leaf")
+surface_material_override/0 = ExtResource("8_palm_leaf")
+
+[node name="PalmShadow" type="MeshInstance3D" parent="MenuBeach/BackgroundPalm"]
+transform = Transform3D(2.4, 0, -0.7, 0, 0.025, 0, 0.7, 0, 2.4, 2.65, -1.53, 1.2)
+mesh = SubResource("BoxMesh_sign_plank")
+surface_material_override/0 = ExtResource("4_old_wood")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.894934, 0.446198, 0, -0.446198, 0.894934, 0.15, 2.15, 4.65)
+current = true
+fov = 42.0
+
+[node name="MenuUI" type="CanvasLayer" parent="."]
+
+[node name="MenuRoot" type="Control" parent="MenuUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MenuPanel" type="PanelContainer" parent="MenuUI/MenuRoot"]
+layout_mode = 0
+anchor_left = 0.065
+anchor_top = 0.16
+anchor_right = 0.38
+anchor_bottom = 0.88
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuUI/MenuRoot/MenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Flipflop Island"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.96, 0.91, 0.78, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.78)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 36
+
+[node name="Spacer" type="Control" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+text = "Play"
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+
+[node name="SceneriesButton" type="Button" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Sceneries"
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+
+[node name="OptionsButton" type="Button" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Options"
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+
+[node name="ControlsButton" type="Button" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Controls"
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+
+[node name="QuitButton" type="Button" parent="MenuUI/MenuRoot/MenuPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Quit"
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+
+[node name="MoodLabel" type="Label" parent="MenuUI/MenuRoot"]
+layout_mode = 0
+anchor_left = 0.065
+anchor_top = 0.895
+anchor_right = 0.54
+anchor_bottom = 0.955
+text = "A single lost flipflop. A whole island. No plan."
+theme_override_colors/font_color = Color(0.91, 0.96, 0.9, 0.9)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 16

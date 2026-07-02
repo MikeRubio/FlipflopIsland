@@ -46,7 +46,18 @@ func _ready() -> void:
 	if _scenery_root == null:
 		_scenery_root = self
 
-	call_deferred("load_scenery", default_scenery_id)
+	var fallback_scenery_id: String = SettingsManager.last_scenery_id
+	if fallback_scenery_id.is_empty() or not SCENERY_SCENE_PATHS.has(fallback_scenery_id):
+		fallback_scenery_id = default_scenery_id
+
+	var starting_scenery_id: String = FlipflopUIManager.get_requested_scenery_id(
+		get_tree(),
+		fallback_scenery_id
+	)
+	if not SCENERY_SCENE_PATHS.has(starting_scenery_id):
+		starting_scenery_id = default_scenery_id
+
+	call_deferred("load_scenery", starting_scenery_id)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -99,6 +110,7 @@ func load_scenery(scenery_id: String) -> void:
 	_current_scenery_id = scenery_id
 	_current_settings = _find_scenery_settings(instance)
 	_apply_current_scenery_settings()
+	SettingsManager.set_last_scenery_id(_current_scenery_id)
 
 	var display_name: String = get_current_scenery_name()
 	scenery_changed.emit(_current_scenery_id, display_name)

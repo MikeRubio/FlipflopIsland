@@ -12,6 +12,7 @@ const AMBIENCE_BUS := "Ambience"
 @export var player_path: NodePath
 @export var camera_path: NodePath
 @export var ambience_path: NodePath
+@export var show_main_menu_on_start: bool = true
 
 var _player: Node
 var _camera: Node
@@ -53,7 +54,11 @@ func _ready() -> void:
 	_build_ui()
 	_load_settings()
 	_apply_settings()
-	_show_main_menu()
+
+	if show_main_menu_on_start:
+		_show_main_menu()
+	else:
+		_resume_game()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -345,7 +350,7 @@ func reset_all_props() -> void:
 
 
 func _load_settings() -> void:
-	var config := ConfigFile.new()
+	var config: ConfigFile = ConfigFile.new()
 	var error: int = config.load(SETTINGS_PATH)
 
 	if error != OK:
@@ -362,7 +367,7 @@ func _load_settings() -> void:
 
 
 func _save_settings() -> void:
-	var config := ConfigFile.new()
+	var config: ConfigFile = ConfigFile.new()
 	config.set_value("audio", "master_volume", _master_volume)
 	config.set_value("audio", "sfx_volume", _sfx_volume)
 	config.set_value("audio", "ambience_volume", _ambience_volume)
@@ -463,14 +468,14 @@ func _apply_day_night_setting() -> void:
 
 
 func _apply_fullscreen_setting() -> void:
-	var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if _fullscreen_enabled else DisplayServer.WINDOW_MODE_WINDOWED
+	var mode: int = DisplayServer.WINDOW_MODE_FULLSCREEN if _fullscreen_enabled else DisplayServer.WINDOW_MODE_WINDOWED
 	DisplayServer.window_set_mode(mode)
 
 
 func _set_bus_volume(bus_name: String, volume: float) -> void:
 	_ensure_audio_bus(bus_name)
 
-	var bus_index := AudioServer.get_bus_index(bus_name)
+	var bus_index: int = AudioServer.get_bus_index(bus_name)
 	if bus_index == -1:
 		return
 

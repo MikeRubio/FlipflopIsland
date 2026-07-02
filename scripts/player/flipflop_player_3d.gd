@@ -398,7 +398,13 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
+	current_preset_name = SettingsManager.movement_preset_name
+	if not MOVEMENT_PRESETS.has(current_preset_name):
+		current_preset_name = "Playable Physics"
+		SettingsManager.set_movement_preset_name(current_preset_name)
+
 	apply_movement_preset(current_preset_name)
+	SettingsManager.register_player(self)
 	_apply_surface_settings(_default_surface_settings)
 	_prepare_color_material()
 	_apply_flipflop_color(_flipflop_color_index)
@@ -411,6 +417,10 @@ func _ready() -> void:
 	_was_grounded = _is_close_to_ground()
 	_touching_ground = _was_grounded
 	_air_flaps_remaining = max_air_flaps
+
+
+func _exit_tree() -> void:
+	SettingsManager.clear_player(self)
 
 
 func _physics_process(delta: float) -> void:
@@ -1490,7 +1500,7 @@ func apply_movement_preset(preset_name: String) -> void:
 
 
 func cycle_movement_preset() -> void:
-	var current_index := PRESET_ORDER.find(current_preset_name)
+	var current_index: int = PRESET_ORDER.find(current_preset_name)
 
 	if current_index == -1:
 		current_index = 0
@@ -1498,6 +1508,7 @@ func cycle_movement_preset() -> void:
 		current_index = (current_index + 1) % PRESET_ORDER.size()
 
 	apply_movement_preset(PRESET_ORDER[current_index])
+	SettingsManager.set_movement_preset_name(current_preset_name)
 
 
 func get_movement_debug_state() -> Dictionary:
