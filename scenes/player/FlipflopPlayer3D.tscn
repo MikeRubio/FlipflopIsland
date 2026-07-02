@@ -8,9 +8,11 @@ bounce = 0.12
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sole"]
 albedo_color = Color(0.08, 0.95, 0.74, 1)
+roughness = 0.48
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_strap"]
 albedo_color = Color(0.02, 0.13, 0.12, 1)
+roughness = 0.55
 
 [sub_resource type="BoxMesh" id="BoxMesh_sole"]
 size = Vector3(0.13, 0.045, 0.34)

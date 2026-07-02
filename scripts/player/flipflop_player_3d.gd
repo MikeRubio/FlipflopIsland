@@ -1665,7 +1665,7 @@ func _on_landed(impact_speed: float) -> void:
 func play_slap_sound(_slap_multiplier: float = 1.0) -> void:
 	# Safe placeholder hook. If the ambience audio node has no stream assigned,
 	# this call quietly does nothing.
-	var audio := get_tree().get_first_node_in_group("ambience_audio")
+	var audio: Node = get_tree().get_first_node_in_group("ambience_audio")
 	if audio != null and audio.has_method("play_slap_sound"):
 		audio.call("play_slap_sound")
 
@@ -1674,7 +1674,7 @@ func play_surface_landing_sound(sound_type: String, slap_multiplier: float = 1.0
 	# Placeholder routing for surface-specific landing sounds.
 	# Real audio can later split these into sand thuds, tile slaps, wood clacks,
 	# and water splashes without changing the movement code.
-	var audio := get_tree().get_first_node_in_group("ambience_audio")
+	var audio: Node = get_tree().get_first_node_in_group("ambience_audio")
 
 	match sound_type:
 		"water", "wet_tile":
@@ -1718,7 +1718,7 @@ func spawn_dust_particles(_slap_multiplier: float = 1.0) -> void:
 func play_slap_attack_sound(_slap_multiplier: float = 1.0) -> void:
 	# Placeholder slap/lunge sound hook. This currently reuses the safe ambience
 	# slap player if one exists; real slap attack audio can be assigned later.
-	var audio := get_tree().get_first_node_in_group("ambience_audio")
+	var audio: Node = get_tree().get_first_node_in_group("ambience_audio")
 	if audio != null and audio.has_method("play_slap_sound"):
 		audio.call("play_slap_sound")
 

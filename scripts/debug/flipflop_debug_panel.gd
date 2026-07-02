@@ -43,7 +43,13 @@ func _process(_delta: float) -> void:
 		return
 
 	var state: Dictionary = _player.call("get_movement_debug_state")
-	_label.text = _format_state(state, _get_ambience_state(), _get_existence_state())
+	_label.text = _format_state(
+		state,
+		_get_current_scenery_name(),
+		_get_ambience_state(),
+		_get_existence_state(),
+		_get_ship_motion_state()
+	)
 
 
 func _build_label() -> void:
@@ -66,7 +72,7 @@ func _cycle_player_preset() -> void:
 
 
 func _get_ambience_state() -> Dictionary:
-	var ambience := get_tree().get_first_node_in_group("ambience_debug")
+	var ambience: Node = get_tree().get_first_node_in_group("ambience_debug")
 	if ambience == null or not ambience.has_method("get_ambience_debug_state"):
 		return {}
 
@@ -79,7 +85,7 @@ func _get_ambience_state() -> Dictionary:
 
 
 func _get_existence_state() -> Dictionary:
-	var existence := get_tree().get_first_node_in_group("existence_debug")
+	var existence: Node = get_tree().get_first_node_in_group("existence_debug")
 	if existence == null or not existence.has_method("get_existence_debug_state"):
 		return {}
 
@@ -91,15 +97,42 @@ func _get_existence_state() -> Dictionary:
 	return {}
 
 
+func _get_ship_motion_state() -> Dictionary:
+	var ship_motion: Node = get_tree().get_first_node_in_group("ship_motion_debug")
+	if ship_motion == null or not ship_motion.has_method("get_ship_motion_debug_state"):
+		return {}
+
+	var state: Variant = ship_motion.call("get_ship_motion_debug_state")
+	if state is Dictionary:
+		var typed_state: Dictionary = state
+		return typed_state
+
+	return {}
+
+
+func _get_current_scenery_name() -> String:
+	var scenery_manager: Node = get_tree().get_first_node_in_group("scenery_manager")
+	if scenery_manager == null or not scenery_manager.has_method("get_current_scenery_name"):
+		return "Unknown"
+
+	return String(scenery_manager.call("get_current_scenery_name"))
+
+
 func _is_photo_mode_enabled() -> bool:
-	var photo_mode := get_tree().get_first_node_in_group("photo_mode_controller")
+	var photo_mode: Node = get_tree().get_first_node_in_group("photo_mode_controller")
 	if photo_mode == null or not photo_mode.has_method("is_photo_mode_enabled"):
 		return false
 
 	return bool(photo_mode.call("is_photo_mode_enabled"))
 
 
-func _format_state(state: Dictionary, ambience_state: Dictionary, existence_state: Dictionary) -> String:
+func _format_state(
+	state: Dictionary,
+	scenery_name: String,
+	ambience_state: Dictionary,
+	existence_state: Dictionary,
+	ship_motion_state: Dictionary
+) -> String:
 	var lines := [
 		"Flipflop Movement Debug",
 		"F1: Toggle panel",
@@ -108,6 +141,7 @@ func _format_state(state: Dictionary, ambience_state: Dictionary, existence_stat
 		"P: Toggle photo mode",
 		"C: Cycle flipflop color",
 		"",
+		"Scenery: %s" % scenery_name,
 		"Preset: %s" % state.get("preset", "Unknown"),
 		"Shift boost active: %s" % state.get("boost_active", false),
 		"Current move multiplier: %.2f" % state.get("current_move_multiplier", 1.0),
@@ -226,6 +260,19 @@ func _format_state(state: Dictionary, ambience_state: Dictionary, existence_stat
 		lines.append("Day/night enabled: %s" % ambience_state.get("day_night_cycle_enabled", false))
 		lines.append("Cycle speed: %.3f" % ambience_state.get("cycle_speed", 0.0))
 		lines.append("Zone: %s" % ambience_state.get("ambience_zone", "unknown"))
+
+	if not ship_motion_state.is_empty():
+		lines.append("")
+		lines.append("Cruise Ship Motion")
+		lines.append("Ship sway enabled: %s" % ship_motion_state.get("ship_sway_enabled", false))
+		lines.append("Ship sway strength: %.3f" % ship_motion_state.get("ship_sway_strength", 0.0))
+		lines.append("Ship sway speed: %.3f" % ship_motion_state.get("ship_sway_speed", 0.0))
+		lines.append("Wind push enabled: %s" % ship_motion_state.get("wind_push_enabled", false))
+		lines.append("Wind push strength: %.3f" % ship_motion_state.get("wind_push_strength", 0.0))
+		lines.append("Wind direction: %s" % ship_motion_state.get("wind_direction", Vector3.RIGHT))
+		lines.append("Sway force: %s" % ship_motion_state.get("sway_force", Vector3.ZERO))
+		lines.append("Wind force: %s" % ship_motion_state.get("wind_force", Vector3.ZERO))
+		lines.append("Bodies affected: %s" % ship_motion_state.get("affected_body_count", 0))
 
 	if not existence_state.is_empty():
 		lines.append("")

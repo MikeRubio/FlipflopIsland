@@ -2,6 +2,8 @@ extends CanvasLayer
 
 # Prototype menus and settings for Flipflop Island.
 # This is intentionally simple: no progression, no profiles, no Steam features.
+# Future launch/menu work should replace this with a proper scene flow while
+# keeping the settings and reset calls routed through the same manager methods.
 
 const SETTINGS_PATH := "user://flipflop_settings.cfg"
 const SFX_BUS := "SFX"
@@ -187,7 +189,9 @@ func _build_help_overlay() -> Control:
 		"F2: movement preset",
 		"1: deserted island scenery",
 		"2: resort pool scenery",
-		"3: boardwalk reserved",
+		"3: boardwalk scenery",
+		"4: cruise ship deck scenery",
+		"5: locker room scenery",
 		"H: toggle this help",
 		"P: photo mode",
 		"C: flipflop color",

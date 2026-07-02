@@ -11,10 +11,10 @@ extends Node3D
 @export var prop_scale: float = 1.0
 @export var water_size: float = 150.0
 @export var boundary_size: float = 75.0
-@export var palm_tree_count: int = 5
+@export var palm_tree_count: int = 8
 @export var palm_sprout_count: int = 2
-@export var static_beach_cluster_count: int = 8
-@export var physics_beach_prop_count: int = 27
+@export var static_beach_cluster_count: int = 14
+@export var physics_beach_prop_count: int = 52
 #
 # Main playable island size is controlled in Island3D.tscn by:
 # - CylinderMesh_island top_radius/bottom_radius
@@ -23,9 +23,9 @@ extends Node3D
 #
 # Beach prop density is controlled manually in Island3D.tscn:
 # - Trees contains tall palms and sprouts near the outer island zones.
-# - StaticBeachProps contains fixed dressing such as rocks, fallen leaves,
+# - StaticProps contains fixed dressing such as rocks, fallen leaves,
 #   tide pools, seaweed, sand mounds, signs, burrows, and the sand castle.
-# - PhysicsBeachProps contains movable toys such as coconuts, shells, driftwood,
+# - PhysicsProps contains movable toys such as coconuts, shells, driftwood,
 #   the bottle, bucket, shovel, and beach balls.
 # Keep the center around SpawnPoints/PlayerStart mostly empty so the flipflop
 # has room to test movement before bumping into clutter.

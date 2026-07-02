@@ -7,10 +7,12 @@ friction = 0.28
 bounce = 0.78
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ball"]
-albedo_color = Color(0.98, 0.9, 0.3, 1)
+albedo_color = Color(0.86, 0.78, 0.28, 1)
+roughness = 0.34
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stripe"]
-albedo_color = Color(0.96, 0.18, 0.18, 1)
+albedo_color = Color(0.76, 0.18, 0.16, 1)
+roughness = 0.34
 
 [sub_resource type="SphereMesh" id="SphereMesh_ball"]
 radius = 0.34

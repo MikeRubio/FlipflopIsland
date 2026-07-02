@@ -7,7 +7,8 @@ friction = 0.64
 bounce = 0.08
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_palm_leaf"]
-albedo_color = Color(0.38, 0.44, 0.16, 1)
+albedo_color = Color(0.2, 0.36, 0.16, 1)
+roughness = 0.74
 
 [sub_resource type="BoxMesh" id="BoxMesh_palm_leaf"]
 size = Vector3(0.22, 0.035, 1.55)

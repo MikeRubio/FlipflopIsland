@@ -7,7 +7,8 @@ friction = 0.82
 bounce = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_loose_rock"]
-albedo_color = Color(0.29, 0.3, 0.29, 1)
+albedo_color = Color(0.3, 0.3, 0.28, 1)
+roughness = 0.88
 
 [sub_resource type="SphereMesh" id="SphereMesh_loose_rock"]
 radius = 0.16

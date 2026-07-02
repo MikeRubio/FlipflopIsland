@@ -15,7 +15,7 @@ var _sway_nodes: Array[Dictionary] = []
 
 
 func _ready() -> void:
-	var scan_root := get_node_or_null(scan_root_path)
+	var scan_root: Node = get_node_or_null(scan_root_path)
 	if scan_root == null:
 		scan_root = get_parent()
 

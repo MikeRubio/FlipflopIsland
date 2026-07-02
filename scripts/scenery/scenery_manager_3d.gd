@@ -10,10 +10,15 @@ signal scenery_changed(scenery_id: String, display_name: String)
 const DESERTED_ISLAND_ID := "deserted_island"
 const RESORT_POOL_ID := "resort_pool"
 const BOARDWALK_ID := "boardwalk"
+const CRUISE_SHIP_DECK_ID := "cruise_ship_deck"
+const LOCKER_ROOM_ID := "locker_room"
 
 const SCENERY_SCENE_PATHS := {
 	"deserted_island": "res://scenes/scenery/IslandScenery3D.tscn",
 	"resort_pool": "res://scenes/scenery/ResortPoolScenery3D.tscn",
+	"boardwalk": "res://scenes/scenery/BoardwalkScenery3D.tscn",
+	"cruise_ship_deck": "res://scenes/scenery/CruiseShipDeckScenery3D.tscn",
+	"locker_room": "res://scenes/scenery/LockerRoomScenery3D.tscn",
 }
 
 @export var scenery_root_path: NodePath
@@ -59,7 +64,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		load_scenery(RESORT_POOL_ID)
 		get_viewport().set_input_as_handled()
 	elif key_event.keycode == KEY_3:
-		print("Boardwalk scenery is reserved for a future prototype.")
+		load_scenery(BOARDWALK_ID)
+		get_viewport().set_input_as_handled()
+	elif key_event.keycode == KEY_4:
+		load_scenery(CRUISE_SHIP_DECK_ID)
+		get_viewport().set_input_as_handled()
+	elif key_event.keycode == KEY_5:
+		load_scenery(LOCKER_ROOM_ID)
 		get_viewport().set_input_as_handled()
 
 
@@ -76,9 +87,7 @@ func load_scenery(scenery_id: String) -> void:
 		return
 
 	if _current_scenery != null:
-		_current_scenery.queue_free()
-		_current_scenery = null
-		_current_settings = null
+		_unload_current_scenery()
 
 	var instance: Node3D = packed_scene.instantiate() as Node3D
 	if instance == null:
@@ -92,7 +101,6 @@ func load_scenery(scenery_id: String) -> void:
 	_apply_current_scenery_settings()
 
 	var display_name: String = get_current_scenery_name()
-	print("Loaded scenery: %s" % display_name)
 	scenery_changed.emit(_current_scenery_id, display_name)
 
 
@@ -140,6 +148,18 @@ func get_current_scenery_id() -> String:
 
 func _find_scenery_settings(scenery: Node) -> ScenerySettings3D:
 	return scenery.find_child("ScenerySettings", true, false) as ScenerySettings3D
+
+
+func _unload_current_scenery() -> void:
+	var old_scenery: Node3D = _current_scenery
+	_current_scenery = null
+	_current_settings = null
+	_current_scenery_id = ""
+
+	if old_scenery.get_parent() != null:
+		old_scenery.get_parent().remove_child(old_scenery)
+
+	old_scenery.queue_free()
 
 
 func _apply_current_scenery_settings() -> void:

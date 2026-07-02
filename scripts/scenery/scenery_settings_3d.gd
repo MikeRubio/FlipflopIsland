@@ -28,6 +28,14 @@ extends Node
 @export_range(0.0, 1.0, 0.001) var time_of_day: float = 0.42
 @export var cycle_speed: float = 0.006
 
+@export_group("Lighting Profile")
+@export var directional_light_energy_multiplier: float = 1.0
+@export var ambient_light_energy_multiplier: float = 1.0
+@export var sky_brightness_multiplier: float = 1.0
+@export var directional_light_tint: Color = Color(1.0, 1.0, 1.0)
+@export var ambient_light_tint: Color = Color(1.0, 1.0, 1.0)
+@export var sky_tint: Color = Color(1.0, 1.0, 1.0)
+
 # Default surface for the scenery. Specific Area3D SurfaceZone nodes can
 # override this while the flipflop is inside them.
 @export_enum("sand", "wet_tile", "dry_tile", "wood", "water", "shallow_water", "custom")
@@ -77,6 +85,12 @@ func apply_to_ambience(ambience: Node) -> void:
 	ambience.set("time_of_day", time_of_day)
 	ambience.set("cycle_speed", cycle_speed)
 	ambience.set("ambience_zone", ambience_zone)
+	ambience.set("directional_light_energy_multiplier", directional_light_energy_multiplier)
+	ambience.set("ambient_light_energy_multiplier", ambient_light_energy_multiplier)
+	ambience.set("sky_brightness_multiplier", sky_brightness_multiplier)
+	ambience.set("directional_light_tint", directional_light_tint)
+	ambience.set("ambient_light_tint", ambient_light_tint)
+	ambience.set("sky_tint", sky_tint)
 
 
 func apply_to_player_surface(player: Node) -> void:

@@ -1,0 +1,1207 @@
+[gd_scene load_steps=71 format=3]
+
+[ext_resource type="Script" path="res://scripts/scenery/scenery_settings_3d.gd" id="1_settings"]
+[ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="2_simple_prop"]
+[ext_resource type="PackedScene" path="res://scenes/props/BeachBall3D.tscn" id="3_beach_ball"]
+[ext_resource type="Script" path="res://scripts/scenery/pool_water_zone_3d.gd" id="4_pool_water"]
+[ext_resource type="Script" path="res://scripts/scenery/surface_zone_3d.gd" id="5_surface_zone"]
+[ext_resource type="Script" path="res://scripts/ambience/water_ambience_3d.gd" id="6_water_ambience"]
+[ext_resource type="Script" path="res://scripts/scenery/cruise_ship_motion_3d.gd" id="7_ship_motion"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_deck"]
+albedo_color = Color(0.64, 0.65, 0.6, 1)
+roughness = 0.58
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wet_deck"]
+transparency = 1
+albedo_color = Color(0.36, 0.48, 0.52, 0.42)
+roughness = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rubber"]
+albedo_color = Color(0.05, 0.06, 0.06, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_water"]
+transparency = 1
+albedo_color = Color(0.08, 0.55, 0.76, 0.5)
+roughness = 0.12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ocean"]
+transparency = 1
+albedo_color = Color(0.03, 0.24, 0.42, 0.58)
+roughness = 0.14
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_railing"]
+albedo_color = Color(0.74, 0.76, 0.74, 1)
+roughness = 0.34
+metallic = 0.45
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lounger"]
+albedo_color = Color(0.18, 0.36, 0.58, 1)
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_towel"]
+albedo_color = Color(0.58, 0.66, 0.7, 1)
+roughness = 0.96
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table"]
+albedo_color = Color(0.78, 0.78, 0.7, 1)
+roughness = 0.48
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umbrella"]
+albedo_color = Color(0.78, 0.62, 0.2, 1)
+roughness = 0.66
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cup"]
+transparency = 1
+albedo_color = Color(0.85, 0.92, 0.96, 0.5)
+roughness = 0.18
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bottle"]
+transparency = 1
+albedo_color = Color(0.28, 0.56, 0.48, 0.48)
+roughness = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sunscreen"]
+albedo_color = Color(0.8, 0.78, 0.68, 1)
+roughness = 0.42
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lifebuoy"]
+albedo_color = Color(0.82, 0.18, 0.12, 1)
+roughness = 0.38
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_float"]
+albedo_color = Color(0.28, 0.62, 0.58, 1)
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_box"]
+albedo_color = Color(0.44, 0.31, 0.2, 1)
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal"]
+albedo_color = Color(0.48, 0.5, 0.48, 1)
+roughness = 0.34
+metallic = 0.65
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bird"]
+albedo_color = Color(0.04, 0.04, 0.05, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_deck"]
+size = Vector3(58, 0.38, 34)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_deck"]
+size = Vector3(58, 0.38, 34)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ocean"]
+size = Vector2(112, 92)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pool_water"]
+size = Vector3(13, 0.035, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pool_water_zone"]
+size = Vector3(13, 1.8, 7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pool_wall_long"]
+size = Vector3(14, 0.45, 0.36)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pool_wall_long"]
+size = Vector3(14, 0.45, 0.36)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pool_wall_short"]
+size = Vector3(0.36, 0.45, 7.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pool_wall_short"]
+size = Vector3(0.36, 0.45, 7.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_deck_surface"]
+size = Vector3(58, 1.2, 34)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wet_patch"]
+size = Vector3(10, 0.025, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wet_patch_zone"]
+size = Vector3(10, 1.1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rubber_mat"]
+size = Vector3(9, 0.035, 3.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rubber_mat_zone"]
+size = Vector3(9, 1.1, 3.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ocean_zone_long"]
+size = Vector3(66, 2.5, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ocean_zone_side"]
+size = Vector3(12, 2.5, 42)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ship_motion_zone"]
+size = Vector3(58, 3.0, 34)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_bar"]
+size = Vector3(58, 0.18, 0.16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_railing_bar"]
+size = Vector3(58, 0.18, 0.16)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_side"]
+size = Vector3(0.18, 0.18, 34)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_railing_side"]
+size = Vector3(0.18, 0.18, 34)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_post"]
+size = Vector3(0.18, 1.1, 0.18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lounger"]
+size = Vector3(1.05, 0.24, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lounger"]
+size = Vector3(1.05, 0.24, 2.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_towel"]
+size = Vector3(0.9, 0.04, 1.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_towel"]
+size = Vector3(0.9, 0.045, 1.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_table"]
+size = Vector3(1.0, 0.12, 1.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_table"]
+size = Vector3(1.0, 0.12, 1.0)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pole"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 2.3
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pole"]
+height = 2.3
+radius = 0.06
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_umbrella_top"]
+top_radius = 0.25
+bottom_radius = 1.25
+height = 0.34
+radial_segments = 24
+
+[sub_resource type="BoxMesh" id="BoxMesh_ramp"]
+size = Vector3(4.2, 0.18, 2.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ramp"]
+size = Vector3(4.2, 0.18, 2.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_stair_step"]
+size = Vector3(3.2, 0.22, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stair_step"]
+size = Vector3(3.2, 0.22, 0.7)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cup"]
+top_radius = 0.13
+bottom_radius = 0.09
+height = 0.28
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cup"]
+height = 0.28
+radius = 0.13
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bottle"]
+top_radius = 0.08
+bottom_radius = 0.13
+height = 0.62
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bottle"]
+height = 0.62
+radius = 0.13
+
+[sub_resource type="TorusMesh" id="TorusMesh_lifebuoy"]
+inner_radius = 0.28
+outer_radius = 0.62
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lifebuoy"]
+height = 0.22
+radius = 0.62
+
+[sub_resource type="BoxMesh" id="BoxMesh_small_box"]
+size = Vector3(0.55, 0.32, 0.45)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_small_box"]
+size = Vector3(0.55, 0.32, 0.45)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bird"]
+size = Vector3(0.36, 0.035, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_boundary"]
+size = Vector3(72, 6, 0.8)
+
+[node name="CruiseShipDeckScenery3D" type="Node3D"]
+
+[node name="ScenerySettings" type="Node" parent="."]
+script = ExtResource("1_settings")
+scenery_id = "cruise_ship_deck"
+display_name = "Cruise Ship Deck"
+player_spawn_path = NodePath("../SpawnPoints/PlayerStart")
+prop_reset_root_path = NodePath("../PhysicsProps")
+safe_ground_y = 0.0
+safe_ground_clearance = 0.24
+fall_reset_height = -8.0
+ambience_zone = "cruise ship deck"
+time_of_day = 0.6
+cycle_speed = 0.003
+directional_light_energy_multiplier = 1.15
+ambient_light_energy_multiplier = 1.02
+sky_brightness_multiplier = 1.06
+directional_light_tint = Color(1, 0.97, 0.88, 1)
+ambient_light_tint = Color(0.9, 0.96, 1, 1)
+sky_tint = Color(0.9, 0.97, 1, 1)
+surface_type = "dry_tile"
+surface_name = "Ship Deck"
+surface_friction_hint = 0.68
+surface_move_multiplier = 1.0
+surface_linear_damping_multiplier = 0.98
+surface_angular_damping_multiplier = 1.0
+surface_jump_multiplier = 1.0
+surface_landing_impact_multiplier = 1.0
+surface_landing_sound_type = "dry_tile"
+surface_particle_type = "dust"
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="OceanPlane" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32, 0)
+mesh = SubResource("PlaneMesh_ocean")
+surface_material_override/0 = SubResource("StandardMaterial3D_ocean")
+script = ExtResource("6_water_ambience")
+wave_speed = 0.38
+bob_amplitude = 0.02
+base_color = Color(0.03, 0.24, 0.42, 0.58)
+highlight_color = Color(0.06, 0.38, 0.56, 0.58)
+material_roughness = 0.14
+
+[node name="OceanWakePort" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.7, 0, -5.8, 0, 0.16, 0, 5.8, 0, 0.7, -30, -0.24, -20)
+mesh = SubResource("BoxMesh_railing_bar")
+surface_material_override/0 = SubResource("StandardMaterial3D_ocean")
+
+[node name="OceanWakeStarboard" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.7, 0, 5.8, 0, 0.16, 0, -5.8, 0, 0.7, 30, -0.24, 20)
+mesh = SubResource("BoxMesh_railing_bar")
+surface_material_override/0 = SubResource("StandardMaterial3D_ocean")
+
+[node name="ShipDeckFloor" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/ShipDeckFloor"]
+mesh = SubResource("BoxMesh_deck")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/ShipDeckFloor"]
+shape = SubResource("BoxShape3D_deck")
+
+[node name="DeckSeamCenter" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.9, 0, 0, 0, 0.12, 0, 0, 0, 0.22, 0, 0.012, 0)
+mesh = SubResource("BoxMesh_railing_bar")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="DeckSeamPort" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.76, 0, 0, 0, 0.12, 0, 0, 0, 0.18, -16, 0.013, 0)
+mesh = SubResource("BoxMesh_railing_bar")
+surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+
+[node name="DeckSeamStarboard" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.76, 0, 0, 0, 0.12, 0, 0, 0, 0.18, 16, 0.013, 0)
+mesh = SubResource("BoxMesh_railing_bar")
+surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+
+[node name="WetDeckPatchPool" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.05, 0, 0, 0, 1, 0, 0, 0, 0.85, -11, 0.018, -1.5)
+mesh = SubResource("BoxMesh_wet_patch")
+surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+
+[node name="WetDeckPatchStairs" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 0.65, 12, 0.018, 9)
+mesh = SubResource("BoxMesh_wet_patch")
+surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+
+[node name="RubberMatNorth" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.025, -8)
+mesh = SubResource("BoxMesh_rubber_mat")
+surface_material_override/0 = SubResource("StandardMaterial3D_rubber")
+
+[node name="PoolWaterVisual" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.025, -6)
+mesh = SubResource("BoxMesh_pool_water")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+script = ExtResource("6_water_ambience")
+wave_speed = 0.52
+bob_amplitude = 0.012
+base_color = Color(0.08, 0.55, 0.76, 0.5)
+highlight_color = Color(0.28, 0.72, 0.88, 0.5)
+material_roughness = 0.12
+
+[node name="CruisePoolWaterEdgeNorth" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(6.9, 0, 0, 0, 0.14, 0, 0, 0, 0.08, -13, 0.045, -9.58)
+mesh = SubResource("BoxMesh_table")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="CruisePoolWaterEdgeSouth" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(6.9, 0, 0, 0, 0.14, 0, 0, 0, 0.08, -13, 0.045, -2.42)
+mesh = SubResource("BoxMesh_table")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="PoolWallNorth" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.13, -9.7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/PoolWallNorth"]
+mesh = SubResource("BoxMesh_pool_wall_long")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/PoolWallNorth"]
+shape = SubResource("BoxShape3D_pool_wall_long")
+
+[node name="PoolWallSouth" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.13, -2.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/PoolWallSouth"]
+mesh = SubResource("BoxMesh_pool_wall_long")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/PoolWallSouth"]
+shape = SubResource("BoxShape3D_pool_wall_long")
+
+[node name="PoolWallWest" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.13, -6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/PoolWallWest"]
+mesh = SubResource("BoxMesh_pool_wall_short")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/PoolWallWest"]
+shape = SubResource("BoxShape3D_pool_wall_short")
+
+[node name="PoolWallEast" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.13, -6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/PoolWallEast"]
+mesh = SubResource("BoxMesh_pool_wall_short")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/PoolWallEast"]
+shape = SubResource("BoxShape3D_pool_wall_short")
+
+[node name="DeckRampEast" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 18, 0.02, 8)
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/DeckRampEast"]
+mesh = SubResource("BoxMesh_ramp")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/DeckRampEast"]
+shape = SubResource("BoxShape3D_ramp")
+
+[node name="LowDeckSteps" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.02, 10.5)
+
+[node name="StepA" type="MeshInstance3D" parent="Terrain/LowDeckSteps"]
+mesh = SubResource("BoxMesh_stair_step")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+
+[node name="StepACollision" type="CollisionShape3D" parent="Terrain/LowDeckSteps"]
+shape = SubResource("BoxShape3D_stair_step")
+
+[node name="StepB" type="MeshInstance3D" parent="Terrain/LowDeckSteps"]
+transform = Transform3D(1, 0, 0, 0, 0.68, 0, 0, 0, 1, 0, -0.08, 0.72)
+mesh = SubResource("BoxMesh_stair_step")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+
+[node name="StepBCollision" type="CollisionShape3D" parent="Terrain/LowDeckSteps"]
+transform = Transform3D(1, 0, 0, 0, 0.68, 0, 0, 0, 1, 0, -0.08, 0.72)
+shape = SubResource("BoxShape3D_stair_step")
+
+[node name="Water" type="Node3D" parent="."]
+
+[node name="PoolWaterZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, -0.25, -6)
+script = ExtResource("4_pool_water")
+water_surface_y = 0.025
+water_safe_exit_position = Vector3(-3, 0.35, -1.5)
+water_drag_multiplier = 2.3
+water_angular_drag_multiplier = 2.0
+water_buoyancy_force = 0.62
+water_push_to_shore_force = 0.3
+water_max_time_before_soft_reset = 3.0
+water_spin_damping = 0.84
+prop_reset_below_y = -1.2
+splash_enabled = true
+surface_type = "water"
+surface_name = "Cruise Pool Water"
+move_force_multiplier = 0.54
+linear_damping_multiplier = 1.45
+angular_damping_multiplier = 1.25
+jump_multiplier = 0.75
+landing_impact_multiplier = 0.55
+landing_sound_type = "water"
+particle_type = "splash"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/PoolWaterZone"]
+shape = SubResource("BoxShape3D_pool_water_zone")
+
+[node name="OceanNorthZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -23)
+script = ExtResource("4_pool_water")
+water_surface_y = -0.32
+water_safe_exit_position = Vector3(0, 0.45, -15)
+water_drag_multiplier = 2.6
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.55
+water_push_to_shore_force = 0.35
+water_max_time_before_soft_reset = 2.5
+water_spin_damping = 0.86
+prop_reset_below_y = -1.3
+surface_name = "Ocean Off Ship"
+move_force_multiplier = 0.45
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanNorthZone"]
+shape = SubResource("BoxShape3D_ocean_zone_long")
+
+[node name="OceanSouthZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 23)
+script = ExtResource("4_pool_water")
+water_surface_y = -0.32
+water_safe_exit_position = Vector3(0, 0.45, 15)
+water_drag_multiplier = 2.6
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.55
+water_push_to_shore_force = 0.35
+water_max_time_before_soft_reset = 2.5
+water_spin_damping = 0.86
+prop_reset_below_y = -1.3
+surface_name = "Ocean Off Ship"
+move_force_multiplier = 0.45
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanSouthZone"]
+shape = SubResource("BoxShape3D_ocean_zone_long")
+
+[node name="OceanEastZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, -0.2, 0)
+script = ExtResource("4_pool_water")
+water_surface_y = -0.32
+water_safe_exit_position = Vector3(26, 0.45, 0)
+water_drag_multiplier = 2.6
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.55
+water_push_to_shore_force = 0.35
+water_max_time_before_soft_reset = 2.5
+water_spin_damping = 0.86
+prop_reset_below_y = -1.3
+surface_name = "Ocean Off Ship"
+move_force_multiplier = 0.45
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanEastZone"]
+shape = SubResource("BoxShape3D_ocean_zone_side")
+
+[node name="OceanWestZone" type="Area3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -0.2, 0)
+script = ExtResource("4_pool_water")
+water_surface_y = -0.32
+water_safe_exit_position = Vector3(-26, 0.45, 0)
+water_drag_multiplier = 2.6
+water_angular_drag_multiplier = 2.2
+water_buoyancy_force = 0.55
+water_push_to_shore_force = 0.35
+water_max_time_before_soft_reset = 2.5
+water_spin_damping = 0.86
+prop_reset_below_y = -1.3
+surface_name = "Ocean Off Ship"
+move_force_multiplier = 0.45
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water/OceanWestZone"]
+shape = SubResource("BoxShape3D_ocean_zone_side")
+
+[node name="Surfaces" type="Node3D" parent="."]
+
+[node name="ShipDeckSurfaceZone" type="Area3D" parent="Surfaces"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+script = ExtResource("5_surface_zone")
+surface_type = "dry_tile"
+surface_name = "Ship Deck"
+move_force_multiplier = 1.0
+linear_damping_multiplier = 0.98
+angular_damping_multiplier = 1.0
+jump_multiplier = 1.0
+landing_impact_multiplier = 1.0
+landing_sound_type = "dry_tile"
+particle_type = "dust"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/ShipDeckSurfaceZone"]
+shape = SubResource("BoxShape3D_deck_surface")
+
+[node name="WetDeckSurfaceZone" type="Area3D" parent="Surfaces"]
+transform = Transform3D(1.05, 0, 0, 0, 1, 0, 0, 0, 0.85, -11, 0.34, -1.5)
+script = ExtResource("5_surface_zone")
+surface_type = "wet_tile"
+surface_name = "Wet Ship Deck"
+move_force_multiplier = 0.76
+linear_damping_multiplier = 0.5
+angular_damping_multiplier = 0.84
+jump_multiplier = 0.95
+landing_impact_multiplier = 0.9
+landing_sound_type = "wet_tile"
+particle_type = "splash"
+slide_force = 0.025
+slide_direction = Vector3(0.2, 0, -0.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/WetDeckSurfaceZone"]
+shape = SubResource("BoxShape3D_wet_patch_zone")
+
+[node name="WetDeckStairsZone" type="Area3D" parent="Surfaces"]
+transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 0.65, 12, 0.34, 9)
+script = ExtResource("5_surface_zone")
+surface_type = "wet_tile"
+surface_name = "Wet Ship Deck"
+move_force_multiplier = 0.78
+linear_damping_multiplier = 0.55
+angular_damping_multiplier = 0.86
+jump_multiplier = 0.95
+landing_impact_multiplier = 0.9
+landing_sound_type = "wet_tile"
+particle_type = "splash"
+slide_force = 0.02
+slide_direction = Vector3(-0.15, 0, 0.18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/WetDeckStairsZone"]
+shape = SubResource("BoxShape3D_wet_patch_zone")
+
+[node name="RubberMatZone" type="Area3D" parent="Surfaces"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.34, -8)
+script = ExtResource("5_surface_zone")
+surface_type = "custom"
+surface_name = "Rubber Mat"
+move_force_multiplier = 0.9
+linear_damping_multiplier = 1.25
+angular_damping_multiplier = 1.18
+jump_multiplier = 0.98
+landing_impact_multiplier = 0.9
+landing_sound_type = "dry_tile"
+particle_type = "dust"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/RubberMatZone"]
+shape = SubResource("BoxShape3D_rubber_mat_zone")
+
+[node name="Ambience" type="Node3D" parent="."]
+
+[node name="OceanAmbiencePlaceholder" type="Node" parent="Ambience"]
+
+[node name="WindAmbiencePlaceholder" type="Node" parent="Ambience"]
+
+[node name="ShipHornPlaceholder" type="Node" parent="Ambience"]
+
+[node name="PoolSplashPlaceholder" type="Node" parent="Ambience"]
+
+[node name="WindPennantPort" type="MeshInstance3D" parent="Ambience"]
+transform = Transform3D(1.6, 0, -0.35, 0, 0.7, 0, 0.35, 0, 1.6, -21.5, 2.35, -15.8)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_umbrella")
+
+[node name="WindPennantStarboard" type="MeshInstance3D" parent="Ambience"]
+transform = Transform3D(1.4, 0, 0.45, 0, 0.7, 0, -0.45, 0, 1.4, 21.5, 2.35, 15.8)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_float")
+
+[node name="WindPennantPool" type="MeshInstance3D" parent="Ambience"]
+transform = Transform3D(1.2, 0, -0.25, 0, 0.6, 0, 0.25, 0, 1.2, -7.0, 1.85, -11.0)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_lifebuoy")
+
+[node name="ShipMotionArea" type="Area3D" parent="Ambience"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+script = ExtResource("7_ship_motion")
+ship_sway_enabled = true
+ship_sway_strength = 0.055
+ship_sway_speed = 0.45
+wind_push_enabled = true
+wind_push_strength = 0.028
+wind_direction = Vector3(1, 0, 0.18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ambience/ShipMotionArea"]
+shape = SubResource("BoxShape3D_ship_motion_zone")
+
+[node name="StaticProps" type="Node3D" parent="."]
+
+[node name="NorthRailing" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, -17)
+
+[node name="Rail" type="MeshInstance3D" parent="StaticProps/NorthRailing"]
+mesh = SubResource("BoxMesh_railing_bar")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/NorthRailing"]
+shape = SubResource("BoxShape3D_railing_bar")
+
+[node name="SouthRailing" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 17)
+
+[node name="Rail" type="MeshInstance3D" parent="StaticProps/SouthRailing"]
+mesh = SubResource("BoxMesh_railing_bar")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/SouthRailing"]
+shape = SubResource("BoxShape3D_railing_bar")
+
+[node name="EastRailing" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0.72, 0)
+
+[node name="Rail" type="MeshInstance3D" parent="StaticProps/EastRailing"]
+mesh = SubResource("BoxMesh_railing_side")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/EastRailing"]
+shape = SubResource("BoxShape3D_railing_side")
+
+[node name="WestRailing" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 0.72, 0)
+
+[node name="Rail" type="MeshInstance3D" parent="StaticProps/WestRailing"]
+mesh = SubResource("BoxMesh_railing_side")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/WestRailing"]
+shape = SubResource("BoxShape3D_railing_side")
+
+[node name="RailingPostA" type="MeshInstance3D" parent="StaticProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.55, -17)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="RailingPostB" type="MeshInstance3D" parent="StaticProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -17)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="RailingPostC" type="MeshInstance3D" parent="StaticProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.55, -17)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+
+[node name="LoungeChairNorthA" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 6, 0.13, -9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairNorthA"]
+mesh = SubResource("BoxMesh_lounger")
+surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairNorthA"]
+shape = SubResource("BoxShape3D_lounger")
+
+[node name="LoungeChairNorthB" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 11, 0.13, -9.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairNorthB"]
+mesh = SubResource("BoxMesh_lounger")
+surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairNorthB"]
+shape = SubResource("BoxShape3D_lounger")
+
+[node name="LoungeChairSouthA" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 12, 0.13, 7)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairSouthA"]
+mesh = SubResource("BoxMesh_lounger")
+surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairSouthA"]
+shape = SubResource("BoxShape3D_lounger")
+
+[node name="TowelNorth" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 17, 0.03, -11.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/TowelNorth"]
+mesh = SubResource("BoxMesh_towel")
+surface_material_override/0 = SubResource("StandardMaterial3D_towel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/TowelNorth"]
+shape = SubResource("BoxShape3D_towel")
+
+[node name="SmallTableNorth" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, 8.5, 0.42, -6.5)
+
+[node name="TopMesh" type="MeshInstance3D" parent="StaticProps/SmallTableNorth"]
+mesh = SubResource("BoxMesh_table")
+surface_material_override/0 = SubResource("StandardMaterial3D_table")
+
+[node name="TopCollision" type="CollisionShape3D" parent="StaticProps/SmallTableNorth"]
+shape = SubResource("BoxShape3D_table")
+
+[node name="PoleMesh" type="MeshInstance3D" parent="StaticProps/SmallTableNorth"]
+transform = Transform3D(0.7, 0, 0, 0, 0.3, 0, 0, 0, 0.7, 0, -0.34, 0)
+mesh = SubResource("CylinderMesh_pole")
+surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+
+[node name="UmbrellaNorth" type="Node3D" parent="StaticProps"]
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 17.5, 0, -8)
+
+[node name="Pole" type="StaticBody3D" parent="StaticProps/UmbrellaNorth"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/UmbrellaNorth/Pole"]
+mesh = SubResource("CylinderMesh_pole")
+surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/UmbrellaNorth/Pole"]
+shape = SubResource("CylinderShape3D_pole")
+
+[node name="Top" type="MeshInstance3D" parent="StaticProps/UmbrellaNorth"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+mesh = SubResource("CylinderMesh_umbrella_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_umbrella")
+
+[node name="UmbrellaSouth" type="Node3D" parent="StaticProps"]
+transform = Transform3D(0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, -1, 0, 9)
+
+[node name="Pole" type="StaticBody3D" parent="StaticProps/UmbrellaSouth"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/UmbrellaSouth/Pole"]
+mesh = SubResource("CylinderMesh_pole")
+surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/UmbrellaSouth/Pole"]
+shape = SubResource("CylinderShape3D_pole")
+
+[node name="Top" type="MeshInstance3D" parent="StaticProps/UmbrellaSouth"]
+transform = Transform3D(1.08, 0, 0, 0, 1, 0, 0, 0, 1.08, 0, 2.25, 0)
+mesh = SubResource("CylinderMesh_umbrella_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_umbrella")
+
+[node name="PhysicsProps" type="Node3D" parent="."]
+
+[node name="BeachBallCruiseA" parent="PhysicsProps" instance=ExtResource("3_beach_ball")]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, -2.5, 0.34, -8)
+prop_mass = 0.1
+bounce = 0.78
+friction = 0.26
+prop_linear_damp = 0.28
+prop_angular_damp = 0.36
+nudge_impulse = 0.78
+
+[node name="BeachBallCruiseB" parent="PhysicsProps" instance=ExtResource("3_beach_ball")]
+transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, 20, 0.3, 4.5)
+prop_mass = 0.09
+bounce = 0.82
+friction = 0.24
+prop_linear_damp = 0.24
+prop_angular_damp = 0.34
+nudge_impulse = 0.82
+
+[node name="PlasticCupA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, 8.8, 0.18, -6.4)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Plastic Cup"
+prop_preset = "Light"
+prop_mass = 0.06
+bounce = 0.22
+friction = 0.32
+prop_linear_damp = 0.55
+prop_angular_damp = 0.75
+nudge_impulse = 0.28
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupA"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupA"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 14.4, 0.18, 6.5)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Plastic Cup"
+prop_preset = "Light"
+prop_mass = 0.06
+bounce = 0.22
+friction = 0.32
+prop_linear_damp = 0.55
+prop_angular_damp = 0.75
+nudge_impulse = 0.28
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupB"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupB"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupC" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.342898, 0, 0.939373, 0, 1, 0, -0.939373, 0, 0.342898, -4.4, 0.18, 7.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Plastic Cup"
+prop_preset = "Light"
+prop_mass = 0.06
+bounce = 0.22
+friction = 0.32
+prop_linear_damp = 0.55
+prop_angular_damp = 0.75
+nudge_impulse = 0.28
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupC"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupC"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="SunscreenBottleA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.258819, 0, 0.965926, 0, 0, -1, -0.965926, 0, 0.258819, 6.8, 0.18, -6.0)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Sunscreen Bottle"
+prop_mass = 0.42
+bounce = 0.12
+friction = 0.44
+prop_linear_damp = 0.62
+prop_angular_damp = 0.85
+nudge_impulse = 0.32
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleA"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_sunscreen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleA"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="DeckBottleA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.819152, 0, -0.573576, 0, 0, -1, 0.573576, 0, 0.819152, 18.2, 0.18, -6.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Deck Bottle"
+prop_preset = "Light"
+prop_mass = 0.24
+bounce = 0.16
+friction = 0.4
+prop_linear_damp = 0.68
+prop_angular_damp = 0.9
+nudge_impulse = 0.32
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/DeckBottleA"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/DeckBottleA"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="LooseTowelA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, 13.2, 0.08, -10.4)
+script = ExtResource("2_simple_prop")
+prop_name = "Loose Cruise Towel"
+prop_preset = "Light"
+prop_mass = 0.18
+bounce = 0.06
+friction = 0.82
+prop_linear_damp = 0.9
+prop_angular_damp = 1.1
+nudge_impulse = 0.25
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseTowelA"]
+mesh = SubResource("BoxMesh_towel")
+surface_material_override/0 = SubResource("StandardMaterial3D_towel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseTowelA"]
+shape = SubResource("BoxShape3D_towel")
+
+[node name="LifebuoyRingA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -24, 0.34, 6)
+script = ExtResource("2_simple_prop")
+prop_name = "Lifebuoy Ring"
+prop_preset = "Light"
+prop_mass = 0.22
+bounce = 0.52
+friction = 0.28
+prop_linear_damp = 0.42
+prop_angular_damp = 0.55
+nudge_impulse = 0.65
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LifebuoyRingA"]
+mesh = SubResource("TorusMesh_lifebuoy")
+surface_material_override/0 = SubResource("StandardMaterial3D_lifebuoy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LifebuoyRingA"]
+shape = SubResource("CylinderShape3D_lifebuoy")
+
+[node name="PoolFloatRingA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9.5, 0.34, -1.0)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Pool Float"
+prop_mass = 0.16
+bounce = 0.58
+friction = 0.24
+prop_linear_damp = 0.32
+prop_angular_damp = 0.42
+nudge_impulse = 0.72
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PoolFloatRingA"]
+mesh = SubResource("TorusMesh_lifebuoy")
+surface_material_override/0 = SubResource("StandardMaterial3D_float")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PoolFloatRingA"]
+shape = SubResource("CylinderShape3D_lifebuoy")
+
+[node name="LooseDeckBoxA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 21.5, 0.24, 8.5)
+script = ExtResource("2_simple_prop")
+prop_name = "Loose Deck Item"
+prop_preset = "Medium"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseDeckBoxA"]
+mesh = SubResource("BoxMesh_small_box")
+surface_material_override/0 = SubResource("StandardMaterial3D_box")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseDeckBoxA"]
+shape = SubResource("BoxShape3D_small_box")
+
+[node name="PlasticCupD" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 9.6, 0.18, -7.3)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Plastic Cup"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Cruise Cup D"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupD"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupD"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupE" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 10.8, 0.18, -5.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Plastic Cup"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Cruise Cup E"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupE"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupE"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupF" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 17.0, 0.18, 5.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Plastic Cup"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Cruise Cup F"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupF"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupF"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="DeckBottleB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.342898, 0, 0.939373, 0, 0, -1, -0.939373, 0, 0.342898, 15.6, 0.18, 7.2)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Deck Bottle"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Cruise Deck Bottle B"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/DeckBottleB"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/DeckBottleB"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="DeckBottleC" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.819152, 0, 0.573576, 0, 0, -1, -0.573576, 0, 0.819152, -6.8, 0.18, 6.6)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Deck Bottle"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Cruise Deck Bottle C"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/DeckBottleC"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/DeckBottleC"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="LooseTowelB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.173648, 0, -0.984808, 0, 1, 0, 0.984808, 0, 0.173648, 11.2, 0.08, -8.6)
+script = ExtResource("2_simple_prop")
+prop_name = "Loose Cruise Towel"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Cruise Towel B"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseTowelB"]
+mesh = SubResource("BoxMesh_towel")
+surface_material_override/0 = SubResource("StandardMaterial3D_towel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseTowelB"]
+shape = SubResource("BoxShape3D_towel")
+
+[node name="SunscreenBottleB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.573576, 0, -0.819152, 0, 0, -1, 0.819152, 0, 0.573576, 7.8, 0.18, -7.2)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Sunscreen Bottle"
+prop_preset = "Medium"
+prop_category = "medium"
+debug_name = "Cruise Sunscreen Bottle B"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleB"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_sunscreen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleB"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="SunscreenBottleC" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.906308, 0, 0.422618, 0, 0, -1, -0.422618, 0, 0.906308, 19.0, 0.18, -7.7)
+script = ExtResource("2_simple_prop")
+prop_name = "Cruise Sunscreen Bottle"
+prop_preset = "Medium"
+prop_category = "medium"
+debug_name = "Cruise Sunscreen Bottle C"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleC"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_sunscreen")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleC"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="LooseDeckBoxB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 22.5, 0.24, 7.4)
+script = ExtResource("2_simple_prop")
+prop_name = "Loose Deck Item"
+prop_preset = "Medium"
+prop_category = "medium"
+debug_name = "Loose Deck Box B"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseDeckBoxB"]
+mesh = SubResource("BoxMesh_small_box")
+surface_material_override/0 = SubResource("StandardMaterial3D_box")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseDeckBoxB"]
+shape = SubResource("BoxShape3D_small_box")
+
+[node name="LooseDeckBoxC" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 20.5, 0.24, 9.7)
+script = ExtResource("2_simple_prop")
+prop_name = "Loose Deck Item"
+prop_preset = "Medium"
+prop_category = "medium"
+debug_name = "Loose Deck Box C"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseDeckBoxC"]
+mesh = SubResource("BoxMesh_small_box")
+surface_material_override/0 = SubResource("StandardMaterial3D_box")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseDeckBoxC"]
+shape = SubResource("BoxShape3D_small_box")
+
+[node name="StorageCrateA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 23.6, 0.26, 8.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Deck Storage Crate"
+prop_category = "heavy"
+debug_name = "Deck Storage Crate A"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/StorageCrateA"]
+mesh = SubResource("BoxMesh_small_box")
+surface_material_override/0 = SubResource("StandardMaterial3D_box")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/StorageCrateA"]
+shape = SubResource("BoxShape3D_small_box")
+
+[node name="StorageCrateB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 22.2, 0.26, 9.7)
+script = ExtResource("2_simple_prop")
+prop_name = "Deck Storage Crate"
+prop_category = "heavy"
+debug_name = "Deck Storage Crate B"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/StorageCrateB"]
+mesh = SubResource("BoxMesh_small_box")
+surface_material_override/0 = SubResource("StandardMaterial3D_box")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/StorageCrateB"]
+shape = SubResource("BoxShape3D_small_box")
+
+[node name="StorageCrateC" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.342898, 0, -0.939373, 0, 1, 0, 0.939373, 0, 0.342898, 24.4, 0.26, 7.5)
+script = ExtResource("2_simple_prop")
+prop_name = "Deck Storage Crate"
+prop_category = "heavy"
+debug_name = "Deck Storage Crate C"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/StorageCrateC"]
+mesh = SubResource("BoxMesh_small_box")
+surface_material_override/0 = SubResource("StandardMaterial3D_box")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/StorageCrateC"]
+shape = SubResource("BoxShape3D_small_box")
+
+[node name="Wildlife" type="Node3D" parent="."]
+
+[node name="DistantSeagullA" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(0.906308, 0, -0.422618, 0, 1, 0, 0.422618, 0, 0.906308, -42, 12, -32)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_bird")
+
+[node name="DistantSeagullB" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, 38, 15, 28)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_bird")
+
+[node name="DistantSeagullC" type="MeshInstance3D" parent="Wildlife"]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -18, 13, 40)
+mesh = SubResource("BoxMesh_bird")
+surface_material_override/0 = SubResource("StandardMaterial3D_bird")
+
+[node name="ResetZones" type="Node3D" parent="."]
+
+[node name="Boundaries" type="StaticBody3D" parent="."]
+
+[node name="NorthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -39)
+shape = SubResource("BoxShape3D_boundary")
+
+[node name="SouthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 39)
+shape = SubResource("BoxShape3D_boundary")
+
+[node name="EastWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 42, 3, 0)
+shape = SubResource("BoxShape3D_boundary")
+
+[node name="WestWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -42, 3, 0)
+shape = SubResource("BoxShape3D_boundary")
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="PlayerStart" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.4, 4)
+
+[node name="OpenDeckArea" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.12, 1)

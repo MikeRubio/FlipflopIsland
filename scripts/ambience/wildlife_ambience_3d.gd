@@ -121,6 +121,6 @@ func _animate_fish_splashes(delta: float) -> void:
 
 
 func _play_audio_hook(method_name: String) -> void:
-	var audio := get_tree().get_first_node_in_group("ambience_audio")
+	var audio: Node = get_tree().get_first_node_in_group("ambience_audio")
 	if audio != null and audio.has_method(method_name):
 		audio.call(method_name)

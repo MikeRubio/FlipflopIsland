@@ -111,7 +111,7 @@ func _on_body_entered(body: Node3D) -> void:
 	if not splash_enabled or _splash_played:
 		return
 
-	var audio := get_tree().get_first_node_in_group("ambience_audio")
+	var audio: Node = get_tree().get_first_node_in_group("ambience_audio")
 	if audio != null and audio.has_method("play_pool_splash"):
 		audio.call("play_pool_splash")
 

@@ -19,65 +19,86 @@ friction = 0.62
 bounce = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_deck"]
-albedo_color = Color(0.62, 0.62, 0.58, 1)
+albedo_color = Color(0.58, 0.58, 0.54, 1)
+roughness = 0.66
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tile"]
-albedo_color = Color(0.88, 0.92, 0.9, 1)
+albedo_color = Color(0.68, 0.7, 0.68, 1)
+roughness = 0.62
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_water"]
 transparency = 1
-albedo_color = Color(0.05, 0.52, 0.82, 0.72)
+albedo_color = Color(0.08, 0.55, 0.76, 0.5)
+roughness = 0.12
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wet_tile"]
 transparency = 1
-albedo_color = Color(0.58, 0.78, 0.84, 0.46)
+albedo_color = Color(0.38, 0.52, 0.56, 0.42)
+roughness = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lounger"]
-albedo_color = Color(0.18, 0.42, 0.76, 1)
+albedo_color = Color(0.18, 0.36, 0.58, 1)
+roughness = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal"]
-albedo_color = Color(0.74, 0.78, 0.78, 1)
+albedo_color = Color(0.48, 0.5, 0.48, 1)
+roughness = 0.34
+metallic = 0.65
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umbrella"]
-albedo_color = Color(0.95, 0.22, 0.18, 1)
+albedo_color = Color(0.72, 0.16, 0.13, 1)
+roughness = 0.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bottle"]
 transparency = 1
-albedo_color = Color(0.32, 0.85, 0.72, 0.62)
+albedo_color = Color(0.28, 0.56, 0.48, 0.48)
+roughness = 0.08
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_noodle"]
-albedo_color = Color(0.95, 0.76, 0.16, 1)
+albedo_color = Color(0.78, 0.62, 0.2, 1)
+roughness = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_towel"]
-albedo_color = Color(0.92, 0.34, 0.58, 1)
+albedo_color = Color(0.58, 0.66, 0.7, 1)
+roughness = 0.96
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table"]
-albedo_color = Color(0.9, 0.9, 0.82, 1)
+albedo_color = Color(0.78, 0.78, 0.7, 1)
+roughness = 0.48
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cup"]
 transparency = 1
-albedo_color = Color(0.92, 0.96, 1, 0.7)
+albedo_color = Color(0.85, 0.92, 0.96, 0.5)
+roughness = 0.18
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sign_yellow"]
-albedo_color = Color(1.0, 0.86, 0.12, 1)
+albedo_color = Color(0.9, 0.74, 0.16, 1)
+roughness = 0.44
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sign_black"]
 albedo_color = Color(0.04, 0.04, 0.03, 1)
+roughness = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_planter"]
-albedo_color = Color(0.42, 0.22, 0.11, 1)
+albedo_color = Color(0.34, 0.2, 0.12, 1)
+roughness = 0.82
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_plant"]
-albedo_color = Color(0.08, 0.42, 0.16, 1)
+albedo_color = Color(0.16, 0.34, 0.14, 1)
+roughness = 0.78
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_float"]
-albedo_color = Color(0.18, 0.9, 0.78, 1)
+albedo_color = Color(0.28, 0.62, 0.58, 1)
+roughness = 0.35
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shower"]
-albedo_color = Color(0.72, 0.76, 0.78, 1)
+albedo_color = Color(0.56, 0.6, 0.62, 1)
+roughness = 0.42
+metallic = 0.25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_white_plastic"]
-albedo_color = Color(0.96, 0.96, 0.9, 1)
+albedo_color = Color(0.8, 0.78, 0.68, 1)
+roughness = 0.42
 
 [sub_resource type="BoxMesh" id="BoxMesh_deck"]
 size = Vector3(44, 0.35, 32)
@@ -227,6 +248,12 @@ fall_reset_height = -7.0
 ambience_zone = "resort pool"
 time_of_day = 0.55
 cycle_speed = 0.004
+directional_light_energy_multiplier = 1.12
+ambient_light_energy_multiplier = 1.05
+sky_brightness_multiplier = 1.04
+directional_light_tint = Color(1, 0.98, 0.9, 1)
+ambient_light_tint = Color(0.92, 0.97, 1, 1)
+sky_tint = Color(0.9, 0.97, 1, 1)
 surface_type = "dry_tile"
 surface_name = "Dry Tile"
 surface_friction_hint = 0.72
@@ -258,6 +285,49 @@ surface_material_override/0 = SubResource("StandardMaterial3D_water")
 script = ExtResource("9_water_ambience")
 wave_speed = 0.55
 bob_amplitude = 0.018
+base_color = Color(0.08, 0.55, 0.76, 0.5)
+highlight_color = Color(0.28, 0.72, 0.88, 0.5)
+material_roughness = 0.12
+
+[node name="PoolWaterEdgeNorth" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(7.3, 0, 0, 0, 0.15, 0, 0, 0, 0.08, -7, 0.045, -4.62)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="PoolWaterEdgeSouth" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(7.3, 0, 0, 0, 0.15, 0, 0, 0, 0.08, -7, 0.045, 4.62)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="PoolWaterEdgeEast" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.08, 0, 0, 0, 0.15, 0, 0, 0, 4.6, 0.12, 0.045, 0)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="PoolWaterEdgeWest" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.08, 0, 0, 0, 0.15, 0, 0, 0, 4.6, -14.12, 0.045, 0)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="TileSeamLongA" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(22.0, 0, 0, 0, 0.08, 0, 0, 0, 0.045, 0, 0.01, -11.0)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+
+[node name="TileSeamLongB" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(22.0, 0, 0, 0, 0.08, 0, 0, 0, 0.045, 0, 0.01, 11.0)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+
+[node name="TileSeamCrossA" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.045, 0, 0, 0, 0.08, 0, 0, 0, 16.0, -18.0, 0.011, 0)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+
+[node name="TileSeamCrossB" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.045, 0, 0, 0, 0.08, 0, 0, 0, 16.0, 18.0, 0.011, 0)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_deck")
 
 [node name="WetTilePatchWest" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.015, 0)
@@ -266,6 +336,26 @@ surface_material_override/0 = SubResource("StandardMaterial3D_wet_tile")
 
 [node name="WetTilePatchShower" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.58, 0, 0, 0, 1, 0, 0, 0, 0.62, 16, 0.018, -10)
+mesh = SubResource("BoxMesh_wet_tile_patch")
+surface_material_override/0 = SubResource("StandardMaterial3D_wet_tile")
+
+[node name="WetPuddleByChairs" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.28, 0, 0, 0, 1, 0, 0, 0, 0.2, 9.5, 0.02, -7.8)
+mesh = SubResource("BoxMesh_wet_tile_patch")
+surface_material_override/0 = SubResource("StandardMaterial3D_wet_tile")
+
+[node name="WetTileGlintWest" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.4, 0, 0.32, 0, 0.1, 0, -0.32, 0, 0.22, -7.8, 0.032, -2.5)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="WetTileGlintChairs" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.55, 0, -0.18, 0, 0.1, 0, 0.18, 0, 0.16, 9.5, 0.034, -7.85)
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[node name="WetPuddleSouthDeck" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.22, 0, 0, 0, 1, 0, 0, 0, 0.18, 14.5, 0.02, 7.2)
 mesh = SubResource("BoxMesh_wet_tile_patch")
 surface_material_override/0 = SubResource("StandardMaterial3D_wet_tile")
 
@@ -313,6 +403,50 @@ surface_material_override/0 = SubResource("StandardMaterial3D_tile")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/PoolTileEast"]
 shape = SubResource("BoxShape3D_pool_wall_short")
 
+[node name="LowTileStepEast" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(0.55, 0, 0, 0, 0.45, 0, 0, 0, 0.5, 3.2, 0.08, 3.5)
+physics_material_override = SubResource("PhysicsMaterial_pool_edge")
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/LowTileStepEast"]
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_tile")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/LowTileStepEast"]
+shape = SubResource("BoxShape3D_table_top")
+
+[node name="LowTileStepSouth" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(0.9, 0, 0, 0, 0.42, 0, 0, 0, 0.45, 7.2, 0.08, 9.6)
+physics_material_override = SubResource("PhysicsMaterial_pool_edge")
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/LowTileStepSouth"]
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_tile")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/LowTileStepSouth"]
+shape = SubResource("BoxShape3D_table_top")
+
+[node name="FlipflopRampPoolEdge" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1.25, 0, 0, 0, 0.26, -0.13, 0, 0.13, 0.62, 1.9, 0.1, -2.6)
+physics_material_override = SubResource("PhysicsMaterial_pool_edge")
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/FlipflopRampPoolEdge"]
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_tile")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/FlipflopRampPoolEdge"]
+shape = SubResource("BoxShape3D_table_top")
+
+[node name="FlipflopRampSouthDeck" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1.1, 0, 0, 0, 0.24, 0.12, 0, -0.12, 0.55, 10.7, 0.09, 9.7)
+physics_material_override = SubResource("PhysicsMaterial_pool_edge")
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/FlipflopRampSouthDeck"]
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_tile")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/FlipflopRampSouthDeck"]
+shape = SubResource("BoxShape3D_table_top")
+
 [node name="Water" type="Node3D" parent="."]
 
 [node name="PoolWaterZone" type="Area3D" parent="Water"]
@@ -341,9 +475,9 @@ particle_type = "splash"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Water/PoolWaterZone"]
 shape = SubResource("BoxShape3D_pool_water_zone")
 
-[node name="SurfaceZones" type="Node3D" parent="."]
+[node name="Surfaces" type="Node3D" parent="."]
 
-[node name="WetTilePoolEdgeZone" type="Area3D" parent="SurfaceZones"]
+[node name="WetTilePoolEdgeZone" type="Area3D" parent="Surfaces"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.32, 0)
 script = ExtResource("7_surface_zone")
 surface_type = "wet_tile"
@@ -358,10 +492,10 @@ particle_type = "splash"
 slide_force = 0.035
 slide_direction = Vector3(0.3, 0, 0.1)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SurfaceZones/WetTilePoolEdgeZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/WetTilePoolEdgeZone"]
 shape = SubResource("BoxShape3D_wet_tile_zone")
 
-[node name="WetTileShowerZone" type="Area3D" parent="SurfaceZones"]
+[node name="WetTileShowerZone" type="Area3D" parent="Surfaces"]
 transform = Transform3D(0.58, 0, 0, 0, 1, 0, 0, 0, 0.62, 16, 0.32, -10)
 script = ExtResource("7_surface_zone")
 surface_type = "wet_tile"
@@ -376,7 +510,43 @@ particle_type = "splash"
 slide_force = 0.025
 slide_direction = Vector3(-0.2, 0, 0.25)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SurfaceZones/WetTileShowerZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/WetTileShowerZone"]
+shape = SubResource("BoxShape3D_wet_tile_zone")
+
+[node name="WetPuddleByChairsZone" type="Area3D" parent="Surfaces"]
+transform = Transform3D(0.28, 0, 0, 0, 1, 0, 0, 0, 0.2, 9.5, 0.3, -7.8)
+script = ExtResource("7_surface_zone")
+surface_type = "wet_tile"
+surface_name = "Wet Tile Puddle"
+move_force_multiplier = 0.68
+linear_damping_multiplier = 0.42
+angular_damping_multiplier = 0.78
+jump_multiplier = 0.92
+landing_impact_multiplier = 0.86
+landing_sound_type = "wet_tile"
+particle_type = "splash"
+slide_force = 0.03
+slide_direction = Vector3(0.2, 0, -0.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/WetPuddleByChairsZone"]
+shape = SubResource("BoxShape3D_wet_tile_zone")
+
+[node name="WetPuddleSouthDeckZone" type="Area3D" parent="Surfaces"]
+transform = Transform3D(0.22, 0, 0, 0, 1, 0, 0, 0, 0.18, 14.5, 0.3, 7.2)
+script = ExtResource("7_surface_zone")
+surface_type = "wet_tile"
+surface_name = "Wet Tile Puddle"
+move_force_multiplier = 0.68
+linear_damping_multiplier = 0.42
+angular_damping_multiplier = 0.78
+jump_multiplier = 0.92
+landing_impact_multiplier = 0.86
+landing_sound_type = "wet_tile"
+particle_type = "splash"
+slide_force = 0.025
+slide_direction = Vector3(-0.25, 0, 0.15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Surfaces/WetPuddleSouthDeckZone"]
 shape = SubResource("BoxShape3D_wet_tile_zone")
 
 [node name="StaticProps" type="Node3D" parent="."]
@@ -550,6 +720,109 @@ transform = Transform3D(0.42, 0, 0, 0, 0.08, 0, 0, 0, 0.42, -0.32, 2.3, 0)
 mesh = SubResource("CylinderMesh_umbrella_pole")
 surface_material_override/0 = SubResource("StandardMaterial3D_shower")
 
+[node name="LoungeChairWest" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -18, 0.12, -7)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairWest"]
+mesh = SubResource("BoxMesh_lounger")
+surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairWest"]
+shape = SubResource("BoxShape3D_lounger")
+
+[node name="LoungeChairFarSouth" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, -1.5, 0.12, 12.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairFarSouth"]
+mesh = SubResource("BoxMesh_lounger")
+surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairFarSouth"]
+shape = SubResource("BoxShape3D_lounger")
+
+[node name="UmbrellaWest" type="Node3D" parent="StaticProps"]
+transform = Transform3D(0.573576, 0, -0.819152, 0, 1, 0, 0.819152, 0, 0.573576, -18, 0, -10.5)
+
+[node name="Pole" type="StaticBody3D" parent="StaticProps/UmbrellaWest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/UmbrellaWest/Pole"]
+mesh = SubResource("CylinderMesh_umbrella_pole")
+surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/UmbrellaWest/Pole"]
+shape = SubResource("CylinderShape3D_umbrella_pole")
+
+[node name="Top" type="MeshInstance3D" parent="StaticProps/UmbrellaWest"]
+transform = Transform3D(1.05, 0, 0, 0, 1, 0, 0, 0, 1.05, 0, 2.35, 0)
+mesh = SubResource("CylinderMesh_umbrella_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_umbrella")
+
+[node name="SmallTableWest" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, -16, 0.42, -5.5)
+
+[node name="TopMesh" type="MeshInstance3D" parent="StaticProps/SmallTableWest"]
+mesh = SubResource("BoxMesh_table_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_table")
+
+[node name="TopCollision" type="CollisionShape3D" parent="StaticProps/SmallTableWest"]
+shape = SubResource("BoxShape3D_table_top")
+
+[node name="PoleMesh" type="MeshInstance3D" parent="StaticProps/SmallTableWest"]
+transform = Transform3D(0.7, 0, 0, 0, 0.28, 0, 0, 0, 0.7, 0, -0.32, 0)
+mesh = SubResource("CylinderMesh_umbrella_pole")
+surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+
+[node name="TowelWest" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.906308, 0, -0.422618, 0, 1, 0, 0.422618, 0, 0.906308, -17.5, 0.025, -3)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/TowelWest"]
+mesh = SubResource("BoxMesh_towel")
+surface_material_override/0 = SubResource("StandardMaterial3D_towel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/TowelWest"]
+shape = SubResource("BoxShape3D_towel")
+
+[node name="TowelOpenDeck" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 4, 0.025, 11.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="StaticProps/TowelOpenDeck"]
+mesh = SubResource("BoxMesh_towel")
+surface_material_override/0 = SubResource("StandardMaterial3D_towel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/TowelOpenDeck"]
+shape = SubResource("BoxShape3D_towel")
+
+[node name="WetFloorSignShower" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, 0.819152, 14.6, 0.36, -8.4)
+
+[node name="BoardMesh" type="MeshInstance3D" parent="StaticProps/WetFloorSignShower"]
+mesh = SubResource("BoxMesh_wet_floor_sign")
+surface_material_override/0 = SubResource("StandardMaterial3D_sign_yellow")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/WetFloorSignShower"]
+shape = SubResource("BoxShape3D_wet_floor_sign")
+
+[node name="WarningStripe" type="MeshInstance3D" parent="StaticProps/WetFloorSignShower"]
+transform = Transform3D(0.12, 0, 0, 0, 0.72, 0, 0, 0, 1.08, 0, 0, 0.05)
+mesh = SubResource("BoxMesh_wet_floor_sign")
+surface_material_override/0 = SubResource("StandardMaterial3D_sign_black")
+
+[node name="PlanterWest" type="StaticBody3D" parent="StaticProps"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -20, 0.24, 10)
+
+[node name="PotMesh" type="MeshInstance3D" parent="StaticProps/PlanterWest"]
+mesh = SubResource("CylinderMesh_planter")
+surface_material_override/0 = SubResource("StandardMaterial3D_planter")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/PlanterWest"]
+shape = SubResource("CylinderShape3D_planter")
+
+[node name="PlantMesh" type="MeshInstance3D" parent="StaticProps/PlanterWest"]
+transform = Transform3D(1, 0, 0, 0, 0.72, 0, 0, 0, 1, 0, 0.58, 0)
+mesh = SubResource("SphereMesh_plant")
+surface_material_override/0 = SubResource("StandardMaterial3D_plant")
+
 [node name="PhysicsProps" type="Node3D" parent="."]
 
 [node name="BeachBallByPool" parent="PhysicsProps" instance=ExtResource("3_beach_ball")]
@@ -721,7 +994,308 @@ surface_material_override/0 = SubResource("StandardMaterial3D_float")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/FloatingPoolToy"]
 shape = SubResource("SphereShape3D_pool_toy")
 
+[node name="BeachBallWetTile" parent="PhysicsProps" instance=ExtResource("3_beach_ball")]
+transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, 7.5, 0.34, -8.4)
+prop_mass = 0.1
+bounce = 0.76
+friction = 0.24
+prop_linear_damp = 0.28
+prop_angular_damp = 0.38
+nudge_impulse = 0.72
+
+[node name="BeachBallNearFloat" parent="PhysicsProps" instance=ExtResource("3_beach_ball")]
+transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, -9.6, 0.3, 3.6)
+prop_mass = 0.08
+bounce = 0.82
+friction = 0.22
+prop_linear_damp = 0.24
+prop_angular_damp = 0.34
+nudge_impulse = 0.82
+
+[node name="PoolFloatRingSouth" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2.2, 0.32, 9.5)
+script = ExtResource("2_simple_prop")
+prop_name = "Inflatable Ring"
+prop_mass = 0.16
+bounce = 0.58
+friction = 0.24
+prop_linear_damp = 0.32
+prop_angular_damp = 0.42
+nudge_impulse = 0.72
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PoolFloatRingSouth"]
+mesh = SubResource("TorusMesh_float_ring")
+surface_material_override/0 = SubResource("StandardMaterial3D_float")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PoolFloatRingSouth"]
+shape = SubResource("CylinderShape3D_float_ring")
+
+[node name="PoolNoodleSouth" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, 6.5, 0.16, 10.2)
+script = ExtResource("2_simple_prop")
+prop_name = "Pool Noodle"
+prop_preset = "Light"
+prop_mass = 0.18
+bounce = 0.32
+friction = 0.34
+prop_linear_damp = 0.62
+prop_angular_damp = 0.84
+nudge_impulse = 0.42
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PoolNoodleSouth"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+mesh = SubResource("CylinderMesh_pool_noodle")
+surface_material_override/0 = SubResource("StandardMaterial3D_noodle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PoolNoodleSouth"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+shape = SubResource("CylinderShape3D_pool_noodle")
+
+[node name="PoolNoodleWest" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -16.2, 0.16, -8.6)
+script = ExtResource("2_simple_prop")
+prop_name = "Pool Noodle"
+prop_preset = "Light"
+prop_mass = 0.18
+bounce = 0.32
+friction = 0.34
+prop_linear_damp = 0.62
+prop_angular_damp = 0.84
+nudge_impulse = 0.42
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PoolNoodleWest"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+mesh = SubResource("CylinderMesh_pool_noodle")
+surface_material_override/0 = SubResource("StandardMaterial3D_noodle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PoolNoodleWest"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+shape = SubResource("CylinderShape3D_pool_noodle")
+
+[node name="SunscreenBottleWest" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.5, 0, 0.866025, 0, 0, -1, -0.866025, 0, 0.5, -15.3, 0.18, -5.2)
+script = ExtResource("2_simple_prop")
+prop_name = "Sunscreen Bottle"
+prop_mass = 0.42
+bounce = 0.12
+friction = 0.44
+prop_linear_damp = 0.62
+prop_angular_damp = 0.85
+nudge_impulse = 0.32
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleWest"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_white_plastic")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleWest"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="PlasticBottleSouth" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.173648, 0, 0.984808, 0, 0, -1, -0.984808, 0, 0.173648, 3.5, 0.18, 11.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Poolside Bottle"
+prop_preset = "Light"
+prop_mass = 0.22
+bounce = 0.18
+friction = 0.42
+prop_linear_damp = 0.65
+prop_angular_damp = 0.9
+nudge_impulse = 0.3
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticBottleSouth"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticBottleSouth"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="PlasticCupWestA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -15.8, 0.18, -5.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Plastic Cup"
+prop_preset = "Light"
+prop_mass = 0.06
+bounce = 0.22
+friction = 0.32
+prop_linear_damp = 0.55
+prop_angular_damp = 0.75
+nudge_impulse = 0.28
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupWestA"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupWestA"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupWestB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -16.7, 0.18, -4.9)
+script = ExtResource("2_simple_prop")
+prop_name = "Plastic Cup"
+prop_preset = "Light"
+prop_mass = 0.06
+bounce = 0.22
+friction = 0.32
+prop_linear_damp = 0.55
+prop_angular_damp = 0.75
+nudge_impulse = 0.28
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupWestB"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupWestB"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupPuddle" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.342898, 0, -0.939373, 0, 1, 0, 0.939373, 0, 0.342898, 9.4, 0.18, -7.2)
+script = ExtResource("2_simple_prop")
+prop_name = "Plastic Cup"
+prop_preset = "Light"
+prop_mass = 0.06
+bounce = 0.22
+friction = 0.28
+prop_linear_damp = 0.5
+prop_angular_damp = 0.7
+nudge_impulse = 0.28
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupPuddle"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupPuddle"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupClusterA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, -14.8, 0.18, -6.5)
+script = ExtResource("2_simple_prop")
+prop_name = "Plastic Cup"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Pool Cup Cluster A"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupClusterA"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupClusterA"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="PlasticCupClusterB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, -13.7, 0.18, -5.7)
+script = ExtResource("2_simple_prop")
+prop_name = "Plastic Cup"
+prop_preset = "Light"
+prop_category = "light"
+debug_name = "Pool Cup Cluster B"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupClusterB"]
+mesh = SubResource("CylinderMesh_cup")
+surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupClusterB"]
+shape = SubResource("CylinderShape3D_cup")
+
+[node name="WetFloorSignLooseA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -12.6, 0.42, -6.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Wet Floor Sign"
+prop_preset = "Medium"
+prop_category = "medium"
+debug_name = "Loose Wet Floor Sign A"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/WetFloorSignLooseA"]
+mesh = SubResource("BoxMesh_wet_floor_sign")
+surface_material_override/0 = SubResource("StandardMaterial3D_sign_yellow")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/WetFloorSignLooseA"]
+shape = SubResource("BoxShape3D_wet_floor_sign")
+
+[node name="WetFloorSignLooseB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.422618, 0, -0.906308, 0, 1, 0, 0.906308, 0, 0.422618, 10.8, 0.42, -8.2)
+script = ExtResource("2_simple_prop")
+prop_name = "Wet Floor Sign"
+prop_preset = "Medium"
+prop_category = "medium"
+debug_name = "Loose Wet Floor Sign B"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/WetFloorSignLooseB"]
+mesh = SubResource("BoxMesh_wet_floor_sign")
+surface_material_override/0 = SubResource("StandardMaterial3D_sign_yellow")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/WetFloorSignLooseB"]
+shape = SubResource("BoxShape3D_wet_floor_sign")
+
+[node name="SunscreenBottleCluster" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.819152, 0, 0.573576, 0, 0, -1, -0.573576, 0, 0.819152, -13.2, 0.18, -7.7)
+script = ExtResource("2_simple_prop")
+prop_name = "Sunscreen Bottle"
+prop_preset = "Medium"
+prop_category = "medium"
+debug_name = "Sunscreen Bottle Cluster"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleCluster"]
+mesh = SubResource("CylinderMesh_bottle")
+surface_material_override/0 = SubResource("StandardMaterial3D_white_plastic")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleCluster"]
+shape = SubResource("CylinderShape3D_bottle")
+
+[node name="MovablePlanterA" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -15.6, 0.34, -6.9)
+script = ExtResource("2_simple_prop")
+prop_name = "Movable Pool Planter"
+prop_category = "heavy"
+debug_name = "Movable Pool Planter A"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/MovablePlanterA"]
+mesh = SubResource("CylinderMesh_planter")
+surface_material_override/0 = SubResource("StandardMaterial3D_planter")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/MovablePlanterA"]
+shape = SubResource("CylinderShape3D_planter")
+
+[node name="MovablePlanterB" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -16.8, 0.34, -5.8)
+script = ExtResource("2_simple_prop")
+prop_name = "Movable Pool Planter"
+prop_category = "heavy"
+debug_name = "Movable Pool Planter B"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/MovablePlanterB"]
+mesh = SubResource("CylinderMesh_planter")
+surface_material_override/0 = SubResource("StandardMaterial3D_planter")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/MovablePlanterB"]
+shape = SubResource("CylinderShape3D_planter")
+
+[node name="ChunkyPoolToyBin" type="RigidBody3D" parent="PhysicsProps"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -16.0, 0.34, -4.5)
+script = ExtResource("2_simple_prop")
+prop_name = "Chunky Pool Toy Bin"
+prop_category = "heavy"
+debug_name = "Chunky Pool Toy Bin"
+collision_sound_key = "slap"
+
+[node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/ChunkyPoolToyBin"]
+mesh = SubResource("CylinderMesh_planter")
+surface_material_override/0 = SubResource("StandardMaterial3D_float")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/ChunkyPoolToyBin"]
+shape = SubResource("CylinderShape3D_planter")
+
+[node name="Ambience" type="Node3D" parent="."]
+
 [node name="Wildlife" type="Node3D" parent="."]
+
+[node name="ResetZones" type="Node3D" parent="."]
 
 [node name="Boundaries" type="StaticBody3D" parent="."]
 

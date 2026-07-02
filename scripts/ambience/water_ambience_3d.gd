@@ -8,6 +8,9 @@ extends MeshInstance3D
 @export var wave_speed: float = 0.55
 @export var bob_amplitude: float = 0.035
 @export var color_pulse_amount: float = 0.08
+@export var base_color: Color = Color(0.02, 0.3, 0.42, 0.72)
+@export var highlight_color: Color = Color(0.08, 0.48, 0.62, 0.72)
+@export var material_roughness: float = 0.16
 
 var _start_position: Vector3
 var _time: float = 0.0
@@ -20,6 +23,9 @@ func _ready() -> void:
 	var original_material := get_active_material(0) as StandardMaterial3D
 	if original_material != null:
 		_material = original_material.duplicate() as StandardMaterial3D
+		_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_material.roughness = material_roughness
+		_material.albedo_color = base_color
 		set_surface_override_material(0, _material)
 
 
@@ -31,5 +37,5 @@ func _process(delta: float) -> void:
 	position.y = _start_position.y + sin(_time) * bob_amplitude
 
 	if _material != null:
-		var pulse := sin(_time * 0.7) * color_pulse_amount
-		_material.albedo_color = Color(0.02 + pulse * 0.2, 0.3 + pulse, 0.42 + pulse, 0.72)
+		var pulse_amount: float = (sin(_time * 0.7) * 0.5 + 0.5) * color_pulse_amount
+		_material.albedo_color = base_color.lerp(highlight_color, pulse_amount)

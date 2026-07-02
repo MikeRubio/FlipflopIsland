@@ -7,7 +7,8 @@ friction = 0.92
 bounce = 0.06
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sand_chunk"]
-albedo_color = Color(0.78, 0.61, 0.34, 1)
+albedo_color = Color(0.72, 0.61, 0.42, 1)
+roughness = 0.94
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_sand_chunk"]
 top_radius = 0.18

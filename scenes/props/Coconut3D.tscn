@@ -7,7 +7,8 @@ friction = 0.55
 bounce = 0.45
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coconut"]
-albedo_color = Color(0.35, 0.18, 0.08, 1)
+albedo_color = Color(0.28, 0.16, 0.08, 1)
+roughness = 0.9
 
 [sub_resource type="SphereMesh" id="SphereMesh_coconut"]
 radius = 0.16

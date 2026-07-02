@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "Ocean Water"
+transparency = 1
+albedo_color = Color(0.04, 0.32, 0.48, 0.58)
+roughness = 0.16
+metallic = 0.0

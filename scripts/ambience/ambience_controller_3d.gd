@@ -17,6 +17,14 @@ extends Node
 @export var directional_light_path: NodePath
 @export var world_environment_path: NodePath
 
+@export_group("Visual Lighting")
+@export var directional_light_energy_multiplier: float = 1.0
+@export var ambient_light_energy_multiplier: float = 1.0
+@export var sky_brightness_multiplier: float = 1.0
+@export var directional_light_tint: Color = Color(1.0, 1.0, 1.0)
+@export var ambient_light_tint: Color = Color(1.0, 1.0, 1.0)
+@export var sky_tint: Color = Color(1.0, 1.0, 1.0)
+
 @export_group("Audio Placeholders")
 @export var ocean_loop_path: NodePath
 @export var wind_loop_path: NodePath
@@ -90,16 +98,22 @@ func _apply_lighting() -> void:
 	var warm_edge := clampf(maxf(sunrise_amount, sunset_amount), 0.0, 1.0)
 
 	if _light != null:
+		var light_color: Color = Color(
+			1.0,
+			lerpf(0.72, 0.96, daylight),
+			lerpf(0.55, 0.88, daylight)
+		)
 		_light.rotation_degrees = Vector3(
 			lerpf(-18.0, -62.0, daylight),
 			lerpf(-35.0, 25.0, time_of_day),
 			0.0
 		)
-		_light.light_energy = lerpf(0.35, 2.1, daylight)
-		_light.light_color = Color(1.0, lerpf(0.72, 0.96, daylight), lerpf(0.55, 0.88, daylight))
+		_light.light_energy = lerpf(0.35, 2.1, daylight) * directional_light_energy_multiplier
+		_light.light_color = _tinted_color(light_color, directional_light_tint, 1.0)
 
 	if _environment != null:
-		_environment.ambient_light_energy = lerpf(0.28, 0.78, daylight)
+		_environment.ambient_light_energy = lerpf(0.28, 0.78, daylight) * ambient_light_energy_multiplier
+		_environment.ambient_light_color = ambient_light_tint
 
 	if _sky_material != null:
 		var night_top := Color(0.03, 0.05, 0.13)
@@ -107,8 +121,19 @@ func _apply_lighting() -> void:
 		var sunset_top := Color(0.44, 0.2, 0.25)
 		var top_color := night_top.lerp(day_top, daylight).lerp(sunset_top, warm_edge * 0.25)
 		var horizon_color := Color(0.07, 0.12, 0.18).lerp(Color(0.78, 0.9, 0.95), daylight)
-		_sky_material.sky_top_color = top_color
-		_sky_material.sky_horizon_color = horizon_color
+		_sky_material.sky_top_color = _tinted_color(top_color, sky_tint, sky_brightness_multiplier)
+		_sky_material.sky_horizon_color = _tinted_color(horizon_color, sky_tint, sky_brightness_multiplier)
+
+
+func _tinted_color(base_color: Color, tint: Color, brightness: float) -> Color:
+	var safe_brightness: float = maxf(brightness, 0.0)
+
+	return Color(
+		clampf(base_color.r * tint.r * safe_brightness, 0.0, 1.0),
+		clampf(base_color.g * tint.g * safe_brightness, 0.0, 1.0),
+		clampf(base_color.b * tint.b * safe_brightness, 0.0, 1.0),
+		base_color.a
+	)
 
 
 func play_ocean_loop() -> void:
