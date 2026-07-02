@@ -1,0 +1,19 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/fabric_polyester/fabric_polyester_albedo.png" id="1_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/fabric_polyester/fabric_polyester_normal.png" id="2_normal"]
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/fabric_polyester/fabric_polyester_roughness.png" id="3_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/fabric_polyester/fabric_polyester_ao.png" id="4_ao"]
+
+[resource]
+resource_name = "PBR Fabric Polyester"
+albedo_color = Color(0.72, 0.67, 0.58, 1)
+albedo_texture = ExtResource("1_albedo")
+roughness = 0.9
+roughness_texture = ExtResource("3_roughness")
+normal_enabled = true
+normal_scale = 0.45
+normal_texture = ExtResource("2_normal")
+ao_enabled = true
+ao_texture = ExtResource("4_ao")
+uv1_scale = Vector3(4, 4, 1)

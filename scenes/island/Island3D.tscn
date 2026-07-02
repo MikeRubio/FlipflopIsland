@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3]
+[gd_scene load_steps=89 format=3]
 
 [ext_resource type="Script" path="res://scripts/island/island_scale_notes_3d.gd" id="1_notes"]
 [ext_resource type="Script" path="res://scripts/island/wave_push_zone_3d.gd" id="2_wave"]
@@ -23,6 +23,10 @@
 [ext_resource type="Material" path="res://assets/materials/pbr/plastic.tres" id="pbr_plastic"]
 [ext_resource type="Material" path="res://assets/materials/pbr/rock.tres" id="pbr_rock"]
 [ext_resource type="Material" path="res://assets/materials/pbr/sand.tres" id="pbr_sand"]
+[ext_resource type="Material" path="res://assets/materials/pbr/fabric_mesh.tres" id="pbr_fabric_mesh"]
+[ext_resource type="Material" path="res://assets/materials/pbr/weathered_metal.tres" id="pbr_weathered_metal"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wet_ground.tres" id="pbr_wet_ground"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wet_pebbles.tres" id="pbr_wet_pebbles"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sand"]
 albedo_color = Color(0.72, 0.61, 0.42, 1)
@@ -294,7 +298,7 @@ boundary_size = 75.0
 [node name="WetSandShoreline" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.72, 0, -0.285, 0)
 mesh = SubResource("CylinderMesh_wet_sand")
-surface_material_override/0 = ExtResource("pbr_sand")
+surface_material_override/0 = ExtResource("pbr_wet_ground")
 
 
 [node name="SandIsland" type="StaticBody3D" parent="Terrain"]
@@ -813,13 +817,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_seaweed")
 [node name="TidePoolNorth" type="MeshInstance3D" parent="StaticProps"]
 transform = Transform3D(1.35, 0, 0, 0, 1, 0, 0, 0, 0.55, 18, 0.035, -25)
 mesh = SubResource("CylinderMesh_tide_pool")
-surface_material_override/0 = ExtResource("pbr_ocean_water")
+surface_material_override/0 = ExtResource("pbr_wet_pebbles")
 
 
 [node name="TidePoolSouthWest" type="MeshInstance3D" parent="StaticProps"]
 transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 0.48, -25, 0.035, 22)
 mesh = SubResource("CylinderMesh_tide_pool")
-surface_material_override/0 = ExtResource("pbr_ocean_water")
+surface_material_override/0 = ExtResource("pbr_wet_pebbles")
 
 
 [node name="SmallSandMoundWest" type="StaticBody3D" parent="StaticProps"]
@@ -936,12 +940,12 @@ transform = Transform3D(1.149307, 0, 0.386167, 0, 1.212449, 0, -0.386167, 0, 1.1
 
 [node name="NetMeshA" type="MeshInstance3D" parent="StaticProps/BrokenFishingNet"]
 mesh = SubResource("BoxMesh_palm_leaf")
-surface_material_override/0 = SubResource("StandardMaterial3D_seaweed")
+surface_material_override/0 = ExtResource("pbr_fabric_mesh")
 
 [node name="NetMeshB" type="MeshInstance3D" parent="StaticProps/BrokenFishingNet"]
 transform = Transform3D(0.35, 0, 0.94, 0, 1, 0, -0.94, 0, 0.35, 0, 0.018, 0)
 mesh = SubResource("BoxMesh_palm_leaf")
-surface_material_override/0 = SubResource("StandardMaterial3D_seaweed")
+surface_material_override/0 = ExtResource("pbr_fabric_mesh")
 
 [node name="NetCollision" type="CollisionShape3D" parent="StaticProps/BrokenFishingNet"]
 shape = SubResource("BoxShape3D_palm_leaf")
@@ -1120,7 +1124,7 @@ nudge_impulse = 0.25
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/ShovelPlaceholder"]
 mesh = SubResource("BoxMesh_shovel")
-surface_material_override/0 = ExtResource("pbr_plastic")
+surface_material_override/0 = ExtResource("pbr_weathered_metal")
 
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/ShovelPlaceholder"]

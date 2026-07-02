@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3]
+[gd_scene load_steps=88 format=3]
 
 [ext_resource type="Script" path="res://scripts/scenery/scenery_settings_3d.gd" id="1_settings"]
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="2_simple_prop"]
@@ -13,6 +13,10 @@
 [ext_resource type="Material" path="res://assets/materials/pbr/sand.tres" id="pbr_sand"]
 [ext_resource type="Material" path="res://assets/materials/pbr/wood.tres" id="pbr_wood"]
 [ext_resource type="Material" path="res://assets/materials/pbr/wood_planks.tres" id="pbr_wood_planks"]
+[ext_resource type="Material" path="res://assets/materials/pbr/concrete_wall.tres" id="pbr_concrete_wall"]
+[ext_resource type="Material" path="res://assets/materials/pbr/metal_plate.tres" id="pbr_metal_plate"]
+[ext_resource type="Material" path="res://assets/materials/pbr/weathered_metal.tres" id="pbr_weathered_metal"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wet_ground.tres" id="pbr_wet_ground"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood"]
 albedo_color = Color(0.44, 0.31, 0.2, 1)
@@ -398,13 +402,13 @@ shape = SubResource("BoxShape3D_sand")
 [node name="WetBoardwalkPatchA" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.85, 0, 0, 0, 1, 0, 0, 0, 0.75, -7, 0.02, -2.5)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = ExtResource("pbr_old_wood")
+surface_material_override/0 = ExtResource("pbr_wet_ground")
 
 
 [node name="WetBoardwalkPatchB" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.55, 0, 0, 0, 1, 0, 0, 0, 0.7, 18, 0.02, 3.5)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = ExtResource("pbr_old_wood")
+surface_material_override/0 = ExtResource("pbr_wet_ground")
 
 
 [node name="OceanPlane" type="MeshInstance3D" parent="Terrain"]
@@ -622,7 +626,7 @@ transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 
 
 [node name="Base" type="MeshInstance3D" parent="StaticProps/FoodStand"]
 mesh = SubResource("BoxMesh_stand_base")
-surface_material_override/0 = ExtResource("pbr_wood")
+surface_material_override/0 = ExtResource("pbr_concrete_wall")
 
 
 [node name="BaseCollision" type="CollisionShape3D" parent="StaticProps/FoodStand"]
@@ -658,7 +662,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.45, -4.5)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/BigTrashBinWest"]
 mesh = SubResource("CylinderMesh_trash_can")
-surface_material_override/0 = ExtResource("pbr_plastic")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/BigTrashBinWest"]
@@ -669,7 +673,7 @@ transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 
 
 [node name="Board" type="MeshInstance3D" parent="StaticProps/BeachTownSign"]
 mesh = SubResource("BoxMesh_sign_board")
-surface_material_override/0 = ExtResource("pbr_wood")
+surface_material_override/0 = ExtResource("pbr_weathered_metal")
 
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/BeachTownSign"]
@@ -728,7 +732,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/UmbrellaSandA/Pole"]
 mesh = SubResource("CylinderMesh_umbrella_pole")
-surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+surface_material_override/0 = ExtResource("pbr_weathered_metal")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/UmbrellaSandA/Pole"]
 shape = SubResource("CylinderShape3D_umbrella_pole")
@@ -746,7 +750,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/UmbrellaSandB/Pole"]
 mesh = SubResource("CylinderMesh_umbrella_pole")
-surface_material_override/0 = SubResource("StandardMaterial3D_metal")
+surface_material_override/0 = ExtResource("pbr_weathered_metal")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/UmbrellaSandB/Pole"]
 shape = SubResource("CylinderShape3D_umbrella_pole")
@@ -785,7 +789,7 @@ collision_sound_speed = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SodaCanA"]
 mesh = SubResource("CylinderMesh_can")
-surface_material_override/0 = SubResource("StandardMaterial3D_can")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SodaCanA"]
 shape = SubResource("CylinderShape3D_can")
@@ -799,7 +803,7 @@ collision_sound_speed = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SodaCanB"]
 mesh = SubResource("CylinderMesh_can")
-surface_material_override/0 = SubResource("StandardMaterial3D_can")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SodaCanB"]
 shape = SubResource("CylinderShape3D_can")
@@ -813,7 +817,7 @@ collision_sound_speed = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SodaCanC"]
 mesh = SubResource("CylinderMesh_can")
-surface_material_override/0 = SubResource("StandardMaterial3D_can")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SodaCanC"]
 shape = SubResource("CylinderShape3D_can")
@@ -968,7 +972,7 @@ prop_angular_damp = 0.9
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/RollingTrashA"]
 mesh = SubResource("CylinderMesh_rolling_trash")
-surface_material_override/0 = ExtResource("pbr_plastic")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/RollingTrashA"]
@@ -986,7 +990,7 @@ prop_angular_damp = 0.9
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/RollingTrashB"]
 mesh = SubResource("CylinderMesh_rolling_trash")
-surface_material_override/0 = ExtResource("pbr_plastic")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/RollingTrashB"]
@@ -1004,7 +1008,7 @@ prop_angular_damp = 1.08
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LightweightSign"]
 mesh = SubResource("BoxMesh_sign_board")
-surface_material_override/0 = ExtResource("pbr_wood")
+surface_material_override/0 = ExtResource("pbr_weathered_metal")
 
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LightweightSign"]
@@ -1036,7 +1040,7 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SodaCanD"]
 mesh = SubResource("CylinderMesh_can")
-surface_material_override/0 = SubResource("StandardMaterial3D_can")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SodaCanD"]
 shape = SubResource("CylinderShape3D_can")
@@ -1052,7 +1056,7 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SodaCanE"]
 mesh = SubResource("CylinderMesh_can")
-surface_material_override/0 = SubResource("StandardMaterial3D_can")
+surface_material_override/0 = ExtResource("pbr_metal_plate")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SodaCanE"]
 shape = SubResource("CylinderShape3D_can")
@@ -1101,7 +1105,7 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LightweightSignB"]
 mesh = SubResource("BoxMesh_sign_board")
-surface_material_override/0 = ExtResource("pbr_wood")
+surface_material_override/0 = ExtResource("pbr_weathered_metal")
 
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LightweightSignB"]

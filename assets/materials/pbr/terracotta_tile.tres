@@ -1,0 +1,19 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/terracotta_tile/terracotta_tile_albedo.png" id="1_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/terracotta_tile/terracotta_tile_normal.png" id="2_normal"]
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/terracotta_tile/terracotta_tile_roughness.png" id="3_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/pbr/terracotta_tile/terracotta_tile_ao.png" id="4_ao"]
+
+[resource]
+resource_name = "PBR Terracotta Tile"
+albedo_color = Color(0.62, 0.34, 0.22, 1)
+albedo_texture = ExtResource("1_albedo")
+roughness = 0.74
+roughness_texture = ExtResource("3_roughness")
+normal_enabled = true
+normal_scale = 0.55
+normal_texture = ExtResource("2_normal")
+ao_enabled = true
+ao_texture = ExtResource("4_ao")
+uv1_scale = Vector3(8, 8, 1)
