@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+[ext_resource type="Material" path="res://assets/materials/pbr/old_wood.tres" id="pbr_old_wood"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_driftwood"]
 friction = 0.8
@@ -31,7 +32,8 @@ nudge_impulse = 0.4
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_driftwood")
-surface_material_override/0 = SubResource("StandardMaterial3D_driftwood")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_driftwood")

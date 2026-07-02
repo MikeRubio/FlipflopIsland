@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+[ext_resource type="Material" path="res://assets/materials/pbr/rock.tres" id="pbr_rock"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_loose_rock"]
 friction = 0.82
@@ -14,8 +15,8 @@ roughness = 0.88
 radius = 0.16
 height = 0.22
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_loose_rock"]
-radius = 0.16
+[sub_resource type="BoxShape3D" id="BoxShape3D_loose_rock"]
+size = Vector3(0.37, 0.21, 0.29)
 
 [node name="LooseRock3D" type="RigidBody3D"]
 mass = 0.42
@@ -33,8 +34,8 @@ nudge_impulse = 0.22
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.15, 0, 0, 0, 0.65, 0, 0, 0, 0.9, 0, 0, 0)
 mesh = SubResource("SphereMesh_loose_rock")
-surface_material_override/0 = SubResource("StandardMaterial3D_loose_rock")
+surface_material_override/0 = ExtResource("pbr_rock")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.15, 0, 0, 0, 0.65, 0, 0, 0, 0.9, 0, 0, 0)
-shape = SubResource("SphereShape3D_loose_rock")
+shape = SubResource("BoxShape3D_loose_rock")

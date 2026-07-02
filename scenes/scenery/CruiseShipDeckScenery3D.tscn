@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3]
+[gd_scene load_steps=77 format=3]
 
 [ext_resource type="Script" path="res://scripts/scenery/scenery_settings_3d.gd" id="1_settings"]
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="2_simple_prop"]
@@ -7,6 +7,12 @@
 [ext_resource type="Script" path="res://scripts/scenery/surface_zone_3d.gd" id="5_surface_zone"]
 [ext_resource type="Script" path="res://scripts/ambience/water_ambience_3d.gd" id="6_water_ambience"]
 [ext_resource type="Script" path="res://scripts/scenery/cruise_ship_motion_3d.gd" id="7_ship_motion"]
+[ext_resource type="Material" path="res://assets/materials/pbr/ocean_water.tres" id="pbr_ocean_water"]
+[ext_resource type="Material" path="res://assets/materials/pbr/plastic.tres" id="pbr_plastic"]
+[ext_resource type="Material" path="res://assets/materials/pbr/rubber_mat.tres" id="pbr_rubber_mat"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wet_tile.tres" id="pbr_wet_tile"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wood.tres" id="pbr_wood"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wood_planks.tres" id="pbr_wood_planks"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_deck"]
 albedo_color = Color(0.64, 0.65, 0.6, 1)
@@ -275,7 +281,8 @@ surface_particle_type = "dust"
 [node name="OceanPlane" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32, 0)
 mesh = SubResource("PlaneMesh_ocean")
-surface_material_override/0 = SubResource("StandardMaterial3D_ocean")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 script = ExtResource("6_water_ambience")
 wave_speed = 0.38
 bob_amplitude = 0.02
@@ -286,19 +293,22 @@ material_roughness = 0.14
 [node name="OceanWakePort" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.7, 0, -5.8, 0, 0.16, 0, 5.8, 0, 0.7, -30, -0.24, -20)
 mesh = SubResource("BoxMesh_railing_bar")
-surface_material_override/0 = SubResource("StandardMaterial3D_ocean")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 
 [node name="OceanWakeStarboard" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.7, 0, 5.8, 0, 0.16, 0, -5.8, 0, 0.7, 30, -0.24, 20)
 mesh = SubResource("BoxMesh_railing_bar")
-surface_material_override/0 = SubResource("StandardMaterial3D_ocean")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 
 [node name="ShipDeckFloor" type="StaticBody3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/ShipDeckFloor"]
 mesh = SubResource("BoxMesh_deck")
-surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/ShipDeckFloor"]
 shape = SubResource("BoxShape3D_deck")
@@ -311,32 +321,38 @@ surface_material_override/0 = SubResource("StandardMaterial3D_railing")
 [node name="DeckSeamPort" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.76, 0, 0, 0, 0.12, 0, 0, 0, 0.18, -16, 0.013, 0)
 mesh = SubResource("BoxMesh_railing_bar")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="DeckSeamStarboard" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.76, 0, 0, 0, 0.12, 0, 0, 0, 0.18, 16, 0.013, 0)
 mesh = SubResource("BoxMesh_railing_bar")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="WetDeckPatchPool" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1.05, 0, 0, 0, 1, 0, 0, 0, 0.85, -11, 0.018, -1.5)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="WetDeckPatchStairs" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 0.65, 12, 0.018, 9)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_deck")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="RubberMatNorth" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.025, -8)
 mesh = SubResource("BoxMesh_rubber_mat")
-surface_material_override/0 = SubResource("StandardMaterial3D_rubber")
+surface_material_override/0 = ExtResource("pbr_rubber_mat")
+
 
 [node name="PoolWaterVisual" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.025, -6)
 mesh = SubResource("BoxMesh_pool_water")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 script = ExtResource("6_water_ambience")
 wave_speed = 0.52
 bob_amplitude = 0.012
@@ -347,12 +363,14 @@ material_roughness = 0.12
 [node name="CruisePoolWaterEdgeNorth" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(6.9, 0, 0, 0, 0.14, 0, 0, 0, 0.08, -13, 0.045, -9.58)
 mesh = SubResource("BoxMesh_table")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 
 [node name="CruisePoolWaterEdgeSouth" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(6.9, 0, 0, 0, 0.14, 0, 0, 0, 0.08, -13, 0.045, -2.42)
 mesh = SubResource("BoxMesh_table")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 
 [node name="PoolWallNorth" type="StaticBody3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.13, -9.7)
@@ -399,7 +417,8 @@ transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/DeckRampEast"]
 mesh = SubResource("BoxMesh_ramp")
-surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/DeckRampEast"]
 shape = SubResource("BoxShape3D_ramp")
@@ -409,7 +428,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.02, 10.5)
 
 [node name="StepA" type="MeshInstance3D" parent="Terrain/LowDeckSteps"]
 mesh = SubResource("BoxMesh_stair_step")
-surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="StepACollision" type="CollisionShape3D" parent="Terrain/LowDeckSteps"]
 shape = SubResource("BoxShape3D_stair_step")
@@ -417,10 +437,11 @@ shape = SubResource("BoxShape3D_stair_step")
 [node name="StepB" type="MeshInstance3D" parent="Terrain/LowDeckSteps"]
 transform = Transform3D(1, 0, 0, 0, 0.68, 0, 0, 0, 1, 0, -0.08, 0.72)
 mesh = SubResource("BoxMesh_stair_step")
-surface_material_override/0 = SubResource("StandardMaterial3D_deck")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="StepBCollision" type="CollisionShape3D" parent="Terrain/LowDeckSteps"]
-transform = Transform3D(1, 0, 0, 0, 0.68, 0, 0, 0, 1, 0, -0.08, 0.72)
+transform = Transform3D(0.893333, 0, 0, 0, 0.893333, 0, 0, 0, 0.893333, 0, -0.08, 0.72)
 shape = SubResource("BoxShape3D_stair_step")
 
 [node name="Water" type="Node3D" parent="."]
@@ -611,12 +632,14 @@ surface_material_override/0 = SubResource("StandardMaterial3D_umbrella")
 [node name="WindPennantStarboard" type="MeshInstance3D" parent="Ambience"]
 transform = Transform3D(1.4, 0, 0.45, 0, 0.7, 0, -0.45, 0, 1.4, 21.5, 2.35, 15.8)
 mesh = SubResource("BoxMesh_bird")
-surface_material_override/0 = SubResource("StandardMaterial3D_float")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="WindPennantPool" type="MeshInstance3D" parent="Ambience"]
 transform = Transform3D(1.2, 0, -0.25, 0, 0.6, 0, 0.25, 0, 1.2, -7.0, 1.85, -11.0)
 mesh = SubResource("BoxMesh_bird")
-surface_material_override/0 = SubResource("StandardMaterial3D_lifebuoy")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="ShipMotionArea" type="Area3D" parent="Ambience"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
@@ -693,7 +716,8 @@ transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 6, 0.13, -
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairNorthA"]
 mesh = SubResource("BoxMesh_lounger")
-surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairNorthA"]
 shape = SubResource("BoxShape3D_lounger")
@@ -703,7 +727,8 @@ transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 11, 0.13, 
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairNorthB"]
 mesh = SubResource("BoxMesh_lounger")
-surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairNorthB"]
 shape = SubResource("BoxShape3D_lounger")
@@ -713,7 +738,8 @@ transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/LoungeChairSouthA"]
 mesh = SubResource("BoxMesh_lounger")
-surface_material_override/0 = SubResource("StandardMaterial3D_lounger")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/LoungeChairSouthA"]
 shape = SubResource("BoxShape3D_lounger")
@@ -733,7 +759,8 @@ transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, 
 
 [node name="TopMesh" type="MeshInstance3D" parent="StaticProps/SmallTableNorth"]
 mesh = SubResource("BoxMesh_table")
-surface_material_override/0 = SubResource("StandardMaterial3D_table")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="TopCollision" type="CollisionShape3D" parent="StaticProps/SmallTableNorth"]
 shape = SubResource("BoxShape3D_table")
@@ -813,7 +840,8 @@ nudge_impulse = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupA"]
 mesh = SubResource("CylinderMesh_cup")
-surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupA"]
 shape = SubResource("CylinderShape3D_cup")
@@ -832,7 +860,8 @@ nudge_impulse = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupB"]
 mesh = SubResource("CylinderMesh_cup")
-surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupB"]
 shape = SubResource("CylinderShape3D_cup")
@@ -851,13 +880,14 @@ nudge_impulse = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupC"]
 mesh = SubResource("CylinderMesh_cup")
-surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupC"]
 shape = SubResource("CylinderShape3D_cup")
 
 [node name="SunscreenBottleA" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.258819, 0, 0.965926, 0, 0, -1, -0.965926, 0, 0.258819, 6.8, 0.18, -6.0)
+transform = Transform3D(0, 1, 0, -0.965926, 0, 0.258819, 0.258819, 0, 0.965926, 6.8, 0.18, -6.0)
 script = ExtResource("2_simple_prop")
 prop_name = "Cruise Sunscreen Bottle"
 prop_mass = 0.42
@@ -869,13 +899,14 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleA"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_sunscreen")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleA"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="DeckBottleA" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.819152, 0, -0.573576, 0, 0, -1, 0.573576, 0, 0.819152, 18.2, 0.18, -6.8)
+transform = Transform3D(0, 1, 0, 0.573576, 0, 0.819152, 0.819152, 0, -0.573576, 18.2, 0.18, -6.8)
 script = ExtResource("2_simple_prop")
 prop_name = "Cruise Deck Bottle"
 prop_preset = "Light"
@@ -888,7 +919,8 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/DeckBottleA"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/DeckBottleA"]
 shape = SubResource("CylinderShape3D_bottle")
@@ -926,7 +958,8 @@ nudge_impulse = 0.65
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LifebuoyRingA"]
 mesh = SubResource("TorusMesh_lifebuoy")
-surface_material_override/0 = SubResource("StandardMaterial3D_lifebuoy")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LifebuoyRingA"]
 shape = SubResource("CylinderShape3D_lifebuoy")
@@ -944,7 +977,8 @@ nudge_impulse = 0.72
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PoolFloatRingA"]
 mesh = SubResource("TorusMesh_lifebuoy")
-surface_material_override/0 = SubResource("StandardMaterial3D_float")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PoolFloatRingA"]
 shape = SubResource("CylinderShape3D_lifebuoy")
@@ -957,7 +991,8 @@ prop_preset = "Medium"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseDeckBoxA"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseDeckBoxA"]
 shape = SubResource("BoxShape3D_small_box")
@@ -973,7 +1008,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupD"]
 mesh = SubResource("CylinderMesh_cup")
-surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupD"]
 shape = SubResource("CylinderShape3D_cup")
@@ -989,7 +1025,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupE"]
 mesh = SubResource("CylinderMesh_cup")
-surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupE"]
 shape = SubResource("CylinderShape3D_cup")
@@ -1005,13 +1042,14 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticCupF"]
 mesh = SubResource("CylinderMesh_cup")
-surface_material_override/0 = SubResource("StandardMaterial3D_cup")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticCupF"]
 shape = SubResource("CylinderShape3D_cup")
 
 [node name="DeckBottleB" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.342898, 0, 0.939373, 0, 0, -1, -0.939373, 0, 0.342898, 15.6, 0.18, 7.2)
+transform = Transform3D(0, 1, 0, -0.939373, 0, 0.342898, 0.342898, 0, 0.939373, 15.6, 0.18, 7.2)
 script = ExtResource("2_simple_prop")
 prop_name = "Cruise Deck Bottle"
 prop_preset = "Light"
@@ -1021,13 +1059,14 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/DeckBottleB"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/DeckBottleB"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="DeckBottleC" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.819152, 0, 0.573576, 0, 0, -1, -0.573576, 0, 0.819152, -6.8, 0.18, 6.6)
+transform = Transform3D(0, 1, 0, -0.573576, 0, 0.819152, 0.819152, 0, 0.573576, -6.8, 0.18, 6.6)
 script = ExtResource("2_simple_prop")
 prop_name = "Cruise Deck Bottle"
 prop_preset = "Light"
@@ -1037,7 +1076,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/DeckBottleC"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/DeckBottleC"]
 shape = SubResource("CylinderShape3D_bottle")
@@ -1058,7 +1098,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_towel")
 shape = SubResource("BoxShape3D_towel")
 
 [node name="SunscreenBottleB" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.573576, 0, -0.819152, 0, 0, -1, 0.819152, 0, 0.573576, 7.8, 0.18, -7.2)
+transform = Transform3D(0, 1, 0, 0.819152, 0, 0.573576, 0.573576, 0, -0.819152, 7.8, 0.18, -7.2)
 script = ExtResource("2_simple_prop")
 prop_name = "Cruise Sunscreen Bottle"
 prop_preset = "Medium"
@@ -1068,13 +1108,14 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleB"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_sunscreen")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleB"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="SunscreenBottleC" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.906308, 0, 0.422618, 0, 0, -1, -0.422618, 0, 0.906308, 19.0, 0.18, -7.7)
+transform = Transform3D(0, 1, 0, -0.422618, 0, 0.906308, 0.906308, 0, 0.422618, 19.0, 0.18, -7.7)
 script = ExtResource("2_simple_prop")
 prop_name = "Cruise Sunscreen Bottle"
 prop_preset = "Medium"
@@ -1084,7 +1125,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SunscreenBottleC"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_sunscreen")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SunscreenBottleC"]
 shape = SubResource("CylinderShape3D_bottle")
@@ -1099,7 +1141,8 @@ debug_name = "Loose Deck Box B"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseDeckBoxB"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseDeckBoxB"]
 shape = SubResource("BoxShape3D_small_box")
@@ -1114,7 +1157,8 @@ debug_name = "Loose Deck Box C"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseDeckBoxC"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseDeckBoxC"]
 shape = SubResource("BoxShape3D_small_box")
@@ -1128,7 +1172,8 @@ debug_name = "Deck Storage Crate A"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/StorageCrateA"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/StorageCrateA"]
 shape = SubResource("BoxShape3D_small_box")
@@ -1142,7 +1187,8 @@ debug_name = "Deck Storage Crate B"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/StorageCrateB"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/StorageCrateB"]
 shape = SubResource("BoxShape3D_small_box")
@@ -1156,7 +1202,8 @@ debug_name = "Deck Storage Crate C"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/StorageCrateC"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/StorageCrateC"]
 shape = SubResource("BoxShape3D_small_box")

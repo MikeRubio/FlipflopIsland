@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3]
+[gd_scene load_steps=84 format=3]
 
 [ext_resource type="Script" path="res://scripts/scenery/scenery_settings_3d.gd" id="1_settings"]
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="2_simple_prop"]
@@ -7,6 +7,12 @@
 [ext_resource type="Script" path="res://scripts/scenery/pool_water_zone_3d.gd" id="5_water_zone"]
 [ext_resource type="Script" path="res://scripts/scenery/surface_zone_3d.gd" id="6_surface_zone"]
 [ext_resource type="Script" path="res://scripts/ambience/water_ambience_3d.gd" id="7_water_ambience"]
+[ext_resource type="Material" path="res://assets/materials/pbr/ocean_water.tres" id="pbr_ocean_water"]
+[ext_resource type="Material" path="res://assets/materials/pbr/old_wood.tres" id="pbr_old_wood"]
+[ext_resource type="Material" path="res://assets/materials/pbr/plastic.tres" id="pbr_plastic"]
+[ext_resource type="Material" path="res://assets/materials/pbr/sand.tres" id="pbr_sand"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wood.tres" id="pbr_wood"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wood_planks.tres" id="pbr_wood_planks"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood"]
 albedo_color = Color(0.44, 0.31, 0.2, 1)
@@ -312,7 +318,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/BoardwalkDeck"]
 mesh = SubResource("BoxMesh_boardwalk")
-surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/BoardwalkDeck"]
 shape = SubResource("BoxShape3D_boardwalk")
@@ -320,59 +327,70 @@ shape = SubResource("BoxShape3D_boardwalk")
 [node name="PlankLineA" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, -6)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="PlankLineB" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, -3)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="PlankLineC" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="PlankLineD" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 3)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="PlankLineE" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 6)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="WeatheredPlankDarkA" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.55, 0, 0, 0, 0.18, 0, 0, 0, 46.0, -18.5, 0.018, -1.4)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_wood")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="WeatheredPlankDarkB" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.55, 0, 0, 0, 0.18, 0, 0, 0, 38.0, 8.5, 0.018, 2.4)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_wood")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="WeatheredPlankLightA" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.42, 0, 0, 0, 0.18, 0, 0, 0, 34.0, -3.5, 0.019, 5.2)
 mesh = SubResource("BoxMesh_plank_strip")
-surface_material_override/0 = SubResource("StandardMaterial3D_sign")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="SandBlowoverBoardwalkA" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.42, 0, -0.14, 0, 0.18, 0, 0.14, 0, 0.5, -20.5, 0.022, 6.8)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+surface_material_override/0 = ExtResource("pbr_sand")
+
 
 [node name="SandBlowoverBoardwalkB" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.35, 0, 0.1, 0, 0.18, 0, -0.1, 0, 0.42, 18.5, 0.022, 6.6)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+surface_material_override/0 = ExtResource("pbr_sand")
+
 
 [node name="SandBeach" type="StaticBody3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 18)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/SandBeach"]
 mesh = SubResource("BoxMesh_sand")
-surface_material_override/0 = SubResource("StandardMaterial3D_sand")
+surface_material_override/0 = ExtResource("pbr_sand")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/SandBeach"]
 shape = SubResource("BoxShape3D_sand")
@@ -380,17 +398,20 @@ shape = SubResource("BoxShape3D_sand")
 [node name="WetBoardwalkPatchA" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.85, 0, 0, 0, 1, 0, 0, 0, 0.75, -7, 0.02, -2.5)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_wood")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="WetBoardwalkPatchB" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.55, 0, 0, 0, 1, 0, 0, 0, 0.7, 18, 0.02, 3.5)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_wood")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="OceanPlane" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 35)
 mesh = SubResource("PlaneMesh_water")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 script = ExtResource("7_water_ambience")
 wave_speed = 0.45
 bob_amplitude = 0.018
@@ -513,7 +534,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -8)
 
 [node name="TopRail" type="MeshInstance3D" parent="StaticProps/NorthRailing"]
 mesh = SubResource("BoxMesh_railing_bar")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="TopRailCollision" type="CollisionShape3D" parent="StaticProps/NorthRailing"]
 shape = SubResource("BoxShape3D_railing_bar")
@@ -521,29 +543,34 @@ shape = SubResource("BoxShape3D_railing_bar")
 [node name="PostA" type="MeshInstance3D" parent="StaticProps/NorthRailing"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -0.05, 0)
 mesh = SubResource("BoxMesh_railing_post")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="PostB" type="MeshInstance3D" parent="StaticProps/NorthRailing"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -0.05, 0)
 mesh = SubResource("BoxMesh_railing_post")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="PostC" type="MeshInstance3D" parent="StaticProps/NorthRailing"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.05, 0)
 mesh = SubResource("BoxMesh_railing_post")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="PostD" type="MeshInstance3D" parent="StaticProps/NorthRailing"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -0.05, 0)
 mesh = SubResource("BoxMesh_railing_post")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="SouthRailing" type="StaticBody3D" parent="StaticProps"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 8)
 
 [node name="TopRail" type="MeshInstance3D" parent="StaticProps/SouthRailing"]
 mesh = SubResource("BoxMesh_railing_bar")
-surface_material_override/0 = SubResource("StandardMaterial3D_railing")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="TopRailCollision" type="CollisionShape3D" parent="StaticProps/SouthRailing"]
 shape = SubResource("BoxShape3D_railing_bar")
@@ -553,7 +580,8 @@ transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 
 
 [node name="Seat" type="MeshInstance3D" parent="StaticProps/BenchWest"]
 mesh = SubResource("BoxMesh_bench_seat")
-surface_material_override/0 = SubResource("StandardMaterial3D_bench")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="SeatCollision" type="CollisionShape3D" parent="StaticProps/BenchWest"]
 shape = SubResource("BoxShape3D_bench_seat")
@@ -561,7 +589,8 @@ shape = SubResource("BoxShape3D_bench_seat")
 [node name="Back" type="MeshInstance3D" parent="StaticProps/BenchWest"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, -0.34)
 mesh = SubResource("BoxMesh_bench_back")
-surface_material_override/0 = SubResource("StandardMaterial3D_bench")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="BackCollision" type="CollisionShape3D" parent="StaticProps/BenchWest"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, -0.34)
@@ -572,7 +601,8 @@ transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 20, 0.22, 
 
 [node name="Seat" type="MeshInstance3D" parent="StaticProps/BenchEast"]
 mesh = SubResource("BoxMesh_bench_seat")
-surface_material_override/0 = SubResource("StandardMaterial3D_bench")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="SeatCollision" type="CollisionShape3D" parent="StaticProps/BenchEast"]
 shape = SubResource("BoxShape3D_bench_seat")
@@ -580,7 +610,8 @@ shape = SubResource("BoxShape3D_bench_seat")
 [node name="Back" type="MeshInstance3D" parent="StaticProps/BenchEast"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, -0.34)
 mesh = SubResource("BoxMesh_bench_back")
-surface_material_override/0 = SubResource("StandardMaterial3D_bench")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="BackCollision" type="CollisionShape3D" parent="StaticProps/BenchEast"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, -0.34)
@@ -591,7 +622,8 @@ transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 
 
 [node name="Base" type="MeshInstance3D" parent="StaticProps/FoodStand"]
 mesh = SubResource("BoxMesh_stand_base")
-surface_material_override/0 = SubResource("StandardMaterial3D_stand")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="BaseCollision" type="CollisionShape3D" parent="StaticProps/FoodStand"]
 shape = SubResource("BoxShape3D_stand_base")
@@ -626,7 +658,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.45, -4.5)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/BigTrashBinWest"]
 mesh = SubResource("CylinderMesh_trash_can")
-surface_material_override/0 = SubResource("StandardMaterial3D_trash")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/BigTrashBinWest"]
 shape = SubResource("CylinderShape3D_trash_can")
@@ -636,7 +669,8 @@ transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 
 
 [node name="Board" type="MeshInstance3D" parent="StaticProps/BeachTownSign"]
 mesh = SubResource("BoxMesh_sign_board")
-surface_material_override/0 = SubResource("StandardMaterial3D_sign")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/BeachTownSign"]
 shape = SubResource("BoxShape3D_sign_board")
@@ -646,7 +680,8 @@ transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/RampToSandWest"]
 mesh = SubResource("BoxMesh_ramp")
-surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/RampToSandWest"]
 shape = SubResource("BoxShape3D_ramp")
@@ -656,7 +691,8 @@ transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/RampToSandEast"]
 mesh = SubResource("BoxMesh_ramp")
-surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/RampToSandEast"]
 shape = SubResource("BoxShape3D_ramp")
@@ -667,19 +703,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 8.2)
 [node name="StepA" type="MeshInstance3D" parent="StaticProps/LowStepsToSand"]
 transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 0.0, -0.48)
 mesh = SubResource("BoxMesh_stair_step")
-surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="StepACollision" type="CollisionShape3D" parent="StaticProps/LowStepsToSand"]
-transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 0.0, -0.48)
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0.0, -0.48)
 shape = SubResource("BoxShape3D_stair_step")
 
 [node name="StepB" type="MeshInstance3D" parent="StaticProps/LowStepsToSand"]
 transform = Transform3D(1, 0, 0, 0, 0.55, 0, 0, 0, 1, 0, -0.08, 0.22)
 mesh = SubResource("BoxMesh_stair_step")
-surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+surface_material_override/0 = ExtResource("pbr_wood_planks")
+
 
 [node name="StepBCollision" type="CollisionShape3D" parent="StaticProps/LowStepsToSand"]
-transform = Transform3D(1, 0, 0, 0, 0.55, 0, 0, 0, 1, 0, -0.08, 0.22)
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 0, -0.08, 0.22)
 shape = SubResource("BoxShape3D_stair_step")
 
 [node name="UmbrellaSandA" type="Node3D" parent="StaticProps"]
@@ -739,7 +777,7 @@ prop_angular_damp = 0.34
 nudge_impulse = 0.82
 
 [node name="SodaCanA" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.819152, 0, -0.573576, 0, 0, -1, 0.573576, 0, 0.819152, -7, 0.18, -1.8)
+transform = Transform3D(0, 1, 0, 0.573576, 0, 0.819152, 0.819152, 0, -0.573576, -7, 0.18, -1.8)
 script = ExtResource("2_simple_prop")
 prop_name = "Soda Can"
 prop_preset = "Light"
@@ -753,7 +791,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_can")
 shape = SubResource("CylinderShape3D_can")
 
 [node name="SodaCanB" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.258819, 0, 0.965926, 0, 0, -1, -0.965926, 0, 0.258819, 11, 0.18, -2.5)
+transform = Transform3D(0, 1, 0, -0.965926, 0, 0.258819, 0.258819, 0, 0.965926, 11, 0.18, -2.5)
 script = ExtResource("2_simple_prop")
 prop_name = "Soda Can"
 prop_preset = "Light"
@@ -767,7 +805,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_can")
 shape = SubResource("CylinderShape3D_can")
 
 [node name="SodaCanC" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 0, -1, -0.707107, 0, 0.707107, 20.4, 0.18, 5.2)
+transform = Transform3D(0, 1, 0, -0.707107, 0, 0.707107, 0.707107, 0, 0.707107, 20.4, 0.18, 5.2)
 script = ExtResource("2_simple_prop")
 prop_name = "Soda Can"
 prop_preset = "Light"
@@ -781,7 +819,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_can")
 shape = SubResource("CylinderShape3D_can")
 
 [node name="PlasticBottleA" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.342898, 0, -0.939373, 0, 0, -1, 0.939373, 0, 0.342898, -21.5, 0.18, 4.8)
+transform = Transform3D(0, 1, 0, 0.939373, 0, 0.342898, 0.342898, 0, -0.939373, -21.5, 0.18, 4.8)
 script = ExtResource("2_simple_prop")
 prop_name = "Boardwalk Bottle"
 prop_preset = "Light"
@@ -794,13 +832,14 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticBottleA"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticBottleA"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="PlasticBottleB" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.866025, 0, 0.5, 0, 0, -1, -0.5, 0, 0.866025, 3.5, 0.18, 10.5)
+transform = Transform3D(0, 1, 0, -0.5, 0, 0.866025, 0.866025, 0, 0.5, 3.5, 0.18, 10.5)
 script = ExtResource("2_simple_prop")
 prop_name = "Boardwalk Bottle"
 prop_preset = "Light"
@@ -813,7 +852,8 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticBottleB"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticBottleB"]
 shape = SubResource("CylinderShape3D_bottle")
@@ -856,7 +896,8 @@ prop_preset = "Medium"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SmallBoxA"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SmallBoxA"]
 shape = SubResource("BoxShape3D_small_box")
@@ -869,7 +910,8 @@ prop_preset = "Medium"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SmallBoxB"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SmallBoxB"]
 shape = SubResource("BoxShape3D_small_box")
@@ -888,7 +930,8 @@ nudge_impulse = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseSandalA"]
 mesh = SubResource("BoxMesh_sandal")
-surface_material_override/0 = SubResource("StandardMaterial3D_sandal")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseSandalA"]
 shape = SubResource("BoxShape3D_sandal")
@@ -907,13 +950,14 @@ nudge_impulse = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseSandalB"]
 mesh = SubResource("BoxMesh_sandal")
-surface_material_override/0 = SubResource("StandardMaterial3D_sandal")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseSandalB"]
 shape = SubResource("BoxShape3D_sandal")
 
 [node name="RollingTrashA" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.173648, 0, -0.984808, 0, 0, -1, 0.984808, 0, 0.173648, -23.5, 0.24, -3.2)
+transform = Transform3D(0, 1, 0, 0.984808, 0, 0.173648, 0.173648, 0, -0.984808, -23.5, 0.24, -3.2)
 script = ExtResource("2_simple_prop")
 prop_name = "Rolling Trash"
 prop_preset = "Medium"
@@ -924,13 +968,14 @@ prop_angular_damp = 0.9
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/RollingTrashA"]
 mesh = SubResource("CylinderMesh_rolling_trash")
-surface_material_override/0 = SubResource("StandardMaterial3D_trash")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/RollingTrashA"]
 shape = SubResource("CylinderShape3D_rolling_trash")
 
 [node name="RollingTrashB" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.906308, 0, 0.422618, 0, 0, -1, -0.422618, 0, 0.906308, 24.2, 0.24, -1.8)
+transform = Transform3D(0, 1, 0, -0.422618, 0, 0.906308, 0.906308, 0, 0.422618, 24.2, 0.24, -1.8)
 script = ExtResource("2_simple_prop")
 prop_name = "Rolling Trash"
 prop_preset = "Medium"
@@ -941,7 +986,8 @@ prop_angular_damp = 0.9
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/RollingTrashB"]
 mesh = SubResource("CylinderMesh_rolling_trash")
-surface_material_override/0 = SubResource("StandardMaterial3D_trash")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/RollingTrashB"]
 shape = SubResource("CylinderShape3D_rolling_trash")
@@ -958,7 +1004,8 @@ prop_angular_damp = 1.08
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LightweightSign"]
 mesh = SubResource("BoxMesh_sign_board")
-surface_material_override/0 = SubResource("StandardMaterial3D_sign")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LightweightSign"]
 shape = SubResource("BoxShape3D_sign_board")
@@ -979,7 +1026,7 @@ transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 
 transform = Transform3D(0.173648, 0, 0.984808, 0, 1, 0, -0.984808, 0, 0.173648, 11.7, 0.08, 25.2)
 
 [node name="SodaCanD" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 0, -1, -0.258819, 0, 0.965926, -6.1, 0.18, -3.4)
+transform = Transform3D(0, 1, 0, -0.258819, 0, 0.965926, 0.965926, 0, 0.258819, -6.1, 0.18, -3.4)
 script = ExtResource("2_simple_prop")
 prop_name = "Soda Can"
 prop_preset = "Light"
@@ -995,7 +1042,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_can")
 shape = SubResource("CylinderShape3D_can")
 
 [node name="SodaCanE" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.422618, 0, -0.906308, 0, 0, -1, 0.906308, 0, 0.422618, -4.8, 0.18, -2.6)
+transform = Transform3D(0, 1, 0, 0.906308, 0, 0.422618, 0.422618, 0, -0.906308, -4.8, 0.18, -2.6)
 script = ExtResource("2_simple_prop")
 prop_name = "Soda Can"
 prop_preset = "Light"
@@ -1011,7 +1058,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_can")
 shape = SubResource("CylinderShape3D_can")
 
 [node name="PlasticBottleC" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.573576, 0, 0.819152, 0, 0, -1, -0.819152, 0, 0.573576, -5.6, 0.18, -4.8)
+transform = Transform3D(0, 1, 0, -0.819152, 0, 0.573576, 0.573576, 0, 0.819152, -5.6, 0.18, -4.8)
 script = ExtResource("2_simple_prop")
 prop_name = "Boardwalk Bottle"
 prop_preset = "Light"
@@ -1021,7 +1068,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticBottleC"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticBottleC"]
 shape = SubResource("CylinderShape3D_bottle")
@@ -1036,7 +1084,8 @@ debug_name = "Small Boardwalk Box C"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SmallBoxC"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SmallBoxC"]
 shape = SubResource("BoxShape3D_small_box")
@@ -1052,7 +1101,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LightweightSignB"]
 mesh = SubResource("BoxMesh_sign_board")
-surface_material_override/0 = SubResource("StandardMaterial3D_sign")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LightweightSignB"]
 shape = SubResource("BoxShape3D_sign_board")
@@ -1066,7 +1116,8 @@ debug_name = "Boardwalk Crate A"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/BoardwalkCrateA"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/BoardwalkCrateA"]
 shape = SubResource("BoxShape3D_small_box")
@@ -1080,7 +1131,8 @@ debug_name = "Boardwalk Crate B"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/BoardwalkCrateB"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/BoardwalkCrateB"]
 shape = SubResource("BoxShape3D_small_box")
@@ -1094,7 +1146,8 @@ debug_name = "Boardwalk Cooler"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/BoardwalkCooler"]
 mesh = SubResource("BoxMesh_small_box")
-surface_material_override/0 = SubResource("StandardMaterial3D_box")
+surface_material_override/0 = ExtResource("pbr_old_wood")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/BoardwalkCooler"]
 shape = SubResource("BoxShape3D_small_box")

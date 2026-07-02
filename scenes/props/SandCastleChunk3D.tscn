@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+[ext_resource type="Material" path="res://assets/materials/pbr/sand.tres" id="pbr_sand"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sand_chunk"]
 friction = 0.92
@@ -35,7 +36,8 @@ nudge_impulse = 0.2
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("CylinderMesh_sand_chunk")
-surface_material_override/0 = SubResource("StandardMaterial3D_sand_chunk")
+surface_material_override/0 = ExtResource("pbr_sand")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CylinderShape3D_sand_chunk")

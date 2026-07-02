@@ -1,10 +1,16 @@
-[gd_scene load_steps=65 format=3]
+[gd_scene load_steps=71 format=3]
 
 [ext_resource type="Script" path="res://scripts/scenery/scenery_settings_3d.gd" id="1_settings"]
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="2_simple_prop"]
 [ext_resource type="Script" path="res://scripts/scenery/pool_water_zone_3d.gd" id="3_water_zone"]
 [ext_resource type="Script" path="res://scripts/scenery/surface_zone_3d.gd" id="4_surface_zone"]
 [ext_resource type="Script" path="res://scripts/ambience/water_ambience_3d.gd" id="5_water_ambience"]
+[ext_resource type="Material" path="res://assets/materials/pbr/dry_tile.tres" id="pbr_dry_tile"]
+[ext_resource type="Material" path="res://assets/materials/pbr/ocean_water.tres" id="pbr_ocean_water"]
+[ext_resource type="Material" path="res://assets/materials/pbr/plastic.tres" id="pbr_plastic"]
+[ext_resource type="Material" path="res://assets/materials/pbr/rubber_mat.tres" id="pbr_rubber_mat"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wet_tile.tres" id="pbr_wet_tile"]
+[ext_resource type="Material" path="res://assets/materials/pbr/wood.tres" id="pbr_wood"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tile"]
 albedo_color = Color(0.62, 0.64, 0.62, 1)
@@ -260,7 +266,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/TiledFloor"]
 mesh = SubResource("BoxMesh_floor")
-surface_material_override/0 = SubResource("StandardMaterial3D_tile")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/TiledFloor"]
 shape = SubResource("BoxShape3D_floor")
@@ -268,34 +275,40 @@ shape = SubResource("BoxShape3D_floor")
 [node name="TileGroutLineNorth" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(36.0, 0, 0, 0, 0.06, 0, 0, 0, 0.05, 0, 0.012, -7.0)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="TileGroutLineCenter" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(36.0, 0, 0, 0, 0.06, 0, 0, 0, 0.05, 0, 0.012, 0.0)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="TileGroutLineSouth" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(36.0, 0, 0, 0, 0.06, 0, 0, 0, 0.05, 0, 0.012, 7.0)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="TileGroutColumnLeft" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.05, 0, 0, 0, 0.06, 0, 0, 0, 28.0, -9.0, 0.013, 0)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="TileGroutColumnRight" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.05, 0, 0, 0, 0.06, 0, 0, 0, 28.0, 9.0, 0.013, 0)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="BackWall" type="StaticBody3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -14)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/BackWall"]
 mesh = SubResource("BoxMesh_wall_long")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/BackWall"]
 shape = SubResource("BoxShape3D_wall_long")
@@ -305,7 +318,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 1.6, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/LeftWall"]
 mesh = SubResource("BoxMesh_wall_short")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/LeftWall"]
 shape = SubResource("BoxShape3D_wall_short")
@@ -315,7 +329,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.6, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/RightWall"]
 mesh = SubResource("BoxMesh_wall_short")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/RightWall"]
 shape = SubResource("BoxShape3D_wall_short")
@@ -323,42 +338,50 @@ shape = SubResource("BoxShape3D_wall_short")
 [node name="WetPatchShowers" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1.15, 0, 0, 0, 1, 0, 0, 0, 1.05, -10, 0.018, -7.8)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_tile")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="WetPatchCenter" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.95, 0, 0, 0, 1, 0, 0, 0, 0.85, 2, 0.018, -1.2)
 mesh = SubResource("BoxMesh_wet_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_wet_tile")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="SoapSlickNearDrain" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.9, 0, 0, 0, 1, 0, 0, 0, 0.75, -3, 0.022, -4.2)
 mesh = SubResource("BoxMesh_soap_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_soap")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="WetReflectionCenter" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1.8, 0, 0.25, 0, 0.1, 0, -0.25, 0, 0.28, -2.5, 0.032, -3.8)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 
 [node name="SoapSlickByBench" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.75, 0, 0, 0, 1, 0, 0, 0, 0.65, 8.5, 0.022, 4.5)
 mesh = SubResource("BoxMesh_soap_patch")
-surface_material_override/0 = SubResource("StandardMaterial3D_soap")
+surface_material_override/0 = ExtResource("pbr_wet_tile")
+
 
 [node name="RubberMatSouth" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.025, 8)
 mesh = SubResource("BoxMesh_rubber_mat")
-surface_material_override/0 = SubResource("StandardMaterial3D_rubber")
+surface_material_override/0 = ExtResource("pbr_rubber_mat")
+
 
 [node name="RubberMatLockers" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(0.8, 0, 0, 0, 1, 0, 0, 0, 0.75, 11, 0.025, -8.5)
 mesh = SubResource("BoxMesh_rubber_mat")
-surface_material_override/0 = SubResource("StandardMaterial3D_rubber")
+surface_material_override/0 = ExtResource("pbr_rubber_mat")
+
 
 [node name="ShowerWaterVisual" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 0.85, -10, 0.025, -8)
 mesh = SubResource("BoxMesh_shower_water")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 script = ExtResource("5_water_ambience")
 wave_speed = 0.62
 bob_amplitude = 0.008
@@ -369,12 +392,14 @@ material_roughness = 0.12
 [node name="ShowerWaterGlintA" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1.6, 0, 0.22, 0, 0.1, 0, -0.22, 0, 0.2, -11.2, 0.038, -8.8)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 
 [node name="ShowerWaterGlintB" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1.4, 0, -0.18, 0, 0.1, 0, 0.18, 0, 0.2, -8.8, 0.038, -7.3)
 mesh = SubResource("BoxMesh_sponge")
-surface_material_override/0 = SubResource("StandardMaterial3D_water")
+surface_material_override/0 = ExtResource("pbr_ocean_water")
+
 
 [node name="DrainCenter" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 0.08, 0, 0, 0, 1, -3, 0.035, -4)
@@ -402,11 +427,12 @@ mesh = SubResource("BoxMesh_sponge")
 surface_material_override/0 = SubResource("StandardMaterial3D_metal")
 
 [node name="LowTileStep" type="StaticBody3D" parent="Terrain"]
-transform = Transform3D(1, 0, 0, 0, 0.65, 0, 0, 0, 0.75, 2, 0.06, 8.7)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 2, 0.06, 8.7)
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain/LowTileStep"]
 mesh = SubResource("BoxMesh_step")
-surface_material_override/0 = SubResource("StandardMaterial3D_tile")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/LowTileStep"]
 shape = SubResource("BoxShape3D_step")
@@ -621,7 +647,8 @@ transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 
 
 [node name="Seat" type="MeshInstance3D" parent="StaticProps/MainBench"]
 mesh = SubResource("BoxMesh_bench_seat")
-surface_material_override/0 = SubResource("StandardMaterial3D_bench")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="SeatCollision" type="CollisionShape3D" parent="StaticProps/MainBench"]
 shape = SubResource("BoxShape3D_bench_seat")
@@ -629,19 +656,22 @@ shape = SubResource("BoxShape3D_bench_seat")
 [node name="LegA" type="MeshInstance3D" parent="StaticProps/MainBench"]
 transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, -1.8, -0.38, -0.18)
 mesh = SubResource("BoxMesh_bench_leg")
-surface_material_override/0 = SubResource("StandardMaterial3D_bench")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="LegB" type="MeshInstance3D" parent="StaticProps/MainBench"]
 transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 1.8, -0.38, 0.18)
 mesh = SubResource("BoxMesh_bench_leg")
-surface_material_override/0 = SubResource("StandardMaterial3D_bench")
+surface_material_override/0 = ExtResource("pbr_wood")
+
 
 [node name="ShowerDividerA" type="StaticBody3D" parent="StaticProps"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 1.0, -8)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/ShowerDividerA"]
 mesh = SubResource("BoxMesh_shower_wall")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/ShowerDividerA"]
 shape = SubResource("BoxShape3D_shower_wall")
@@ -651,7 +681,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 1.0, -8)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticProps/ShowerDividerB"]
 mesh = SubResource("BoxMesh_shower_wall")
-surface_material_override/0 = SubResource("StandardMaterial3D_shower_wall")
+surface_material_override/0 = ExtResource("pbr_dry_tile")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticProps/ShowerDividerB"]
 shape = SubResource("BoxShape3D_shower_wall")
@@ -664,7 +695,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_metal")
 [node name="PhysicsProps" type="Node3D" parent="."]
 
 [node name="SoapBottleA" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.866025, 0, -0.5, 0, 0, -1, 0.5, 0, 0.866025, -7.5, 0.18, -5.4)
+transform = Transform3D(0, 1, 0, 0.5, 0, 0.866025, 0.866025, 0, -0.5, -7.5, 0.18, -5.4)
 script = ExtResource("2_simple_prop")
 prop_name = "Soap Bottle"
 prop_preset = "Light"
@@ -677,13 +708,14 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SoapBottleA"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_soap_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SoapBottleA"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="SoapBottleB" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.342898, 0, 0.939373, 0, 0, -1, -0.939373, 0, 0.342898, -1.8, 0.18, -4.8)
+transform = Transform3D(0, 1, 0, -0.939373, 0, 0.342898, 0.342898, 0, 0.939373, -1.8, 0.18, -4.8)
 script = ExtResource("2_simple_prop")
 prop_name = "Soap Bottle"
 prop_preset = "Light"
@@ -696,13 +728,14 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SoapBottleB"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_soap_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SoapBottleB"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="ShampooBottleA" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.573576, 0, -0.819152, 0, 0, -1, 0.819152, 0, 0.573576, -12.5, 0.18, -6.8)
+transform = Transform3D(0, 1, 0, 0.819152, 0, 0.573576, 0.573576, 0, -0.819152, -12.5, 0.18, -6.8)
 script = ExtResource("2_simple_prop")
 prop_name = "Shampoo Bottle"
 prop_preset = "Light"
@@ -715,13 +748,14 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/ShampooBottleA"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_shampoo")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/ShampooBottleA"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="SmallBottleByLockers" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.258819, 0, 0.965926, 0, 0, -1, -0.965926, 0, 0.258819, 9.5, 0.18, -7.5)
+transform = Transform3D(0, 1, 0, -0.965926, 0, 0.258819, 0.258819, 0, 0.965926, 9.5, 0.18, -7.5)
 script = ExtResource("2_simple_prop")
 prop_name = "Small Bottle"
 prop_preset = "Light"
@@ -734,7 +768,8 @@ nudge_impulse = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SmallBottleByLockers"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SmallBottleByLockers"]
 shape = SubResource("CylinderShape3D_bottle")
@@ -753,7 +788,8 @@ nudge_impulse = 0.36
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticBucketA"]
 mesh = SubResource("CylinderMesh_bucket")
-surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticBucketA"]
 shape = SubResource("CylinderShape3D_bucket")
@@ -810,7 +846,8 @@ nudge_impulse = 0.28
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseSandalA"]
 mesh = SubResource("BoxMesh_sandal")
-surface_material_override/0 = SubResource("StandardMaterial3D_sandal")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseSandalA"]
 shape = SubResource("BoxShape3D_sandal")
@@ -855,13 +892,14 @@ nudge_impulse = 0.32
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/WetFloorSignPhysics"]
 mesh = SubResource("BoxMesh_wet_floor_sign")
-surface_material_override/0 = SubResource("StandardMaterial3D_sign")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/WetFloorSignPhysics"]
 shape = SubResource("BoxShape3D_wet_floor_sign")
 
 [node name="SoapBottleC" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 0, -1, 0.707107, 0, 0.707107, -4.4, 0.18, -5.9)
+transform = Transform3D(0, 1, 0, 0.707107, 0, 0.707107, 0.707107, 0, -0.707107, -4.4, 0.18, -5.9)
 script = ExtResource("2_simple_prop")
 prop_name = "Soap Bottle"
 prop_preset = "Light"
@@ -871,13 +909,14 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SoapBottleC"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_soap_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SoapBottleC"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="ShampooBottleB" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.173648, 0, -0.984808, 0, 0, -1, 0.984808, 0, 0.173648, -5.3, 0.18, -6.6)
+transform = Transform3D(0, 1, 0, 0.984808, 0, 0.173648, 0.173648, 0, -0.984808, -5.3, 0.18, -6.6)
 script = ExtResource("2_simple_prop")
 prop_name = "Shampoo Bottle"
 prop_preset = "Light"
@@ -887,13 +926,14 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/ShampooBottleB"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_shampoo")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/ShampooBottleB"]
 shape = SubResource("CylinderShape3D_bottle")
 
 [node name="SmallBottleByDrain" type="RigidBody3D" parent="PhysicsProps"]
-transform = Transform3D(0.939373, 0, 0.342898, 0, 0, -1, -0.342898, 0, 0.939373, -3.8, 0.18, -4.7)
+transform = Transform3D(0, 1, 0, -0.342898, 0, 0.939373, 0.939373, 0, 0.342898, -3.8, 0.18, -4.7)
 script = ExtResource("2_simple_prop")
 prop_name = "Small Bottle"
 prop_preset = "Light"
@@ -903,7 +943,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/SmallBottleByDrain"]
 mesh = SubResource("CylinderMesh_bottle")
-surface_material_override/0 = SubResource("StandardMaterial3D_bottle")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/SmallBottleByDrain"]
 shape = SubResource("CylinderShape3D_bottle")
@@ -949,7 +990,8 @@ debug_name = "Loose Shower Sandal B"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LooseSandalB"]
 mesh = SubResource("BoxMesh_sandal")
-surface_material_override/0 = SubResource("StandardMaterial3D_sandal")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LooseSandalB"]
 shape = SubResource("BoxShape3D_sandal")
@@ -965,7 +1007,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/PlasticBucketB"]
 mesh = SubResource("CylinderMesh_bucket")
-surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/PlasticBucketB"]
 shape = SubResource("CylinderShape3D_bucket")
@@ -981,7 +1024,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/WetFloorSignPhysicsB"]
 mesh = SubResource("BoxMesh_wet_floor_sign")
-surface_material_override/0 = SubResource("StandardMaterial3D_sign")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/WetFloorSignPhysicsB"]
 shape = SubResource("BoxShape3D_wet_floor_sign")
@@ -997,7 +1041,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/MopBucketCluster"]
 mesh = SubResource("CylinderMesh_bucket")
-surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/MopBucketCluster"]
 shape = SubResource("CylinderShape3D_bucket")
@@ -1012,7 +1057,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LaundryBasketA"]
 mesh = SubResource("CylinderMesh_bucket")
-surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LaundryBasketA"]
 shape = SubResource("CylinderShape3D_bucket")
@@ -1027,7 +1073,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/LaundryBasketB"]
 mesh = SubResource("CylinderMesh_bucket")
-surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/LaundryBasketB"]
 shape = SubResource("CylinderShape3D_bucket")
@@ -1042,7 +1089,8 @@ collision_sound_key = "slap"
 
 [node name="Mesh" type="MeshInstance3D" parent="PhysicsProps/HeavyCleaningBucket"]
 mesh = SubResource("CylinderMesh_bucket")
-surface_material_override/0 = SubResource("StandardMaterial3D_bucket")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsProps/HeavyCleaningBucket"]
 shape = SubResource("CylinderShape3D_bucket")

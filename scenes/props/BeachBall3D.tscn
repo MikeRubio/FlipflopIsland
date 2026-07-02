@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/props/simple_prop_3d.gd" id="1_script"]
+[ext_resource type="Material" path="res://assets/materials/pbr/plastic.tres" id="pbr_plastic"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_beach_ball"]
 friction = 0.28
@@ -35,12 +36,14 @@ nudge_impulse = 0.8
 
 [node name="Ball" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_ball")
-surface_material_override/0 = SubResource("StandardMaterial3D_ball")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="Stripe" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.18, 0, 0, 0, 1.04, 0, 0, 0, 1.04, 0, 0, 0)
 mesh = SubResource("SphereMesh_ball")
-surface_material_override/0 = SubResource("StandardMaterial3D_stripe")
+surface_material_override/0 = ExtResource("pbr_plastic")
+
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_ball")
